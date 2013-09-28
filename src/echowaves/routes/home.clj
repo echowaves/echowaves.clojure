@@ -1,8 +1,8 @@
-(ns picture-gallery.routes.home
+(ns echowaves.routes.home
   (:require [compojure.core :refer [defroutes GET]]
-            [picture-gallery.views.layout :as layout]
-            [picture-gallery.util :refer [thumb-prefix]]
-            [picture-gallery.models.db :as db]
+            [echowaves.views.layout :as layout]
+            [echowaves.util :refer [thumb-prefix]]
+            [echowaves.models.db :as db]
             [noir.session :as session]))
 
 (defn home [] 

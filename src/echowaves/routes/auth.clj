@@ -1,13 +1,13 @@
-(ns picture-gallery.routes.auth
+(ns echowaves.routes.auth
   (:require [compojure.core :refer [defroutes GET POST]]
-            [picture-gallery.views.layout :as layout]            
+            [echowaves.views.layout :as layout]            
             [noir.session :as session]
             [noir.response :as resp]
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
-            [picture-gallery.models.db :as db]
-            [picture-gallery.util :refer [gallery-path]]
-            [picture-gallery.routes.upload :refer [delete-image]]
+            [echowaves.models.db :as db]
+            [echowaves.util :refer [gallery-path]]
+            [echowaves.routes.upload :refer [delete-image]]
             [noir.util.route :refer [restricted]])
   (:import java.io.File))
 

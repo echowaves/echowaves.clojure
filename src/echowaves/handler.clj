@@ -1,12 +1,12 @@
-(ns picture-gallery.handler
+(ns echowaves.handler
   (:require [compojure.route :as route]
             [compojure.core :refer [defroutes]]
             [noir.util.middleware :as noir-middleware]
-            [picture-gallery.routes.auth :refer [auth-routes]]
-            [picture-gallery.routes.home :refer [home-routes]]
-            [picture-gallery.routes.upload :refer [upload-routes]]
-            [picture-gallery.routes.gallery :refer [gallery-routes]]
-            [picture-gallery.models.schema :as schema]
+            [echowaves.routes.auth :refer [auth-routes]]
+            [echowaves.routes.home :refer [home-routes]]
+            [echowaves.routes.upload :refer [upload-routes]]
+            [echowaves.routes.gallery :refer [gallery-routes]]
+            [echowaves.models.schema :as schema]
             [noir.session :as session]
             [taoensso.timbre :as timbre]
             [com.postspectacular.rotor :as rotor]
@@ -28,14 +28,14 @@
    [:shared-appender-config :rotor]
    {:path "error.log" :max-size (* 512 1024) :backlog 10})
 
-  (timbre/info "picture-gallery started successfully")
+  (timbre/info "echowaves started successfully")
 
   (if-not (schema/actualized?)
     (schema/actualize)))
 
 
 (defn destroy []
-  (timbre/info "picture-gallery is shutting down"))
+  (timbre/info "echowaves is shutting down"))
 
 (defroutes app-routes
   (route/resources "/")

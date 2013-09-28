@@ -1,4 +1,4 @@
-(defproject picture-gallery "0.1.0-SNAPSHOT"
+(defproject echowaves "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -28,9 +28,9 @@
   :plugins [[lein-ring "0.8.7"]
             [lein-cljsbuild "0.3.2"]
             [lein-environ "0.4.0"]]
-  :ring {:handler picture-gallery.handler/war-handler
-         :init picture-gallery.handler/init
-         :destroy picture-gallery.handler/destroy}
+  :ring {:handler echowaves.handler/war-handler
+         :init echowaves.handler/init
+         :destroy echowaves.handler/destroy}
   :profiles
   {
    :production

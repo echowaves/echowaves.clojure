@@ -1,5 +1,5 @@
-(ns picture-gallery.repl    
-  (:use picture-gallery.handler
+(ns echowaves.repl    
+  (:use echowaves.handler
         ring.server.standalone
         [ring.middleware file-info file]))
 

@@ -1,14 +1,14 @@
-(ns picture-gallery.routes.upload  
+(ns echowaves.routes.upload  
   (:require [compojure.core :refer [defroutes GET POST]]
-            [picture-gallery.views.layout :as layout]
+            [echowaves.views.layout :as layout]
             [hiccup.util :refer [url-encode]]
             [noir.io :refer [resource-path]]
             [noir.session :as session]
             [noir.response :as resp]
             [noir.util.route :refer [restricted]]            
             [clojure.java.io :as io]
-            [picture-gallery.models.db :as db]
-            [picture-gallery.util :refer [gallery-path thumb-prefix]]
+            [echowaves.models.db :as db]
+            [echowaves.util :refer [gallery-path thumb-prefix]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]])
   (:import [java.io File FileInputStream FileOutputStream]

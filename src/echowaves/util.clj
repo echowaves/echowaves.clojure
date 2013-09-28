@@ -1,4 +1,4 @@
-(ns picture-gallery.util
+(ns echowaves.util
   (:require [noir.io :refer [resource-path]]
             [noir.session :as session])
   (:import java.io.File))

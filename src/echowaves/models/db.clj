@@ -1,8 +1,8 @@
-(ns picture-gallery.models.db
+(ns echowaves.models.db
   (:require [clojure.java.jdbc :as sql]
             [korma.db :refer [defdb transaction]]
             [korma.core :refer :all]
-            [picture-gallery.models.schema :as schema]))
+            [echowaves.models.schema :as schema]))
 
 (defdb db schema/db-spec)
 

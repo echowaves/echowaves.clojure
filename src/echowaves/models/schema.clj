@@ -1,4 +1,4 @@
-(ns picture-gallery.models.schema  
+(ns echowaves.models.schema  
  (:use [lobos.core :only (defcommand migrate)])
   (:require [noir.io :as io]
             [lobos.migration :as lm]

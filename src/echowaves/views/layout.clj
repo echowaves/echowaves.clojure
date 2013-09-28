@@ -1,4 +1,4 @@
-(ns picture-gallery.views.layout
+(ns echowaves.views.layout
   (:require [noir.session :as session]
             [selmer.parser :as parser]
             [ring.util.response :refer [response]])
