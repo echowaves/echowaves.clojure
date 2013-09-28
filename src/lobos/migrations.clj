@@ -26,3 +26,4 @@
       (create (index :images [:created_on])))
   (down [] (drop (table :images))))
 
+
