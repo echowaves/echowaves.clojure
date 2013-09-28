@@ -1,0 +1,67 @@
+{% extends "picture_gallery/views/templates/base.html" %}
+
+{% block content %}
+
+<div class="gallery">	
+
+  {% if not user %}
+  <h2>follow 3 simple steps:</h2>
+  <h3>  1. create your wave</h3>
+  <div id="sign_up_content">	   
+    <form action="{{context}}/register" method="POST">
+      
+      <label for="user-id">wave name</label>		
+      <input id="id" 
+	     name="id"
+	     tabindex="1" 
+	     type="text"
+	     value="{{id}}" /><br />		
+      <div class="error">{{id-error}}</div>
+      
+      <label for="pass">password</label>		
+      <input id="pass" 
+	     name="pass"
+	     tabindex="2"
+	     type="password" /><br />
+      <div class="error">{{pass-error}}</div>
+      
+      <label for="pass1">retype password</label>		
+      <input id="pass1"
+	     name="pass1"
+	     tabindex="3"
+	     type="password" /><br />
+      <input tabindex="4" type="submit" value="create wave" />
+    </form>	
+  </div>
+
+  <h3>  2. download an iPhone app</h3>
+  <h3>  3. start waving and surfing other waves</h3>
+  <pre>
+    EchoWaves is a new way of blogging. 
+    We all know that A picture is worth a 1000 words. 
+    Why not to use photos to tell your story. 
+  </pre>
+  <h2>EchoWaves can be used in 2 distinct ways:</h2>
+  <h3>Waving your story.</h3> 
+  <p>This is a new way to express yourself, and as such, it's extremely powerful, effective, and simple. A new way to blog a photo story is by snapping pictures on your iPhone. If you want you photos to automagically be added to you wave, make sure to "start waving" on your EchoWaves phone app. Every photo taken on your phone, while waving was turned on, will eventually automagically appear in your wave on EchoWaves.com site. </p>
+  <h3>Surfing waves.</h3> 
+  <p>You can mix your wave with other people's waves, which creates a continuous stream -- echo waves. Wave your story first and expect to be waved back at.</p>
+
+  <p>Here are some recently created waves:</p>
+
+  {% for gallery in galleries %}
+  <div class="thumbnail">
+    <a href="{{context}}/gallery/{{gallery.userid}}">
+      <img 
+         src="{{context}}/img/{{gallery.userid}}/{{thumb-prefix}}{{gallery.name}}"/>
+    </a>
+  </div>
+  {% endfor %}
+
+  {% else %}
+show my wave  
+  {% endif %} 
+  
+
+</div>
+{% endblock %}

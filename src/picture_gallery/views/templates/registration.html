@@ -1,0 +1,31 @@
+{% extends "picture_gallery/views/templates/base.html" %}
+{% block menu %}
+{% endblock %} 
+{% block content %}
+<div class="content">	   
+	<form action="{{context}}/register" method="POST">
+		
+		<label for="user-id">wave name</label>		
+		<input id="id" 
+		       name="id"
+			   tabindex="1" 
+			   type="text"
+			   value="{{id}}" /><br />		
+		<div class="error">{{id-error}}</div>
+		 					  
+		<label for="pass">password</label>		
+		<input id="pass" 
+		       name="pass"
+			   tabindex="2"
+			   type="password" /><br />
+		<div class="error">{{pass-error}}</div>
+					  
+		<label for="pass1">retype password</label>		
+		<input id="pass1"
+			   name="pass1"
+			   tabindex="3"
+			   type="password" /><br />
+		<input tabindex="4" type="submit" value="create wave" />
+	</form>	
+</div>
+{% endblock %}
