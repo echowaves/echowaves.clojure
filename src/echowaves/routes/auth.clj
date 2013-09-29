@@ -11,19 +11,19 @@
             [noir.util.route :refer [restricted]])
   (:import java.io.File))
 
-(defn create-echowaves-path []  
+(defn create-waves-path []  
   (let [wave-path (File. (echowaves-path))]
     (if-not (.exists wave-path) (.mkdir wave-path))
     (str (.getAbsolutePath wave-path) File/separator)))
 
-(defn valid? [id pass pass1]
-  (vali/rule (vali/has-value? id)
-             [:id "wave name is required"])
+(defn valid? [name pass pass1]
+  (vali/rule (vali/has-value? name)
+             [:name "wave name is required"])
   (vali/rule (vali/min-length? pass 5)
              [:pass "password must be at least 5 characters"]) 
   (vali/rule (= pass pass1)
              [:pass "entered passwords do not match"])
-  (not (vali/errors? :id :pass :pass1)))
+  (not (vali/errors? :name :pass :pass1)))
 
 (defn registration-page [& [name]]
   (layout/render "registration.html"
@@ -45,7 +45,7 @@
     (try        
       (db/create-wave {:name name :pass (crypt/encrypt pass)})      
       (session/put! :wave name)
-      (create-echowaves-path)
+      (create-waves-path)
       (resp/redirect "/")
       (catch Exception ex
         (vali/rule false [:name (format-error name ex)])
