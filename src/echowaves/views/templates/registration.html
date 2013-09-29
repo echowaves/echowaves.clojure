@@ -5,13 +5,13 @@
 <div class="content">	   
 	<form action="{{context}}/register" method="POST">
 		
-		<label for="user-id">wave name</label>		
-		<input id="id" 
-		       name="id"
+		<label for="wave-name">wave name</label>		
+		<input name="name" 
+		       name="name"
 			   tabindex="1" 
 			   type="text"
-			   value="{{id}}" /><br />		
-		<div class="error">{{id-error}}</div>
+			   value="{{name}}" /><br />		
+		<div class="error">{{name-error}}</div>
 		 					  
 		<label for="pass">password</label>		
 		<input id="pass" 

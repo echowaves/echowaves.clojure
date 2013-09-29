@@ -4,13 +4,13 @@
 
 <div class="echowaves">	
 
-  {% if not user %}
+  {% if not wave %}
   <h2>follow 3 simple steps:</h2>
   <h3>  1. create your wave</h3>
   <div id="sign_up_content">	   
     <form action="{{context}}/register" method="POST">
       
-      <label for="user-id">wave name</label>		
+      <label for="wave-name">wave name</label>		
       <input id="id" 
 	     name="id"
 	     tabindex="1" 

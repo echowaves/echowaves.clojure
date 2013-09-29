@@ -41,8 +41,8 @@
   (route/resources "/")
   (route/not-found "Not Found"))
 
-(defn user-page [_]
-  (session/get :user))
+(defn wave-page [_]
+  (session/get :wave))
 
 (def app (noir-middleware/app-handler
           [auth-routes
@@ -51,6 +51,6 @@
            echowaves-routes
            app-routes]
           :middleware [wrap-restful-format]
-          :access-rules [user-page]))
+          :access-rules [wave-page]))
 
 (def war-handler (noir-middleware/war-handler app))

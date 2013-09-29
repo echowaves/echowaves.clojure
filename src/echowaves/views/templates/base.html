@@ -21,13 +21,13 @@
 </head>
 <body>
 	{% block menu %}
-	<div id="usermenu">
+	<div id="wavemenu">
 		<div class="menuitem">
 			<a href="/">home</a>
 		</div>
-		{% if user %}
+		{% if wave %}
 		<div class="menuitem">
-		  <a href="/logout">logout {{user}}</a>
+		  <a href="/logout">logout {{wave}}</a>
 		</div>
 		<div class="menuitem">
 		  <a href="/delete-account">delete wave</a>

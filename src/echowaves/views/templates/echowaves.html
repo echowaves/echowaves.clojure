@@ -6,20 +6,20 @@
    <div>		
    {% for pic in pictures %}
       <div class="thumbnail">
-         <a class={{pic.name}} href="/img/{{pic.userid}}/{{pic.name}}">
-            <img src="{{context}}/img/{{pic.userid}}/{{thumb-prefix}}{{pic.name}}"/>
-            {% ifequal user page-owner %}
+         <a class={{pic.name}} href="/img/{{pic.wave_name}}/{{pic.name}}">
+            <img src="{{context}}/img/{{pic.wave_name}}/{{thumb-prefix}}{{pic.name}}"/>
+            {% ifequal wave page-owner %}
             <input id="{{pic.name}}" 
                    name="{{pic.name}}"
                    type="checkbox" 
                    value="true" />
             {% endifequal %}
-            </a>
-	   </div>
-   {% endfor %}
-   {% ifequal user page-owner %}
+         </a>
+      </div>
+      {% endfor %}
+      {% ifequal wave page-owner %}
       <input id="delete" type="submit" value="delete images" />
-   {% endifequal %}
+      {% endifequal %}
    </div>
 </div>
 {% endblock %}

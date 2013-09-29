@@ -4,25 +4,25 @@
             [noir.util.crypt :refer [encrypt]]
             [echowaves.handler :refer :all]))
 
-(defn mock-get-user [id]
-  (if (= id "foo") 
-    {:id "foo" :pass (encrypt "12345")}))
+(defn mock-get-wave [name]
+  (if (= name "foo") 
+    {:name "foo" :pass (encrypt "12345")}))
     
 (deftest test-login  
   (testing "login success"
-    (with-redefs [echowaves.models.db/get-user mock-get-user]
+    (with-redefs [echowaves.models.db/get-wave mock-get-wave]
       (is 
-        (-> (request :post "/login" {:id "foo" :pass "12345"}) 
+        (-> (request :post "/login" {:name "foo" :pass "12345"}) 
           app :headers (get "Set-Cookie") not-empty))))
   
   (testing "password mismatch"
-    (with-redefs [echowaves.models.db/get-user mock-get-user]
+    (with-redefs [echowaves.models.db/get-wave mock-get-wave]
       (is 
-        (-> (request :post "/login" {:id "foo" :pass "123456"}) 
+        (-> (request :post "/login" {:name "foo" :pass "123456"}) 
           app :headers (get "Set-Cookie") empty?))))
   
-  (testing "user not found"
-    (with-redefs [echowaves.models.db/get-user mock-get-user]
+  (testing "wave not found"
+    (with-redefs [echowaves.models.db/get-wave mock-get-wave]
       (is 
-        (-> (request :post "/login" {:id "bar" :pass "12345"}) 
+        (-> (request :post "/login" {:name "bar" :pass "12345"}) 
           app :headers (get "Set-Cookie") empty?)))))

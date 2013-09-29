@@ -72,7 +72,7 @@ label {
     margin: 5px;    
 }
 
-#usermenu {
+#wavemenu {
 	background-color: #878C87;	
 	width: 100%;
 	
@@ -89,9 +89,9 @@ label {
 	display: inline-block;;
 }
 
-#usermenu a:link {text-decoration: none; color: white;}
-#usermenu a:hover {text-decoration: underline; color: white;}
-#usermenu a:visited {text-decoration: none; color: white;}
+#wavemenu a:link {text-decoration: none; color: white;}
+#wavemenu a:hover {text-decoration: underline; color: white;}
+#wavemenu a:visited {text-decoration: none; color: white;}
 
 input[type=submit] {
     background: #99A699;

@@ -12,9 +12,9 @@
   (:import java.io.File))
 
 (defn create-echowaves-path []  
-  (let [user-path (File. (echowaves-path))]
-    (if-not (.exists user-path) (.mkdir user-path))
-    (str (.getAbsolutePath user-path) File/separator)))
+  (let [wave-path (File. (echowaves-path))]
+    (if-not (.exists wave-path) (.mkdir wave-path))
+    (str (.getAbsolutePath wave-path) File/separator)))
 
 (defn valid? [id pass pass1]
   (vali/rule (vali/has-value? id)
@@ -25,10 +25,10 @@
              [:pass "entered passwords do not match"])
   (not (vali/errors? :id :pass :pass1)))
 
-(defn registration-page [& [id]]
+(defn registration-page [& [name]]
   (layout/render "registration.html"
-                 {:id id
-                  :id-error (first (vali/get-errors :id))
+                 {:name name
+                  :name-error (first (vali/get-errors :name))
                   :pass-error (first (vali/get-errors :pass))}))
 
 (defn format-error [id ex]
@@ -40,15 +40,15 @@
     :else
     "An error has occured while processing the request"))
 
-(defn handle-registration [id pass pass1]
-  (if (valid? id pass pass1)
+(defn handle-registration [name pass pass1]
+  (if (valid? name pass pass1)
     (try        
       (db/create-wave {:name name :pass (crypt/encrypt pass)})      
       (session/put! :wave name)
       (create-echowaves-path)
       (resp/redirect "/")
       (catch Exception ex
-        (vali/rule false [:id (format-error name ex)])
+        (vali/rule false [:name (format-error name ex)])
         (registration-page)))
     (registration-page name)))
 

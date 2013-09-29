@@ -49,18 +49,18 @@
       {:error "please select a file to upload"}      
       (try 
         (noir.io/upload-file          
-          (str File/separator "img" File/separator (session/get :user) File/separator)
+          (str File/separator "img" File/separator (session/get :wave) File/separator)
           file)
         (save-thumbnail file)
-        (db/add-image (session/get :user) (:filename file))
+        (db/add-image (session/get :wave) (:filename file))
         {:image
-         (str "/img/" (session/get :user) "/" thumb-prefix (url-encode (:filename file)))}
+         (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}
         (catch Exception ex 
           {:error (str "error uploading file: " (.getMessage ex))})))))
 
-(defn delete-image [userid name]
+(defn delete-image [wave_name name]
   (try
-    (db/delete-image userid name)
+    (db/delete-image wave_name name)
     (io/delete-file (str (echowaves-path) name))
     (io/delete-file (str (echowaves-path) thumb-prefix name))
     "ok"
@@ -69,9 +69,9 @@
       (.getMessage ex))))
 
 (defn delete-images [names]
-  (let [userid (session/get :user)]
+  (let [wave_name (session/get :wave)]
     (resp/edn
-      (for [name names] {:name name :status (delete-image userid name)}))))
+      (for [name names] {:name name :status (delete-image wave_name name)}))))
 
 (defroutes upload-routes
   (GET "/upload" [info] (upload-page {:info info}))

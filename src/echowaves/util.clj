@@ -6,4 +6,4 @@
 (def thumb-prefix "thumb_")
 
 (defn echowaves-path []
-  (str (resource-path) "img" File/separator (session/get :user) File/separator))
+  (str (resource-path) "img" File/separator (session/get :wave) File/separator))

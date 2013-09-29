@@ -11,7 +11,7 @@
   (render [this request]
     (->> (assoc params
                 :context (:context request)
-                :user    (session/get :user))
+                :wave    (session/get :wave))
          (parser/render-file (str template-folder template))
          response)))
 
