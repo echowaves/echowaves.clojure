@@ -38,7 +38,7 @@
 (defn delete-image [userid name]
   (delete images (where {:userid userid :name name}))) 
 
-(defn get-gallery-previews []
+(defn get-echowaves-previews []
   (exec-raw
     ["select *, row_number() over() as r_num from (select *, row_number() over (partition by userid) as row_number from images) as rows where row_number = 1 order by r_num desc limit 100" []] ;; show last 100 waves
      :results)) 

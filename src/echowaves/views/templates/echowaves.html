@@ -1,7 +1,7 @@
-{% extends "picture_gallery/views/templates/base.html" %}
+{% extends "echowaves/views/templates/base.html" %}
 
 {% block content %}
-<div class="gallery">
+<div class="echowaves">
    <div id="error"></div>     
    <div>		
    {% for pic in pictures %}
@@ -26,6 +26,6 @@
 
 {% block scripts %}
 <script>
-	gallery.init();
+  echowaves.init();
 </script>
 {% endblock %}

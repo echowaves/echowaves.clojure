@@ -36,9 +36,9 @@
 
 (defn save-thumbnail [{:keys [filename]}]
   (ImageIO/write 
-    (scale-image (io/input-stream (str (gallery-path) filename))) 
+    (scale-image (io/input-stream (str (echowaves-path) filename))) 
     "jpeg" 
-    (File. (str (gallery-path) thumb-prefix filename))))
+    (File. (str (echowaves-path) thumb-prefix filename))))
 
 (defn upload-page [params]
   (layout/render "upload.html" params))
@@ -61,8 +61,8 @@
 (defn delete-image [userid name]
   (try
     (db/delete-image userid name)
-    (io/delete-file (str (gallery-path) name))
-    (io/delete-file (str (gallery-path) thumb-prefix name))
+    (io/delete-file (str (echowaves-path) name))
+    (io/delete-file (str (echowaves-path) thumb-prefix name))
     "ok"
     (catch Exception ex
       (error ex "an error has occured while deleting" name)

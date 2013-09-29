@@ -6,13 +6,13 @@
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [gallery-path]]
+            [echowaves.util :refer [echowaves-path]]
             [echowaves.routes.upload :refer [delete-image]]
             [noir.util.route :refer [restricted]])
   (:import java.io.File))
 
-(defn create-gallery-path []  
-  (let [user-path (File. (gallery-path))]
+(defn create-echowaves-path []  
+  (let [user-path (File. (echowaves-path))]
     (if-not (.exists user-path) (.mkdir user-path))
     (str (.getAbsolutePath user-path) File/separator)))
 
@@ -45,7 +45,7 @@
     (try        
       (db/create-user {:id id :pass (crypt/encrypt pass)})      
       (session/put! :user id)
-      (create-gallery-path)
+      (create-echowaves-path)
       (resp/redirect "/")
       (catch Exception ex
         (vali/rule false [:id (format-error id ex)])
@@ -70,7 +70,7 @@
   (let [user (session/get :user)] 
     (doseq [{:keys [name]} (db/images-by-user user)]      
       (delete-image user name))    
-    (clojure.java.io/delete-file (gallery-path))
+    (clojure.java.io/delete-file (echowaves-path))
     (db/delete-user user))
   (session/clear!)
   (resp/redirect "/"))

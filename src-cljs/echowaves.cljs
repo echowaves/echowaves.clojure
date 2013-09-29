@@ -1,4 +1,4 @@
-(ns gallery
+(ns echowaves
   (:require [goog.dom :as dom]
             [domina :refer [by-id nodes append!]]
             [domina.events :refer [listen!]]

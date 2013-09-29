@@ -4,7 +4,7 @@
             [ring.util.response :refer [response]])
   (:import compojure.response.Renderable))
 
-(def template-folder "picture_gallery/views/templates/")
+(def template-folder "echowaves/views/templates/")
 
 (deftype RenderablePage [template params]
   Renderable

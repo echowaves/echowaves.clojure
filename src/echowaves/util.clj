@@ -5,5 +5,5 @@
 
 (def thumb-prefix "thumb_")
 
-(defn gallery-path []
+(defn echowaves-path []
   (str (resource-path) "img" File/separator (session/get :user) File/separator))

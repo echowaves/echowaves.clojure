@@ -1,8 +1,8 @@
-{% extends "picture_gallery/views/templates/base.html" %}
+{% extends "echowaves/views/templates/base.html" %}
 
 {% block content %}
 
-<div class="gallery">	
+<div class="echowaves">	
 
   {% if not user %}
   <h2>follow 3 simple steps:</h2>
@@ -49,11 +49,11 @@
 
   <p>Here are some recently created waves:</p>
 
-  {% for gallery in galleries %}
+  {% for wave in waves %}
   <div class="thumbnail">
-    <a href="{{context}}/gallery/{{gallery.userid}}">
+    <a href="{{context}}/wave/{{wave.name}}">
       <img 
-         src="{{context}}/img/{{gallery.userid}}/{{thumb-prefix}}{{gallery.name}}"/>
+         src="{{context}}/img/{{wave.name}}/{{thumb-prefix}}{{wave.name}}"/>
     </a>
   </div>
   {% endfor %}
