@@ -8,7 +8,7 @@
             [noir.util.route :refer [restricted]]            
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [gallery-path thumb-prefix]]
+            [echowaves.util :refer [echowaves-path thumb-prefix]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]])
   (:import [java.io File FileInputStream FileOutputStream]

@@ -8,37 +8,37 @@
 
 ;; (defdb korma-db db)
 
-(defentity users)
+(defentity waves)
 
 (defentity images)
 
-(defn create-user [user]
-  (insert users (values user)))
+(defn create-wave [wave]
+  (insert waves (values wave)))
 
-(defn get-user [id]
-  (first (select users
+(defn get-wave [id]
+  (first (select waves
                  (where {:id id})
                  (limit 1))))
                  
-(defn delete-user [id]
-  (delete users (where {:id id})))  
+(defn delete-wave [id]
+  (delete waves (where {:id id})))  
 
-(defn add-image [userid name]  
+(defn add-image [wave_id name]  
   (transaction
     (if (empty? (select images 
-                        (where {:userid userid :name name})
+                        (where {:wave_id wave_id :name name})
                         (limit 1)))
-      (insert images (values {:userid userid :name name}))
+      (insert images (values {:wave_id wave_id :name name}))
       (throw 
         (Exception. "you have already uploaded an image with the same name")))))
                            
-(defn images-by-user [userid]
-  (select images (where {:userid userid})))
+(defn images-by-wave [wave_id]
+  (select images (where {:wave_id wave_id})))
                  
-(defn delete-image [userid name]
-  (delete images (where {:userid userid :name name}))) 
+(defn delete-image [wave_id name]
+  (delete images (where {:wave_id wave_id :name name}))) 
 
 (defn get-echowaves-previews []
   (exec-raw
-    ["select *, row_number() over() as r_num from (select *, row_number() over (partition by userid) as row_number from images) as rows where row_number = 1 order by r_num desc limit 100" []] ;; show last 100 waves
+    ["select *, row_number() over() as r_num from (select *, row_number() over (partition by wave_id) as row_number from images) as rows where row_number = 1 order by r_num desc limit 100" []] ;; Show last 100 waves
      :results)) 
