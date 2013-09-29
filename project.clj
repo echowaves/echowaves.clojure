@@ -50,9 +50,9 @@
    {:dev {:source-paths ["src-cljs"]
           :compiler
           {:pretty-print true
-           :output-to "resources/public/js/gallery-cljs.js"}}
+           :output-to "resources/public/js/echowaves-cljs.js"}}
     :prod {:source-paths ["src-cljs"]
            :compiler
            {:optimizations :advanced
             :externs ["resources/externs.js"]
-            :output-to "resources/public/js/gallery-cljs.js"}}}})
+            :output-to "resources/public/js/echowaves-cljs.js"}}}})

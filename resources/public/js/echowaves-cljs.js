@@ -7514,6 +7514,6 @@ function sn() {
   a = N(a) ? a : m;
   return x(a) ? qn.g("/delete", S([cb(["\ufdd0:params", cb(["names[]", a], k), "\ufdd0:handler", rn], k)], 0)) : alert("no images selected")
 }
-qa("gallery.init", function() {
+qa("echowaves.init", function() {
   return pm.b(Li(wh("delete")), "\ufdd0:click", sn)
 });
