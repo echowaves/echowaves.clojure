@@ -43,35 +43,34 @@
 (defn handle-registration [id pass pass1]
   (if (valid? id pass pass1)
     (try        
-      (db/create-user {:id id :pass (crypt/encrypt pass)})      
-      (session/put! :user id)
+      (db/create-wave {:name name :pass (crypt/encrypt pass)})      
+      (session/put! :wave name)
       (create-echowaves-path)
       (resp/redirect "/")
       (catch Exception ex
-        (vali/rule false [:id (format-error id ex)])
+        (vali/rule false [:id (format-error name ex)])
         (registration-page)))
-    (registration-page id)))
+    (registration-page name)))
 
-(defn handle-login [id pass]
-  (let [user (db/get-user id)] 
-    (if (and user (crypt/compare pass (:pass user)))
-      (session/put! :user id)))
-
+(defn handle-login [name pass]
+  (let [wave (db/get-wave name)] 
+    (if (and wave (crypt/compare pass (:pass wave)))
+      (session/put! :wave name)))
   (resp/redirect "/"))
 
 (defn handle-logout []
   (session/clear!)
   (resp/redirect "/"))
 
-(defn delete-account-page []  
-  (layout/render "deleteAccount.html"))
+(defn delete-wave-page []  
+  (layout/render "deleteWave.html"))
 
 (defn handle-confirm-delete []
-  (let [user (session/get :user)] 
-    (doseq [{:keys [name]} (db/images-by-user user)]      
-      (delete-image user name))    
+  (let [wave (session/get :wave)] 
+    (doseq [{:keys [name]} (db/images-by-wave wave)]      
+      (delete-image wave name))    
     (clojure.java.io/delete-file (echowaves-path))
-    (db/delete-user user))
+    (db/delete-wave wave))
   (session/clear!)
   (resp/redirect "/"))
 
@@ -79,17 +78,17 @@
   (GET "/register" [] 
        (registration-page))
   
-  (POST "/register" [id pass pass1] 
-        (handle-registration id pass pass1))
+  (POST "/register" [name pass pass1] 
+        (handle-registration name pass pass1))
   
-  (POST "/login" [id pass] 
-        (handle-login id pass))
+  (POST "/login" [name pass] 
+        (handle-login name pass))
   
   (GET "/logout" [] 
        (handle-logout))
   
-  (GET "/delete-account" [] 
-       (restricted (delete-account-page)))
+  (GET "/delete-wave" [] 
+       (restricted (delete-wave-page)))
   
   (POST "/confirm-delete" [] 
         (restricted (handle-confirm-delete))))

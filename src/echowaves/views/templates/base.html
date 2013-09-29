@@ -34,19 +34,16 @@
 		</div>		
 		{% else %}
 		<div class="menuitem">
-		  <a href="{{context}}/register">register</a>
-		</div>
-		<div class="menuitem">
 		  <form action="{{context}}/login" method="POST">
 		    <input id="id"
 			   name="id" 
-			   placeholder="screen name" 
+			   placeholder="wave name" 
 			   type="text">
 		    <input id="pass" 
 			   name="pass" 
 			   placeholder="password" 
 			   type="password">
-		    <input type="submit" value="login">
+		    <input type="submit" value="tune in">
 		  </form>
 		</div>
 		{% endif %}

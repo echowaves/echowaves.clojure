@@ -5,12 +5,12 @@
             [echowaves.models.db :as db]
             [noir.session :as session]))
 
-(defn display-echowaves [userid]
+(defn display-echowaves [wave_id]
   (layout/render "echowaves.html"
                  {:thumb-prefix thumb-prefix
-                  :page-owner   userid
-                  :pictures     (db/images-by-user userid)}))
+                  :page-owner   wave_id
+                  :pictures     (db/images-by-wave wave_id)}))
 
 (defroutes echowaves-routes
-  (GET "/echowaves/:userid" [userid]
-       (display-echowaves userid)))
+  (GET "/echowaves/:wave_id" [wave_id]
+       (display-echowaves wave_id)))
