@@ -8,7 +8,7 @@
             [noir.util.route :refer [restricted]]            
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [echowaves-path thumb-prefix]]
+            [echowaves.util :refer [session-wave-path thumb-prefix]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]])
   (:import [java.io File FileInputStream FileOutputStream]
@@ -36,9 +36,9 @@
 
 (defn save-thumbnail [{:keys [filename]}]
   (ImageIO/write 
-    (scale-image (io/input-stream (str (echowaves-path) filename))) 
+    (scale-image (io/input-stream (str (session-wave-path) filename))) 
     "jpeg" 
-    (File. (str (echowaves-path) thumb-prefix filename))))
+    (File. (str (session-wave-path) thumb-prefix filename))))
 
 (defn upload-page [params]
   (layout/render "upload.html" params))
@@ -61,8 +61,8 @@
 (defn delete-image [wave_name name]
   (try
     (db/delete-image wave_name name)
-    (io/delete-file (str (echowaves-path) name))
-    (io/delete-file (str (echowaves-path) thumb-prefix name))
+    (io/delete-file (str (session-wave-path) name))
+    (io/delete-file (str (session-wave-path) thumb-prefix name))
     "ok"
     (catch Exception ex
       (error ex "an error has occured while deleting" name)

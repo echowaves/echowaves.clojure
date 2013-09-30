@@ -6,13 +6,15 @@
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [echowaves-path]]
+            [echowaves.util :refer [session-wave-path]]
             [echowaves.routes.upload :refer [delete-image]]
             [noir.util.route :refer [restricted]])
   (:import java.io.File))
 
-(defn create-waves-path []  
-  (let [wave-path (File. (echowaves-path))]
+(defn create-waves-path []
+  (let [wave-path (File. (session-wave-path))]
+    (if-not (.exists wave-path) (print "path not found"))
+    (if (.exists wave-path) (print "path found"))
     (if-not (.exists wave-path) (.mkdir wave-path))
     (str (.getAbsolutePath wave-path) File/separator)))
 
@@ -69,7 +71,7 @@
   (let [wave (session/get :wave)] 
     (doseq [{:keys [name]} (db/images-by-wave wave)]      
       (delete-image wave name))    
-    (clojure.java.io/delete-file (echowaves-path))
+    (clojure.java.io/delete-file (session-wave-path))
     (db/delete-wave wave))
   (session/clear!)
   (resp/redirect "/"))
