@@ -13,8 +13,6 @@
 
 (defn create-waves-path []
   (let [wave-path (File. (session-wave-path))]
-    (if-not (.exists wave-path) (print "path not found"))
-    (if (.exists wave-path) (print "path found"))
     (if-not (.exists wave-path) (.mkdir wave-path))
     (str (.getAbsolutePath wave-path) File/separator)))
 
@@ -37,8 +35,7 @@
   (cond
     (and (instance? org.postgresql.util.PSQLException ex) 
       (= 0 (.getErrorCode ex))) 
-    (str "The wave name " id " already exists!")
-    
+    (str "The wave name " id " already exists!")    
     :else
     "An error has occured while processing the request"))
 
@@ -68,11 +65,11 @@
   (layout/render "deleteWave.html"))
 
 (defn handle-confirm-delete []
-  (let [wave (session/get :wave)] 
-    (doseq [{:keys [name]} (db/images-by-wave wave)]      
-      (delete-image wave name))    
+  (let [wave_name (session/get :wave)] 
+    (doseq [{:keys [name]} (db/images-by-wave wave_name)]      
+      (delete-image wave_name name))    
     (clojure.java.io/delete-file (session-wave-path))
-    (db/delete-wave wave))
+    (db/delete-wave wave_name))
   (session/clear!)
   (resp/redirect "/"))
 

@@ -8,9 +8,11 @@
 
 ;; (defdb korma-db db)
 
-(defentity waves)
+(defentity waves
+  (has-many images))
 
-(defentity images)
+(defentity images
+  (belongs-to waves))
 
 (defn create-wave [wave]
   (insert waves (values wave)))
@@ -20,23 +22,25 @@
                  (where {:id id})
                  (limit 1))))
                  
-(defn delete-wave [id]
-  (delete waves (where {:id id})))  
+(defn delete-wave [name]
+  (delete waves (where {:name name})))  
 
-(defn add-image [wave_id name]  
+(defn add-image [wave_name name]  
   (transaction
     (if (empty? (select images 
-                        (where {:wave_id wave_id :name name})
+                        (where {:wave_name wave_name :name name})
                         (limit 1)))
-      (insert images (values {:wave_id wave_id :name name}))
+      (insert images (values {:wave_id wave_name :name name}))
       (throw 
         (Exception. "you have already uploaded an image with the same name")))))
                            
-(defn images-by-wave [wave_id]
-  (select images (where {:wave_id wave_id})))
+(defn images-by-wave [wave_name]
+  (select images (where {:wave_id [in (subselect waves
+                                                 (fields :id)
+                                                 (where {:name wave_name}))]})))
                  
-(defn delete-image [wave_id name]
-  (delete images (where {:wave_id wave_id :name name}))) 
+(defn delete-image [wave_name name]
+  (delete images (where  {:name name} ))) 
 
 (defn get-echowaves-previews []
   (exec-raw
