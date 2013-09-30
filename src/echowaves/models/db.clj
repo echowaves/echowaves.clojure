@@ -29,15 +29,18 @@
 
 (defn add-image [wave_name name]  
   (transaction
-   (if (empty? (select images 
-                       (where {:wave_id [in (subselect waves
-                                                       (fields :id)
-                                                       (where {:name wave_name}))]
-                               :name name})
-                        (limit 1)))
-      (insert images (values {:wave_id wave_name :name name}))
-      (throw 
-        (Exception. "you have already uploaded an image with the same name")))))
+   (let [wave (first(select waves
+                            (fields :id)
+                            (where {:name wave_name})
+                            (limit 1)))]
+     (if (empty? (select images 
+                         (where {:wave_id (:id wave)
+                                 :name name})
+                         (limit 1)))
+     (insert images (values {:wave_id (:id wave)
+                             :name name}))
+     (throw 
+      (Exception. "you have already uploaded an image with the same name"))))))
                            
 (defn images-by-wave [wave_name]
   (select images (where {:wave_id [in (subselect waves
