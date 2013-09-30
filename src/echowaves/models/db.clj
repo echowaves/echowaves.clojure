@@ -8,6 +8,8 @@
 
 ;; (defdb korma-db db)
 
+(declare waves images)
+
 (defentity waves
   (has-many images))
 
@@ -17,9 +19,9 @@
 (defn create-wave [wave]
   (insert waves (values wave)))
 
-(defn get-wave [id]
+(defn get-wave [name]
   (first (select waves
-                 (where {:id id})
+                 (where {:name name})
                  (limit 1))))
                  
 (defn delete-wave [name]
@@ -27,8 +29,11 @@
 
 (defn add-image [wave_name name]  
   (transaction
-    (if (empty? (select images 
-                        (where {:wave_name wave_name :name name})
+   (if (empty? (select images 
+                       (where {:wave_id [in (subselect waves
+                                                       (fields :id)
+                                                       (where {:name wave_name}))]
+                               :name name})
                         (limit 1)))
       (insert images (values {:wave_id wave_name :name name}))
       (throw 
