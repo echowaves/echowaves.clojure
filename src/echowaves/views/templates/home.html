@@ -7,31 +7,9 @@
   {% if not wave %}
   <h2>follow 3 simple steps:</h2>
   <h3>  1. create your wave</h3>
+  
   <div id="sign_up_content">	   
-    <form action="{{context}}/register" method="POST">
-      
-      <label for="wave-name">wave name</label>		
-      <input id="id" 
-	     name="id"
-	     tabindex="1" 
-	     type="text"
-	     value="{{id}}" /><br />		
-      <div class="error">{{id-error}}</div>
-      
-      <label for="pass">password</label>		
-      <input id="pass" 
-	     name="pass"
-	     tabindex="2"
-	     type="password" /><br />
-      <div class="error">{{pass-error}}</div>
-      
-      <label for="pass1">retype password</label>		
-      <input id="pass1"
-	     name="pass1"
-	     tabindex="3"
-	     type="password" /><br />
-      <input tabindex="4" type="submit" value="create wave" />
-    </form>	
+    {% include "echowaves/views/templates/t_registration_form.html" %}
   </div>
 
   <h3>  2. download an iPhone app</h3>

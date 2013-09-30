@@ -1,0 +1,24 @@
+<form action="{{context}}/register" method="POST">
+  
+  <label for="wave-name">wave name</label>		
+  <input name="name" 
+	 name="name"
+	 tabindex="1" 
+	 type="text"
+	 value="{{name}}" /><br />		
+  <div class="error">{{name-error}}</div>
+  
+  <label for="pass">password</label>		
+  <input id="pass" 
+	 name="pass"
+	 tabindex="2"
+	 type="password" /><br />
+  <div class="error">{{pass-error}}</div>
+  
+  <label for="pass1">retype password</label>		
+  <input id="pass1"
+	 name="pass1"
+	 tabindex="3"
+	 type="password" /><br />
+  <input tabindex="4" type="submit" value="create wave" />
+</form>	
