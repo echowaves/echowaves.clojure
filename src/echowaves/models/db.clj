@@ -52,5 +52,5 @@
 
 (defn get-echowaves-previews []
   (exec-raw
-    ["select *, row_number() over() as r_num from (select *, row_number() over (partition by wave_id) as row_number from images) as rows where row_number = 1 order by r_num desc limit 100" []] ;; Show last 100 waves
+   ["select waves.name, row_number() over() as r_num from (select *, row_number() over (partition by wave_id) as row_number from images) as rows inner join waves on rows.wave_id = waves.id where row_number = 1 order by r_num asc limit 100" []] ;; Show last 100 waves
      :results)) 

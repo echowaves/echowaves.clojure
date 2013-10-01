@@ -5,7 +5,7 @@
             [echowaves.routes.auth :refer [auth-routes]]
             [echowaves.routes.home :refer [home-routes]]
             [echowaves.routes.upload :refer [upload-routes]]
-            [echowaves.routes.echowaves :refer [echowaves-routes]]
+            [echowaves.routes.wave :refer [wave-routes]]
             [echowaves.models.schema :as schema]
             [noir.session :as session]
             [taoensso.timbre :as timbre]
@@ -48,7 +48,7 @@
           [auth-routes
            home-routes
            upload-routes
-           echowaves-routes
+           wave-routes
            app-routes]
           :middleware [wrap-restful-format]
           :access-rules [wave-page]))
