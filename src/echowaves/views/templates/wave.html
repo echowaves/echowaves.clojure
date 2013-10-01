@@ -4,13 +4,13 @@
 <div class="echowaves">
    <div id="error"></div>     
    <div>		
-   {% for pic in pictures %}
+   {% for image in images %}
       <div class="thumbnail">
-         <a class={{pic.name}} href="/img/{{pic.wave_name}}/{{pic.name}}">
-            <img src="{{context}}/img/{{pic.wave_name}}/{{thumb-prefix}}{{pic.name}}"/>
+         <a class={{image.name}} href="/img/{{image.name_2}}/{{image.name}}">
+            <img src="{{context}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"/>
             {% ifequal wave page-owner %}
-            <input id="{{pic.name}}" 
-                   name="{{pic.name}}"
+            <input id="{{image.name}}" 
+                   name="{{image.name}}"
                    type="checkbox" 
                    value="true" />
             {% endifequal %}

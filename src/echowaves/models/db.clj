@@ -44,10 +44,11 @@
                            
 (defn images-by-wave [wave_name]
   (select images
-          (with waves)
           (where {:waves_id [in (subselect waves
                                                  (fields :id)
-                                                 (where {:name wave_name}))]})))
+                                                 (where {:name wave_name}))]})
+          (with waves)
+          ))
                  
 (defn delete-image [wave_name name]
   (delete images (where  {:name name} ))) 
