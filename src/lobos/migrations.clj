@@ -19,11 +19,12 @@
   (up []
       (create (table :images
                      (integer :id :auto-inc :primary-key :unique)
-                     (integer :wave_id :not-null)
+                     (integer :waves_id :not-null)
                      (varchar :name 100 :not-null)
                      (timestamp :created_on :not-null (default (now)))))
-      (create (index :images [:wave_id]))
+      (create (index :images [:waves_id]))
       (create (index :images [:created_on])))
   (down [] (drop (table :images))))
+
 
 

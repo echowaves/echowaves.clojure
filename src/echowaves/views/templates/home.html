@@ -27,11 +27,11 @@
 
   <p>Here are some recently created waves:</p>
 
-  {% for wave in waves %}
+  {% for wave in echowaves %}
   <div class="thumbnail">
-    <a href="{{context}}/wave/{{wave.name}}">
+    <a href="{{context}}/wave/{{wave.wave_name}}">
       <img 
-         src="{{context}}/img/{{wave.name}}/{{thumb-prefix}}{{wave.name}}"/>
+         src="{{context}}/img/{{wave.wave_name}}/{{thumb-prefix}}{{wave.image_name}}"/>
     </a>
   </div>
   {% endfor %}

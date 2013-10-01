@@ -34,16 +34,18 @@
                             (where {:name wave_name})
                             (limit 1)))]
      (if (empty? (select images 
-                         (where {:wave_id (:id wave)
+                         (where {:waves_id (:id wave)
                                  :name name})
                          (limit 1)))
-     (insert images (values {:wave_id (:id wave)
+     (insert images (values {:waves_id (:id wave)
                              :name name}))
      (throw 
       (Exception. "you have already uploaded an image with the same name"))))))
                            
 (defn images-by-wave [wave_name]
-  (select images (where {:wave_id [in (subselect waves
+  (select images
+          (with waves)
+          (where {:waves_id [in (subselect waves
                                                  (fields :id)
                                                  (where {:name wave_name}))]})))
                  
@@ -52,5 +54,5 @@
 
 (defn get-echowaves-previews []
   (exec-raw
-   ["select waves.name, row_number() over() as r_num from (select *, row_number() over (partition by wave_id) as row_number from images) as rows inner join waves on rows.wave_id = waves.id where row_number = 1 order by r_num asc limit 100" []] ;; Show last 100 waves
+   ["select waves.name as wave_name, rows.name as image_name, row_number() over() as r_num from (select *, row_number() over (partition by waves_id) as row_number from images) as rows inner join waves on rows.waves_id = waves.id where row_number = 1 order by r_num asc limit 100" []] ;; Show last 100 waves
      :results)) 
