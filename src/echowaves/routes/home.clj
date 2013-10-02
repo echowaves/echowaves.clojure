@@ -3,6 +3,7 @@
             [echowaves.views.layout :as layout]
             [echowaves.util :refer [thumb-prefix]]
             [echowaves.models.db :as db]
+            [echowaves.routes.wave :as wave]
             [noir.session :as session]))
 
 (defn home [] 
@@ -11,4 +12,7 @@
                   :echowaves (db/get-echowaves-previews)}))
 
 (defroutes home-routes
-  (GET "/" [] (home)))
+  (GET "/" []
+       (if (session/get :wave)
+         (wave/display-wave (session/get :wave))
+         (home))))

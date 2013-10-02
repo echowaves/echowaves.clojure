@@ -9,7 +9,7 @@
   (layout/render "wave.html"
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
-                  :images     (db/images-by-wave wave_name)}))
+                  :images       (db/images-by-wave wave_name)}))
 
 (defroutes wave-routes
   (GET "/wave/:wave_name" [wave_name]
