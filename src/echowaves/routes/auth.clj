@@ -60,8 +60,8 @@
 (defn handle-verify-credential [name pass]
   (let [wave (db/get-wave name)] 
     (if (and wave (crypt/compare pass (:pass wave)))
-      (resp/status "200", "OK")
-      (resp/status "401", "Unauthorized"))))
+      (resp/status 200, "OK")
+      (resp/status 401, "Unauthorized"))))
 
 (defn handle-logout []
   (session/clear!)
