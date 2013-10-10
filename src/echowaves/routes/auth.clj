@@ -57,12 +57,6 @@
       (session/put! :wave name)))
   (resp/redirect "/"))
 
-(defn handle-verify-credential [name pass]
-  (let [wave (db/get-wave name)] 
-    (if (and wave (crypt/compare pass (:pass wave)))
-      (resp/status 200 "OK")
-      (resp/status 403 "Forbidden"))))
-
 (defn handle-logout []
   (session/clear!)
   (resp/redirect "/"))
@@ -89,9 +83,6 @@
   (POST "/login" [name pass] 
         (handle-login name pass))
 
-  (POST "/verify_credentials" [name pass] 
-        (handle-verify-credential name pass))
-  
   (GET "/logout" [] 
        (handle-logout))
   
