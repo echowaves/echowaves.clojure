@@ -44,6 +44,7 @@
   (layout/render "upload.html" params))
 
 (defn handle-upload [file]
+  (info "uploading file:" file)
   (upload-page 
     (if (empty? (:filename file))
       {:error "please select a file to upload"}      
@@ -76,6 +77,8 @@
 (defroutes upload-routes
   (GET "/upload" [info] (upload-page {:info info}))
   
-  (POST "/upload" [file] (restricted (handle-upload file)))
+  (POST "/upload" [file] 
+        (restricted (handle-upload file))
+        )
   
   (POST "/delete" [names] (restricted (delete-images names))))
