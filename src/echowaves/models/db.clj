@@ -55,6 +55,12 @@
   (delete images (where  {:name name} ))) 
 
 (defn get-echowaves-previews []
-  (exec-raw
-   ["select waves.name as wave_name, rows.name as image_name, row_number() over() as r_num from (select *, row_number() over (partition by waves_id order by id desc) as row_number from images order by created_on desc) as rows inner join waves on rows.waves_id = waves.id where row_number = 1 limit 100" []] ;; Show last 100 waves
-     :results)) 
+  nil
+  )
+  ;; (select images
+  ;;         (where {:waves_id [in (subselect waves
+  ;;                                          (fields :id)
+  ;;                                          )]})
+  ;;         (with waves)
+  ;;         (order :created_on :DESC)
+  ;;         )) 
