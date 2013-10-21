@@ -22,7 +22,6 @@
                  [domina "1.0.0"]
                  [cljs-ajax "0.2.0"]
                  [ring-middleware-format "0.3.1"]
-                 [lobos "1.0.0-beta1"]
                  [environ "0.4.0"]
                  [commons-fileupload "1.3"]]
   :plugins [[lein-ring "0.8.7"]
