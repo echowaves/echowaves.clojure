@@ -29,9 +29,7 @@
    {:path "error.log" :max-size (* 512 1024) :backlog 10})
 
   (timbre/info "echowaves started successfully")
-
-  (if-not (schema/actualized?)
-    (schema/actualize)))
+  )
 
 
 (defn destroy []
