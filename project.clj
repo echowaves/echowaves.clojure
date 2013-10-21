@@ -8,7 +8,7 @@
                  [hiccup "1.0.4"]
                  [ring-server "0.3.0"]
                  [mysql/mysql-connector-java "5.1.6"]
-                 [korma "0.3.0-RC5"]
+                 [korma "0.3.0-RC6"]
                  [log4j "1.2.15" 
                   :exclusions [javax.mail/mail
                                javax.jms/jms

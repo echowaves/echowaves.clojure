@@ -32,12 +32,7 @@
                   :pass-error (first (vali/get-errors :pass))}))
 
 (defn format-error [id ex]
-  (cond
-    (and (instance? org.postgresql.util.PSQLException ex) 
-      (= 0 (.getErrorCode ex))) 
-    (str "The wave name " id " already exists!")    
-    :else
-    "An error has occured while processing the request"))
+  "An error has occured while processing the request")
 
 (defn handle-registration [name pass pass1]
   (if (valid? name pass pass1)

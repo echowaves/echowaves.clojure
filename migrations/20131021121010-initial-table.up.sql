@@ -2,24 +2,19 @@
 -- http://www.bigmarv.net/blog/?p=401
 
 CREATE TABLE images (
-    id integer NOT NULL,
-    waves_id integer NOT NULL,
-    name character varying(100) NOT NULL,
-    created_on timestamp without time zone DEFAULT now() NOT NULL
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    waves_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    created_on TIMESTAMP DEFAULT NOW()
 );
+CREATE INDEX images_index_created_on ON images (created_on);
+CREATE INDEX images_index_waves_id ON images (waves_id);
 
 
 CREATE TABLE waves (
-    id integer NOT NULL,
-    name character varying(100),
-    pass character varying(100),
-    created_on timestamp without time zone DEFAULT now()
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    pass VARCHAR(100),
+    created_on TIMESTAMP DEFAULT NOW()
 );
-
-
-CREATE INDEX images_index_created_on ON images USING btree (created_on);
-
-CREATE INDEX images_index_waves_id ON images USING btree (waves_id);
-
-CREATE INDEX waves_index_created_on ON waves USING btree (created_on);
-
+CREATE INDEX waves_index_created_on ON waves (created_on);
