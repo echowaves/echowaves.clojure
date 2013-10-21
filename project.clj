@@ -33,7 +33,7 @@
          :init echowaves.handler/init
          :destroy echowaves.handler/destroy}
   :ragtime {:migrations ragtime.sql.files/migrations
-            :database "jdbc:mysql://localhost:3306/example_db?user=root"}
+            :database "jdbc:postgresql://localhost/echowaves?user=admin"}
   
   :profiles
   {
