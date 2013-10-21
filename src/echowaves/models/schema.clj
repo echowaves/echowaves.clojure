@@ -4,7 +4,7 @@
 
 (def db-spec
   {:subprotocol "postgresql"
-   :subname (env :pg-db-url) 
+   :Subname (env :pg-db-url) 
    :user (env :pg-db-user)
    :password (env :pg-db-pass)})
 
