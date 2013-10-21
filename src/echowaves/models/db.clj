@@ -2,9 +2,17 @@
   (:require [clojure.java.jdbc :as sql]
             [korma.db :refer [defdb transaction]]
             [korma.core :refer :all]
-            [echowaves.models.schema :as schema]))
+            [environ.core :refer [env]]))
+(use 'korma.db)
 
-(defdb db schema/db-spec)
+(defdb db (mysql {
+                  :host "localhost"
+                  :port "3306"
+                  :delimiters "`"
+                  :db "echowaves"
+                  :user (env :pg-db-user)
+                  :password (env :pg-db-pass)}))
+
 
 ;; (defdb korma-db db)
 

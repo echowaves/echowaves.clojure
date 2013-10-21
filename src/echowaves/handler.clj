@@ -6,7 +6,6 @@
             [echowaves.routes.home :refer [home-routes]]
             [echowaves.routes.upload :refer [upload-routes]]
             [echowaves.routes.wave :refer [wave-routes]]
-            [echowaves.models.schema :as schema]
             [noir.session :as session]
             [taoensso.timbre :as timbre]
             [com.postspectacular.rotor :as rotor]
