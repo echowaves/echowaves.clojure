@@ -32,6 +32,9 @@
   :ring {:handler echowaves.handler/war-handler
          :init echowaves.handler/init
          :destroy echowaves.handler/destroy}
+  :ragtime {:migrations ragtime.sql.files/migrations
+            :database "jdbc:mysql://localhost:3306/example_db?user=root"}
+  
   :profiles
   {
    :production
