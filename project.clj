@@ -7,7 +7,7 @@
                  [compojure "1.1.5"]
                  [hiccup "1.0.4"]
                  [ring-server "0.3.0"]
-                 [postgresql/postgresql "9.1-901.jdbc4"]
+                 [mysql/mysql-connector-java "5.1.6"]
                  [korma "0.3.0-RC5"]
                  [log4j "1.2.15" 
                   :exclusions [javax.mail/mail
@@ -33,21 +33,21 @@
          :init echowaves.handler/init
          :destroy echowaves.handler/destroy}
   :ragtime {:migrations ragtime.sql.files/migrations
-            :database "jdbc:postgresql://localhost/echowaves?user=admin"}
+            :database (str "jdbc:mysql:" (System/getenv "PG_DB_URL") "?user=" (System/getenv "PG_DB_USER") "&password=" (System/getenv "PG_DB_PASS"))}
   
   :profiles
   {
    :production
    {:ring
     {:open-browser? false, :stacktraces? false, :auto-reload? false}
-    :env {:pg-db-url "//localhost/echowaves"
-          :pg-db-user "admin"
+    :env {:pg-db-url "//localhost:3306/echowaves"
+          :pg-db-user "echowaves"
           :pg-db-pass "secret"}}
    :dev
    {:dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.0"]]
-    :env {:pg-db-url "//localhost/echowaves"
-          :pg-db-user "admin"
-          :pg-db-pass "admin4"}}}  
+    :env {:pg-db-url "//localhost:3306/echowaves"
+          :pg-db-user "echowaves"
+          :pg-db-pass "echowaves"}}}  
   :cljsbuild
   {:builds
    {:dev {:source-paths ["src-cljs"]
