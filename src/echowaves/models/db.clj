@@ -10,8 +10,8 @@
                   :port "3306"
                   :delimiters "`"
                   :db "echowaves"
-                  :user (env :pg-db-user)
-                  :password (env :pg-db-pass)}))
+                  :user (env :ew-db-user)
+                  :password (env :ew-db-pass)}))
 
 
 ;; (defdb korma-db db)

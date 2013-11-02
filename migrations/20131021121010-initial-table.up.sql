@@ -1,5 +1,8 @@
 -- mysqladmin -u root -p create echowaves
 -- http://www.bigmarv.net/blog/?p=401
+-- CREATE USER 'echowaves'@'localhost' IDENTIFIED BY 'secret';
+-- GRANT ALL PRIVILEGES ON echowaves.* TO 'echowaves'@'localhost' WITH GRANT OPTION;
+
 
 CREATE TABLE waves (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
