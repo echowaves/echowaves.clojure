@@ -33,21 +33,21 @@
          :init echowaves.handler/init
          :destroy echowaves.handler/destroy}
   :ragtime {:migrations ragtime.sql.files/migrations
-            :database (str "jdbc:mysql:" (System/getenv "PG_DB_URL") "?user=" (System/getenv "PG_DB_USER") "&password=" (System/getenv "PG_DB_PASS"))}
+            :database (str "jdbc:mysql:" (System/getenv "EW_DB_URL") "?user=" (System/getenv "EW_DB_USER") "&password=" (System/getenv "EW_DB_PASS"))}
   
   :profiles
   {
    :production
    {:ring
     {:open-browser? false, :stacktraces? false, :auto-reload? false}
-    :env {:pg-db-url "//localhost:3306/echowaves"
-          :pg-db-user "echowaves"
-          :pg-db-pass "secret"}}
+    :env {:ew-db-url "//localhost:3306/echowaves"
+          :ew-db-user "echowaves"
+          :ew-db-pass "secret"}}
    :dev
    {:dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.0"]]
-    :env {:pg-db-url "//localhost:3306/echowaves"
-          :pg-db-user "echowaves"
-          :pg-db-pass "echowaves"}}}  
+    :env {:ew-db-url "//localhost:3306/echowaves"
+          :ew-db-user "echowaves"
+          :ew-db-pass "echowaves"}}}  
   :cljsbuild
   {:builds
    {:dev {:source-paths ["src-cljs"]
