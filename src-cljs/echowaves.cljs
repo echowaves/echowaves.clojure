@@ -24,7 +24,7 @@
        (map #(.-name %))
        not-empty))
 
-(defn deleteImages [_]    
+(defn deleteImages1 [_]    
   (if-let [selected (find-selected)]
     (POST "/delete" {:params {:names selected}
                      :handler handle-response})
