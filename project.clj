@@ -21,7 +21,7 @@
                  [org.clojure/tools.reader "0.8.2"]
                  [org.clojure/clojurescript "0.0-2120"]
                  [domina "1.0.2"]
-                 [cljs-ajax "0.2.1"]
+                 [cljs-ajax "0.2.3"]
                  [ring-middleware-format "0.3.1"]
                  [environ "0.4.0"]
                  [commons-fileupload "1.3"]
