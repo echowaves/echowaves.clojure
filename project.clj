@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.6"]
                  [hiccup "1.0.4"]
-                 [ring-server "0.3.0"]
+                 [ring-server "0.3.1"]
                  [mysql/mysql-connector-java "5.1.6"]
                  [korma "0.3.0-RC6"]
                  [log4j "1.2.15" 
