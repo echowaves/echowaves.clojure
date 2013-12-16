@@ -26,7 +26,7 @@
                  [environ "0.4.0"]
                  [commons-fileupload "1.3"]
                  [ragtime "0.3.4"]]
-  :plugins [[lein-ring "0.8.7"]
+  :plugins [[lein-ring "0.8.8"]
             [lein-cljsbuild "0.3.2"]
             [lein-environ "0.4.0"]
             [ragtime/ragtime.lein "0.3.4"]]
