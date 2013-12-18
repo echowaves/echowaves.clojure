@@ -16,13 +16,16 @@
 
 ;; (defdb korma-db db)
 
-(declare waves images)
+(declare waves images blends)
 
 (defentity waves
   (has-many images))
 
 (defentity images
   (belongs-to waves))
+
+(defentity blends)
+
 
 (defn create-wave [wave]
   (insert waves (values wave)))
@@ -72,3 +75,18 @@
   ;;         (with waves)
   ;;         (order :created_on :DESC)
   ;;         )) 
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; blending waves
+
+;; first check if the the blending already requested from the aother
+;; side, then simply confirm blending
+
+;; (defn request-blending wave_id1 wave_id2)
+
+
+;; (defn confirm-blending wave_id1 wave_id2)
+;; (defn unblend wave_id1 wave_id2)
+;; (defn get-blended-images wave_id)
