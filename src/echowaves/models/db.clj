@@ -81,17 +81,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
-;; first check if the the blending already requested from the aother
-;; side, then simply confirm blending
-
 (defn request-blending  [wave_id1 wave_id2]
-  (insert blends (values {:wave_id1 wave_id1 :wave_id2 wave_id2}))
-;; catch dulpicate entry exception here
-  )
+  (insert blends (values {:wave_id1 wave_id1 :wave_id2 wave_id2})))
 
 
 (defn confirm-blending [wave_id1 wave_id2]
-  (update blends
+(update blends
           (set-fields {:confirmed_on (sqlfn now)})
           (where {:wave_id1 wave_id1
                   :wave_id2 wave_id2})))
