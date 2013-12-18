@@ -84,9 +84,17 @@
 ;; first check if the the blending already requested from the aother
 ;; side, then simply confirm blending
 
-;; (defn request-blending wave_id1 wave_id2)
+(defn request-blending  [wave_id1 wave_id2]
+  (insert blends (values {:wave_id1 wave_id1 :wave_id2 wave_id2})))
 
 
 ;; (defn confirm-blending wave_id1 wave_id2)
-;; (defn unblend wave_id1 wave_id2)
+
+(defn unblend [wave_id1 wave_id2]
+  (delete blends
+          (where ( or
+                   (and {:wave_id1 wave_id1
+                         :wave_id2 wave_id2})
+                   (and {:wave_id1 wave_id2
+                         :wave_id2 wave_id1})))))
 ;; (defn get-blended-images wave_id)
