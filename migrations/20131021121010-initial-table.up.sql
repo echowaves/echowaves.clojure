@@ -20,6 +20,3 @@ CREATE TABLE images (
 );
 CREATE INDEX images_index_created_on ON images (created_on);
 CREATE INDEX images_index_waves_id ON images (waves_id);
-
-
-
