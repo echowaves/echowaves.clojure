@@ -98,4 +98,26 @@
                          :wave_id2 wave_id2})
                    (and {:wave_id1 wave_id2
                          :wave_id2 wave_id1})))))
+
+(defn blended-with [wave_id]
+  (select waves
+          (fields :id :name)
+          (where (or
+                  ;; select from blends
+                  {:id [in (subselect blends
+                                      (fields :wave_id1)
+                                      (where {:wave_id2 wave_id}))]}
+                  ;; from both sides of blends
+                  {:id [in (subselect blends
+                                      (fields :wave_id2)
+                                      (where {:wave_id1 wave_id}))]}
+                  ;; also select self
+                  {:id [in (subselect waves
+                                      (fields :id)
+                                      (where {:id wave_id}))]}
+                  ))))
+
 ;; (defn get-blended-images wave_id)
+;; (queries
+;; )
+
