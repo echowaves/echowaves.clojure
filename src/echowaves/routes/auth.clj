@@ -18,11 +18,15 @@
 
 (defn valid? [name pass pass1]
   (vali/rule (vali/has-value? name)
-             [:name "wave name is required"])
+             [:name "Wave name is required."])
+  (vali/rule (vali/min-length? name 3)
+             [:name "Wave name must be at least 3 characters."])
+  (vali/rule (vali/max-length? name 50)
+             [:name "Wave name must not be more then 50 characters."])
   (vali/rule (vali/min-length? pass 5)
-             [:pass "password must be at least 5 characters"]) 
+             [:pass "Password must be at least 5 characters."]) 
   (vali/rule (= pass pass1)
-             [:pass "entered passwords do not match"])
+             [:pass "Entered passwords do not match."])
   (not (vali/errors? :name :pass :pass1)))
 
 (defn registration-page [& [name]]
