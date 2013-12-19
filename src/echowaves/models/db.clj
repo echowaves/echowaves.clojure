@@ -118,6 +118,3 @@
                   ))))
 
 ;; (defn get-blended-images wave_id)
-;; (queries
-;; )
-
