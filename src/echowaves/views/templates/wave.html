@@ -5,12 +5,6 @@
 <div id="contentwrap">
   <div id="content">
     <div id="error"></div>     
-    {% ifequal wave page-owner %}
-    <div>
-      <input id="delete" type="submit" value="delete images" />
-    </div>
-    {% endifequal %}
-
     {% for image in images %}
     <div class="thumbnail">
       <a class={{image.name}} href="/img/{{image.name_2}}/{{image.name}}">
@@ -24,6 +18,13 @@
       </a>
     </div>
     {% endfor %}
+
+    {% ifequal wave page-owner %}
+    <div>
+      <input id="delete" type="submit" value="delete selected images" />
+    </div>
+    {% endifequal %}
+
     <br style="clear:both"/>
   </div>
 </div>
