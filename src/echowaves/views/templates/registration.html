@@ -1,8 +1,14 @@
 {% extends "echowaves/views/templates/base.html" %}
-{% block menu %}
-{% endblock %} 
 {% block content %}
-<div id="sign_up_content">	   
-  {% include "echowaves/views/templates/t_registration_form.html" %}
+<div id="contentwrap">
+  <div id="content">
+    Correct errors and try again
+  </div>
 </div>
+<div id="rightcolumnwrap">
+  <div id="rightcolumn">
+    {% include "echowaves/views/templates/t_registration_form.html" %}
+  </div>
+</div>
+
 {% endblock %}

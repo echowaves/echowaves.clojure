@@ -1,27 +1,38 @@
 {% extends "echowaves/views/templates/base.html" %}
 
 {% block content %}
-<div class="echowaves">
-   <div id="error"></div>     
-   <div>		
-   {% for image in images %}
-      <div class="thumbnail">
-         <a class={{image.name}} href="/img/{{image.name_2}}/{{image.name}}">
-            <img src="{{context}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"/>
-            {% ifequal wave page-owner %}
-            <input id="{{image.name}}" 
-                   name="{{image.name}}"
-                   type="checkbox" 
-                   value="true" />
-            {% endifequal %}
-         </a>
-      </div>
-      {% endfor %}
-      {% ifequal wave page-owner %}
+
+<div id="contentwrap">
+  <div id="content">
+    <div id="error"></div>     
+    {% ifequal wave page-owner %}
+    <div>
       <input id="delete" type="submit" value="delete images" />
-      {% endifequal %}
-   </div>
+    </div>
+    {% endifequal %}
+
+    {% for image in images %}
+    <div class="thumbnail">
+      <a class={{image.name}} href="/img/{{image.name_2}}/{{image.name}}">
+        <img src="{{context}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"/>
+        {% ifequal wave page-owner %}
+        <input id="{{image.name}}" 
+               name="{{image.name}}"
+               type="checkbox" 
+               value="true" />
+        {% endifequal %}
+      </a>
+    </div>
+    {% endfor %}
+    <br style="clear:both"/>
+  </div>
 </div>
+<!-- <div id="rightcolumnwrap"> -->
+<!--   <div id="rightcolumn"> -->
+<!--     {% include "echowaves/views/templates/t_registration_form.html" %} -->
+<!--   </div> -->
+<!-- </div> -->
+
 {% endblock %}
 
 {% block scripts %}
