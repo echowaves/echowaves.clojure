@@ -175,7 +175,7 @@ body {
 #content {
     padding: 10px;
     background: #eeeeee;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #b5c5b5;
     margin: 5px;
     padding: 10px;
@@ -192,7 +192,7 @@ body {
 
 #rightcolumn {
     background: #eeeeee;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #c5b5c5;
     margin: 5px;
     padding: 10px;
@@ -211,7 +211,7 @@ body {
 #footer {
     height: 15px;
     background: #c9c9c9;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #b5b5b5;
     margin: 5px;
     padding: 10px;
