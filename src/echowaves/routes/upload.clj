@@ -18,7 +18,7 @@
            java.awt.image.AffineTransformOp
            javax.imageio.ImageIO))
 
-(def thumb-size 150)
+(def thumb-size 300)
 
 (defn scale [img ratio width height]  
   (let [scale        (AffineTransform/getScaleInstance 
