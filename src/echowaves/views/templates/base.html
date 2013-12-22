@@ -6,7 +6,6 @@
       var context = "{{context}}";
     </script>
     <script type="text/javascript">
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-3129031-8']);
       _gaq.push(['_trackPageview']);
@@ -16,8 +15,9 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-
     </script>
+    <script src="{{context}}/js/jquery-2.0.3.min.js"></script>
+    <script src="{{context}}/js/select2.min.js"></script>
   </head>
   <body>
     {% block menu %}
