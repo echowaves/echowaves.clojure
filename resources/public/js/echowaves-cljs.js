@@ -35632,7 +35632,7 @@ goog.require("domina");
 goog.require("goog.dom");
 goog.require("goog.dom");
 blends.init = function init() {
-  return domina.events.listen_BANG_.call(null, domina.by_id.call(null, "delete"), new cljs.core.Keyword(null, "click", "click", 1108654330), blends.deleteImages);
+  return domina.events.listen_BANG_.call(null, domina.by_id.call(null, "blends"), new cljs.core.Keyword(null, "click", "click", 1108654330), blends.deleteImages);
 };
 goog.exportSymbol("blends.init", blends.init);
 goog.provide("echowaves");
