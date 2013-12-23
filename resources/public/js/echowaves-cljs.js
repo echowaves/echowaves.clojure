@@ -29874,11 +29874,11 @@ goog.require("domina.css");
 goog.require("domina");
 goog.require("domina.css");
 goog.require("domina");
-site.rgb_str = function rgb_str(p__6552) {
-  var vec__6554 = p__6552;
-  var r = cljs.core.nth.call(null, vec__6554, 0, null);
-  var g = cljs.core.nth.call(null, vec__6554, 1, null);
-  var b = cljs.core.nth.call(null, vec__6554, 2, null);
+site.rgb_str = function rgb_str(p__6525) {
+  var vec__6527 = p__6525;
+  var r = cljs.core.nth.call(null, vec__6527, 0, null);
+  var g = cljs.core.nth.call(null, vec__6527, 1, null);
+  var b = cljs.core.nth.call(null, vec__6527, 2, null);
   return[cljs.core.str("rgb("), cljs.core.str(r), cljs.core.str(","), cljs.core.str(g), cljs.core.str(","), cljs.core.str(b), cljs.core.str(")")].join("");
 };
 site.set_color = function set_color(style, foreground, background) {
@@ -29889,66 +29889,16 @@ site.img_url = function img_url(div) {
   return domina.attr.call(null, domina.css.sel.call(null, div, "img"), "src");
 };
 site.set_colors = function set_colors(div) {
-  return(new AlbumColors(site.img_url.call(null, div))).getColors(function(p__6557) {
-    var vec__6558 = p__6557;
-    var background = cljs.core.nth.call(null, vec__6558, 0, null);
-    var _ = cljs.core.nth.call(null, vec__6558, 1, null);
-    var foreground = cljs.core.nth.call(null, vec__6558, 2, null);
+  return(new AlbumColors(site.img_url.call(null, div))).getColors(function(p__6530) {
+    var vec__6531 = p__6530;
+    var background = cljs.core.nth.call(null, vec__6531, 0, null);
+    var _ = cljs.core.nth.call(null, vec__6531, 1, null);
+    var foreground = cljs.core.nth.call(null, vec__6531, 2, null);
     return site.set_color.call(null, div.style, foreground, background);
   });
 };
 site.init = function init() {
-  var seq__6563 = cljs.core.seq.call(null, domina.nodes.call(null, domina.by_class.call(null, "thumbnail")));
-  var chunk__6564 = null;
-  var count__6565 = 0;
-  var i__6566 = 0;
-  while (true) {
-    if (i__6566 < count__6565) {
-      var div = cljs.core._nth.call(null, chunk__6564, i__6566);
-      site.set_colors.call(null, div);
-      var G__6567 = seq__6563;
-      var G__6568 = chunk__6564;
-      var G__6569 = count__6565;
-      var G__6570 = i__6566 + 1;
-      seq__6563 = G__6567;
-      chunk__6564 = G__6568;
-      count__6565 = G__6569;
-      i__6566 = G__6570;
-      continue;
-    } else {
-      var temp__4092__auto__ = cljs.core.seq.call(null, seq__6563);
-      if (temp__4092__auto__) {
-        var seq__6563__$1 = temp__4092__auto__;
-        if (cljs.core.chunked_seq_QMARK_.call(null, seq__6563__$1)) {
-          var c__4113__auto__ = cljs.core.chunk_first.call(null, seq__6563__$1);
-          var G__6571 = cljs.core.chunk_rest.call(null, seq__6563__$1);
-          var G__6572 = c__4113__auto__;
-          var G__6573 = cljs.core.count.call(null, c__4113__auto__);
-          var G__6574 = 0;
-          seq__6563 = G__6571;
-          chunk__6564 = G__6572;
-          count__6565 = G__6573;
-          i__6566 = G__6574;
-          continue;
-        } else {
-          var div = cljs.core.first.call(null, seq__6563__$1);
-          site.set_colors.call(null, div);
-          var G__6575 = cljs.core.next.call(null, seq__6563__$1);
-          var G__6576 = null;
-          var G__6577 = 0;
-          var G__6578 = 0;
-          seq__6563 = G__6575;
-          chunk__6564 = G__6576;
-          count__6565 = G__6577;
-          i__6566 = G__6578;
-          continue;
-        }
-      } else {
-        return null;
-      }
-    }
-    break;
-  }
+  return null;
 };
 goog.exportSymbol("site.init", site.init);
 goog.provide("goog.events.EventTarget");

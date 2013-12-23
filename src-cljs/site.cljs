@@ -18,6 +18,7 @@
       (set-color (.-style div) foreground background))))
 
 (defn ^:export init [] 
-  (doseq [div (nodes (by-class "thumbnail"))]  
-    (set-colors div)))
+  ;; (doseq [div (nodes (by-class "thumbnail"))]  
+  ;;   (set-colors div))
+  )
 
