@@ -220,10 +220,6 @@ body {
     -webkit-box-shadow: 2px 2px 3px -1px #222;    
 }
 
-#blends_wrapper {
-    width: 100%
-}
-
 
 #unconfirmed-blends {
     background: #c9c9c9;
