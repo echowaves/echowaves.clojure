@@ -126,7 +126,9 @@
 ;; blends requested by wave_id, and wating to be confirmed by other waves
 (defn unconfirmed-blends [wave_id]
   (select blends
+          (fields :waves.id :waves.name)
           (where {:wave_id1 wave_id
-                  :confirmed_on nil})))
+                  :confirmed_on nil})
+          (join waves (= :waves.id :wave_id2))))
 
 ;; (defn get-blended-images [wave_id])
