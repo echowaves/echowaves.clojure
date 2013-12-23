@@ -17,5 +17,5 @@
 
 
 (defroutes blends-routes
-  (GET "/blended-with" []
+  (GET "/blended-with.json" []
        (restricted (handle-blended-with)) ))
