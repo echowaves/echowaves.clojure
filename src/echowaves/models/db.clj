@@ -106,15 +106,27 @@
                   ;; select from blends
                   {:id [in (subselect blends
                                       (fields :wave_id1)
-                                      (where {:wave_id2 wave_id}))]}
+                                      (where (and (= :wave_id2 wave_id)
+                                                  (not= :confirmed_on nil))))]}
                   ;; from both sides of blends
                   {:id [in (subselect blends
                                       (fields :wave_id2)
-                                      (where {:wave_id1 wave_id}))]}
+                                      (where (and (= :wave_id1 wave_id)
+                                                  (not= :confirmed_on nil))))]}
                   ;; also select self
-                  {:id [in (subselect waves
-                                      (fields :id)
-                                      (where {:id wave_id}))]}
+                  ;; {:id [in (subselect waves
+                  ;;                     (fields :id)
+                  ;;                     (where {:id wave_id}))]}
                   ))))
+;; blends requests sent to wave_id, and waiting to be confirmed by wave_id
+(defn requested-blends [wave_id]
+    (select blends
+          (where {:wave_id2 wave_id
+                  :confirmed_on nil})))
+;; blends requested by wave_id, and wating to be confirmed by other waves
+(defn unconfirmed-blends [wave_id]
+  (select blends
+          (where {:wave_id1 wave_id
+                  :confirmed_on nil})))
 
 ;; (defn get-blended-images wave_id)
