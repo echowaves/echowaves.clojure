@@ -6,6 +6,7 @@
             [echowaves.routes.home :refer [home-routes]]
             [echowaves.routes.upload :refer [upload-routes]]
             [echowaves.routes.wave :refer [wave-routes]]
+            [echowaves.routes.blends :refer [blends-routes]]
             [noir.session :as session]
             [taoensso.timbre :as timbre]
             [com.postspectacular.rotor :as rotor]
@@ -46,6 +47,7 @@
            home-routes
            upload-routes
            wave-routes
+           blends-routes
            app-routes]
           :middleware [wrap-restful-format]
           :access-rules [wave-page]))
