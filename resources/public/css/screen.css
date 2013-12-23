@@ -223,3 +223,11 @@ body {
 #blends_wrapper {
     width: 100%
 }
+
+
+#unconfirmed-blends {
+    background: #c9c9c9;
+}
+.my-blends {
+    font-size:75%;
+}

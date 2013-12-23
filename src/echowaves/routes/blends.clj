@@ -14,8 +14,18 @@
 (defn handle-blended-with []
   (let [wave (db/get-wave (session/get :wave))]
     (noir.response/json (db/blended-with (:id wave)))))
+(defn handle-requiested-blends []
+  (let [wave (db/get-wave (session/get :wave))]
+    (noir.response/json (db/requested-blends (:id wave)))))
+(defn handle-unconfirmed-blends []
+  (let [wave (db/get-wave (session/get :wave))]
+    (noir.response/json (db/unconfirmed-blends (:id wave)))))
 
 
 (defroutes blends-routes
   (GET "/blended-with.json" []
-       (restricted (handle-blended-with)) ))
+       (restricted (handle-blended-with)) )
+  (GET "/requested-blends.json" []
+       (restricted (handle-requiested-blends)) )
+  (GET "/unconfirmed-blends.json" []
+       (restricted (handle-unconfirmed-blends)) ))

@@ -120,7 +120,7 @@
                   ))))
 ;; blends requests sent to wave_id, and waiting to be confirmed by wave_id
 (defn requested-blends [wave_id]
-    (select blends
+  (select blends
           (where {:wave_id2 wave_id
                   :confirmed_on nil})))
 ;; blends requested by wave_id, and wating to be confirmed by other waves
@@ -129,4 +129,4 @@
           (where {:wave_id1 wave_id
                   :confirmed_on nil})))
 
-;; (defn get-blended-images wave_id)
+;; (defn get-blended-images [wave_id])
