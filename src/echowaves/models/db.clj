@@ -133,4 +133,13 @@
                   :confirmed_on nil})
           (join waves (= :waves.id :wave_id2))))
 
+;; autocomplete waves names
+(defn autocomplete-wave-name [wave_name]
+  (select waves
+          (fields :id :name)
+          (where (like :name (str "%" wave_name "%")))
+          (order :name :ASC)
+          (limit 10))
+  )
+
 ;; (defn get-blended-images [wave_id])
