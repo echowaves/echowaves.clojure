@@ -24,16 +24,17 @@
   (info "autocompleting: " term)
   (noir.response/json (db/autocomplete-wave-name term)))
 (defn handle-request-blending [wave_name]
+  (info "requesting blending for: " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
-        wave2 ((db/get-wave wave_name))]
+        wave2 (db/get-wave wave_name)]
     (noir.response/json (db/request-blending (:id wave1) (:id wave2)))))
 (defn handle-confirm-blending [wave_name]
   (let [wave1 (db/get-wave (session/get :wave))
-        wave2 ((db/get-wave wave_name))]
+        wave2 (db/get-wave wave_name)]
     (noir.response/json (db/confirm-blending (:id wave1) (:id wave2)))))
 (defn handle-unblend [wave_name]
   (let [wave1 (db/get-wave (session/get :wave))
-        wave2 ((db/get-wave wave_name))]
+        wave2 (db/get-wave wave_name)]
     (noir.response/json (db/unblend (:id wave1) (:id wave2)))))
 
 (defroutes blends-routes
