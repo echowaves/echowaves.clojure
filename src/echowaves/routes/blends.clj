@@ -20,8 +20,9 @@
 (defn handle-unconfirmed-blends []
   (let [wave (db/get-wave (session/get :wave))]
     (noir.response/json (db/unconfirmed-blends (:id wave)))))
-(defn handle-autocomplete-wave-name [wave_name]
-  (noir.response/json (db/autocomplete-wave-name wave_name)))
+(defn handle-autocomplete-wave-name [term]
+  (info "autocompleting: " term)
+  (noir.response/json (db/autocomplete-wave-name term)))
 
 
 (defroutes blends-routes
@@ -31,5 +32,5 @@
        (restricted (handle-requiested-blends)) )
   (GET "/unconfirmed-blends.json" []
        (restricted (handle-unconfirmed-blends)) )
-  (GET "/autocomplete-wave-name.json" [wave_name]
-       (restricted (handle-autocomplete-wave-name wave_name)) ))
+  (GET "/autocomplete-wave-name.json" [term]
+       (restricted (handle-autocomplete-wave-name term)) ))
