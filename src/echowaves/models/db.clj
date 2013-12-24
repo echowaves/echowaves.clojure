@@ -136,7 +136,8 @@
 ;; autocomplete waves names
 (defn autocomplete-wave-name [wave_name]
   (select waves
-          (fields :id :name)
+          (fields  [:name :label])
+          ;; must return :label :value pair for autocomplete to work
           (where (like :name (str "%" wave_name "%")))
           (order :name :ASC)
           (limit 10))

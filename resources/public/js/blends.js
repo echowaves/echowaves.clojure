@@ -26,17 +26,15 @@ $.getJSON( "/unconfirmed-blends.json", function( data ) {
 
 
 $(function() {
-    function log( message ) {
+    function complete_selection( message ) {
         $( "<div>" ).text( message ).prependTo( "#log" );
-        $( "#log" ).scrollTop( 0 );
     }
-    
     $( "#wave_name" ).autocomplete({
         source: "/autocomplete-wave-name.json",
         minLength: 2,
         select: function( event, ui ) {
-            log( ui.item ?
-                 "Selected: " + ui.item.value + " aka " + ui.item.id :
+            complete_selection( ui.item ?
+                 "Selected: " + ui.item.label :
                  "Nothing selected, input was " + this.value );
         }
     });
