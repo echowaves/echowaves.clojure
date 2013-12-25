@@ -2,7 +2,9 @@
   (:require [clojure.java.jdbc :as sql]
             [korma.db :refer [defdb transaction]]
             [korma.core :refer :all]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [taoensso.timbre 
+             :refer [trace debug info warn error fatal]]))
 (use 'korma.db)
 
 (defdb db (mysql {
@@ -81,15 +83,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
-(defn request-blending  [wave_id1 wave_id2]
-  (insert blends (values {:wave_id1 wave_id1 :wave_id2 wave_id2})))
-
-
 (defn confirm-blending [wave_id1 wave_id2]
-(update blends
+  (debug "confirm-blending " wave_id1 wave_id2)
+  (update blends
           (set-fields {:confirmed_on (sqlfn now)})
           (where {:wave_id1 wave_id1
-                  :wave_id2 wave_id2})))
+                  :wave_id2 wave_id2}))
+  (update blends
+          (set-fields {:confirmed_on (sqlfn now)})
+          (where {:wave_id1 wave_id2
+                  :wave_id2 wave_id1})))
+
+(defn request-blending  [wave_id1 wave_id2]
+  (debug "confirming blending" wave_id1 wave_id2)
+  (if-not (= wave_id1 wave_id2) 
+    (do
+      (if (> (count (select blends (where {:wave_id1 wave_id2
+                                             :wave_id2 wave_id1}))
+                      ) 0)
+        (confirm-blending wave_id1 wave_id2)
+        (insert blends (values {:wave_id1 wave_id1 :wave_id2 wave_id2}))))))
 
 (defn unblend [wave_id1 wave_id2]
   (delete blends
