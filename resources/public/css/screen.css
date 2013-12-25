@@ -225,7 +225,9 @@ body {
     background: #c9c9c9;
 }
 .my-blends {
-    font-size:75%;
+    font-size:15;
+    margin: 5px;
+    padding: 5px;
 }
 
 .ui-autocomplete-loading {
