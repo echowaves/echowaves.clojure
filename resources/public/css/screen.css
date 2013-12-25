@@ -235,3 +235,13 @@ body {
     background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
 }
 
+/* hover over menues */
+.trigger ul.menu
+{
+    display: none;
+}
+.trigger:hover ul.menu
+{
+    display: block;
+}
+/* --------------------------- */
