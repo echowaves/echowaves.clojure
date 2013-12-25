@@ -228,6 +228,7 @@ body {
     font-size:15;
     margin: 5px;
     padding: 5px;
+    border-radius: 5px;
 }
 
 .ui-autocomplete-loading {
