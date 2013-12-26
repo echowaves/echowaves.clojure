@@ -11,7 +11,6 @@
       (if (= "ok" status)
         (-> (by-id name)
             (.-parentNode)
-            (.-parentNode)
             (dom/removeNode))
         (.append errors (str "<li>failed to remove " name ": " status "</li>"))))
     (let [error-str (str "<ul>" (.toString errors) "</ul>")]

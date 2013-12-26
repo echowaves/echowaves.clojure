@@ -35594,7 +35594,7 @@ echowaves.handle_response = function handle_response(response) {
       var status_6530 = cljs.core.get.call(null, map__6522_6529__$1, new cljs.core.Keyword(null, "status", "status", 4416389988));
       var name_6531 = cljs.core.get.call(null, map__6522_6529__$1, new cljs.core.Keyword(null, "name", "name", 1017277949));
       if (cljs.core._EQ_.call(null, "ok", status_6530)) {
-        goog.dom.removeNode(domina.by_id.call(null, name_6531).parentNode.parentNode);
+        goog.dom.removeNode(domina.by_id.call(null, name_6531).parentNode);
       } else {
         errors.append([cljs.core.str("\x3cli\x3efailed to remove "), cljs.core.str(name_6531), cljs.core.str(": "), cljs.core.str(status_6530), cljs.core.str("\x3c/li\x3e")].join(""));
       }
@@ -35628,7 +35628,7 @@ echowaves.handle_response = function handle_response(response) {
           var status_6545 = cljs.core.get.call(null, map__6523_6544__$1, new cljs.core.Keyword(null, "status", "status", 4416389988));
           var name_6546 = cljs.core.get.call(null, map__6523_6544__$1, new cljs.core.Keyword(null, "name", "name", 1017277949));
           if (cljs.core._EQ_.call(null, "ok", status_6545)) {
-            goog.dom.removeNode(domina.by_id.call(null, name_6546).parentNode.parentNode);
+            goog.dom.removeNode(domina.by_id.call(null, name_6546).parentNode);
           } else {
             errors.append([cljs.core.str("\x3cli\x3efailed to remove "), cljs.core.str(name_6546), cljs.core.str(": "), cljs.core.str(status_6545), cljs.core.str("\x3c/li\x3e")].join(""));
           }
