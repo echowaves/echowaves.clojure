@@ -10,13 +10,15 @@
       <a class={{image.name}} href="/img/{{image.name_2}}/{{image.name}}">
         <img src="{{context}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"
         onload="this.width/=2;"/>
-        {% ifequal wave page-owner %}
-        <input id="{{image.name}}" 
-               name="{{image.name}}"
-               type="checkbox" 
-               value="true" />
-        {% endifequal %}
       </a>
+      <br/>
+      {% ifequal image.name_2 page-owner %}
+      <input id="{{image.name}}" 
+             name="{{image.name}}"
+             type="checkbox" 
+             value="true" />
+      {% endifequal %}
+      <span>{{image.name_2}}</span>
     </div>
     {% endfor %}
     <br style="clear:both"/>

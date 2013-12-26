@@ -56,7 +56,7 @@
       (Exception. "you have already uploaded an image with the same name"))))))
 
 (declare blended-with)
-(defn images-by-wave [wave_name]
+(defn images-by-wave-blended [wave_name]
   (let [wave (first(select waves
                            (fields :id)
                            (where {:name wave_name})
@@ -67,9 +67,24 @@
             (with waves)
             (order :id :DESC))))
 
+(defn images-by-wave [wave_name]
+  (let [wave (first(select waves
+                           (fields :id)
+                           (where {:name wave_name})
+                           (limit 1)))]
+    (select images
+            (where {:waves_id (:id wave)})
+            (with waves)
+            (order :id :DESC))))
+
 
 (defn delete-image [wave_name name]
-  (delete images (where  {:name name}))) 
+  (let [wave (first(select waves
+                           (fields :id)
+                           (where {:name wave_name})
+                           (limit 1)))]
+    (delete images (where {:name name
+                           :waves_id (:id wave)})))) 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
