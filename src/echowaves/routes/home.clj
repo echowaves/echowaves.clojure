@@ -8,8 +8,7 @@
 
 (defn home [] 
   (layout/render "home.html"
-                 {:thumb-prefix thumb-prefix                  
-                  :echowaves (db/get-echowaves-previews)}))
+                 {:thumb-prefix thumb-prefix}))
 
 (defroutes home-routes
   (GET "/" []

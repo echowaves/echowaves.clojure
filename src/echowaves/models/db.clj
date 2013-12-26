@@ -54,30 +54,22 @@
                              :name name}))
      (throw 
       (Exception. "you have already uploaded an image with the same name"))))))
-                           
+
+(declare blended-with)
 (defn images-by-wave [wave_name]
-  (select images
-          (where {:waves_id [in (subselect waves
-                                           (fields :id)
-                                           (where {:name wave_name}))]})
-          (with waves)
-          (order :created_on :DESC)
-          ))
+  (let [wave (first(select waves
+                           (fields :id)
+                           (where {:name wave_name})
+                           (limit 1)))]
+    (select images
+            (where (or {:waves_id (:id wave)}
+                       {:waves_id [in (map :id (blended-with (:id wave)))]}))
+            (with waves)
+            (order :id :DESC))))
+
 
 (defn delete-image [wave_name name]
-  (delete images (where  {:name name} ))) 
-
-(defn get-echowaves-previews []
-  nil
-  )
-  ;; (select images
-  ;;         (where {:waves_id [in (subselect waves
-  ;;                                          (fields :id)
-  ;;                                          )]})
-  ;;         (with waves)
-  ;;         (order :created_on :DESC)
-  ;;         )) 
-
+  (delete images (where  {:name name}))) 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -131,6 +123,7 @@
                   ;;                     (fields :id)
                   ;;                     (where {:id wave_id}))]}
                   ))))
+
 ;; blends requests sent to wave_id, and waiting to be confirmed by wave_id
 (defn requested-blends [wave_id]
   (select blends
