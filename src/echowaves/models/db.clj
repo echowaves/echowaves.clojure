@@ -65,7 +65,8 @@
             (where (or {:waves_id (:id wave)}
                        {:waves_id [in (map :id (blended-with (:id wave)))]}))
             (with waves)
-            (order :id :DESC))))
+            (order :id :DESC)
+            (limit 100))))
 
 (defn images-by-wave [wave_name]
   (let [wave (first(select waves
