@@ -35,7 +35,7 @@ label {
     box-shadow:         4px 4px 6px -1px #222;        
     -moz-box-shadow:    4px 4px 6px -1px #222;
     -webkit-box-shadow: 4px 4px 6px -1px #222;    
-    /* background: #000000; */
+    background: #e0e0f0;
     display: -moz-inline-stack;
     display: inline-block;
     vertical-align: top;
