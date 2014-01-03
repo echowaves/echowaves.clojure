@@ -66,7 +66,7 @@
                        {:waves_id [in (map :id (blended-with (:id wave)))]}))
             (with waves)
             (order :name :DESC)
-            ;; (limit 100)
+            (limit 100)
             )))
 
 (defn images-by-wave [wave_name]

@@ -4,24 +4,106 @@
 <div id="contentwrap">
   <div id="content">
     {% if not wave %}
-    <h2>follow 3 simple steps:</h2>
-    <h3>  1. create your wave</h3>
-    <h3>  2. download an iPhone app</h3>
+    <h2>To get started follow simple steps:</h2>
+    <img src="/i/h_right.png" width="500" align="right">
+    <br>
+    <h3>1. create your wave</h3>
+    <br>
+
+    <h3>2. download an iPhone app</h3>
     <pre>     
       <a href="https://itunes.apple.com/us/app/echowaves/id782010386">https://itunes.apple.com/us/app/echowaves/id782010386</a>
     </pre>
-    <h3>  3. start waving</h3>
-    <!--p>Here are some recent waves:</p-->
+    <h3>3. start waving on echowaves iPhone app</h3>
+    <img src="/i/h_start_waving.png" width="275" align="left">
+    <img src="/i/h_waving_started.png" width="200">
+    <br>
+    <br>
+    <h3>4. start taking pictures with your iPhone camera</h3>
+    <img src="/i/h_use_cam.png" width="230">
+    <br>
+    <br>
+
+    <h3>5. switch back to echowaves app on your iPhone (doble-tap home button)</h3>
+    <img src="/i/h_switch_to_echowaves.png" height="200">
+    <br>
+    <br>
+    <h3>6. the app will
+      immidiately start pushing pictures taken while waving was
+      turned on</h3>
+    <img src="/i/h_uploading.png" width="200">
+    <br>
+    <br>
+    <h3>7. see your pictures on echowaves.com web site</h3>
+    <br>
+    <h3>8. blend your wave with other waves -- this is how you share</h3>
+    <br>
+
+
+    <hr>
+    <h1>Echowaves facts:</h1>
+    <h2>Echowaves is not your typical social network:</h2>
+    <p>While there are plenty of social networks in existance, we felt
+      that non of them does exctly what we want -- so the echowaves was
+      born.</p>
+    <p>Actually, all of social networks these days try to do everything and, as a
+    result, they do not do a specific thing very well.</p>
+    <p>We strive to keep echowaves simple, secure and reliable.</p>
+
+    <h2>Echowaves is Micro Photo Blogging:</h2>
+    <p>Take pictures with your phone, as many as you want, where ever you
+      go, what ever you do -- just keep snapping. We strongly believe --
+      it's much easier to snap a picture, than to type a 140
+      characters to tell your story.
+    </p>
+    <h2>Echowaves respects your privacy:</h2>
+    <p>We strongly believe that your privacy is what you should be in
+      control, not your social network. As such, it's crucial to keep
+      things simple from the beginning.</p>
+    <p>
+      In echowaves nothing happens by default -- if you are sending a
+      blending request to other wave -- it must always we confirmed.
+      Only when both waves agree to blend -- only then the blending
+      relationship will be established.</p>
+    <p>Every modern social network sends out tons of email (spam) -- except
+      for echowaves. Echowaves does not even asks you for your email
+      address when you register a wave -- because we strongly believe,
+      that knowing your email address reveils too much personal
+      information about you, so we avoid it.</p>
+
+    <h2>Echowaves metaphor:</h2>
+    <p>It helps to think about echowaves as a metaphor. This is very
+      simple, yet -- very strong metaphor. Here is how the metaphor
+      corresponds to the terms you maybe more familier with:</p>
     
-    {% for wave in echowaves %}
-    <div class="thumbnail">
-      <a href="{{context}}/wave/{{wave.wave_name}}">
-        <img 
-           src="{{context}}/img/{{wave.wave_name}}/{{thumb-prefix}}{{wave.image_name}}"/>
-      </a>
-    </div>
-    {% endfor %}
+    <h3>Account == Wave</h3>
+    <h3>Stream of messages == EchoWave</h3>
+    <h3>Sharing == Blending</h3>
+    <h3>Waving == telling your story with pictures taken on your
+    iPhone</h3>
     
+    <p>
+      Echowaves is instant -- there is no quicker way to share a
+      photo stream, than to snap a bunch of pictures on your iPhone,
+      then switch to echowaves application to have them natuarally
+      flow over to your wave.</p>
+    
+    <p>Over time echowave fades out (just like a real wave, or like
+    an echo) -- you can only see 100 last
+    pictures in your echowave.</p>
+
+                                             
+    <h2>Echowaves is still very young:</h2>
+    <p>Echowaves is running in test drive mode -- early adopter's
+    feedback is highly appreciated.</p>
+    <p>Send your thougts to dmitry@echowaves.com</p>
+
+    <h2>Echowaves has future:</h2>
+    <p>Our vision is that echowaves will eventually have only mobile
+    phone user inteface -- bear with us...</p>
+    
+    <h1>Happy waving!</h1>
+
     {% else %}
     show my wave  
     {% endif %} 
