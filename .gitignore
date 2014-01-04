@@ -14,5 +14,6 @@ pom.xml
 .nrepl-port
 nohup.out
 error.log
+logger.log
 .lein-repl-history
 \#*#
