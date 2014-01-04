@@ -10,7 +10,9 @@
             [noir.session :as session]
             [taoensso.timbre :as timbre]
             [com.postspectacular.rotor :as rotor]
-            [ring.middleware.format :refer [wrap-restful-format]]))
+            [ring.middleware.format :refer [wrap-restful-format]]
+            [taoensso.timbre 
+             :refer [trace debug info warn error fatal]]))
 
 (defn info-appender [{:keys [level message]}]
   (println "level:" level "message:" message))
@@ -26,8 +28,8 @@
 
   (timbre/set-config!
    [:shared-appender-config :rotor]
-   {:path "error.log" :max-size (* 512 1024) :backlog 10})
-
+   {:path "logger.log" :max-size (* 512 1024) :backlog 10})
+  (timbre/set-level! :debug)
   (timbre/info "echowaves started successfully")
   )
 
@@ -42,6 +44,13 @@
 (defn wave-page [_]
   (session/get :wave))
 
+
+(defn simple-logging-middleware [app]
+  (fn [req]
+    (debug req)
+    (app req)))
+
+
 (def app (noir-middleware/app-handler
           [auth-routes
            home-routes
@@ -52,4 +61,4 @@
           :middleware [wrap-restful-format]
           :access-rules [wave-page]))
 
-(def war-handler (noir-middleware/war-handler app))
+(def war-handler (noir-middleware/war-handler (simple-logging-middleware app)))
