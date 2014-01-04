@@ -29,7 +29,7 @@
   (timbre/set-config!
    [:shared-appender-config :rotor]
    {:path "logger.log" :max-size (* 512 1024) :backlog 10})
-  (timbre/set-level! :debug)
+  (timbre/set-level! :info)
   (timbre/info "echowaves started successfully")
   )
 

@@ -78,7 +78,6 @@
   (GET "/upload" [info] (upload-page {:info info}))
   
   (POST "/upload" [file] 
-        (restricted (handle-upload file))
-        )
+        (restricted (handle-upload file)))
   
   (POST "/delete" [names] (restricted (delete-images names))))
