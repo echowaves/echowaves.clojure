@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]        
             [ring.mock.request :refer :all]
             [noir.util.crypt :refer [encrypt]]
-            [echowaves.handler :refer :all]))
+            [echowaves.handler :refer :all]
+            [noir.util.test :as ntest]))
 
 (defn mock-get-wave [name]
   (if (= name "foo") 
@@ -26,3 +27,10 @@
       (is 
         (-> (request :post "/login" {:name "bar" :pass "12345"}) 
           app :headers (get "Set-Cookie") empty?)))))
+
+(deftest test-signup-validation
+  (testing "signup validation successfull"
+    (is
+     (echowaves.routes.auth/valid? "dmitry" "dmitry" "dmitry"))
+    )
+  )
