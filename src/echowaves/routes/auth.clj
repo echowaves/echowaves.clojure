@@ -1,5 +1,5 @@
 (ns echowaves.routes.auth
-  (:require [compojure.core :refer [defroutes GET POST]]
+  (:require [compojure.core :refer [defroutes GET POST PUT]]
             [echowaves.views.layout :as layout]            
             [noir.session :as session]
             [noir.response :as resp]
@@ -42,6 +42,7 @@
 (defn format-error [id ex]
   "An error has occured while processing the request")
 
+;; toberemoved
 (defn handle-registration [name pass pass1]
   (if (valid? name pass pass1)
     (try        
@@ -53,6 +54,18 @@
         (vali/rule false [:name (format-error name ex)])
         (registration-page)))
     (registration-page name)))
+
+(defn handle-registration-json [name pass pass1]
+  (if (valid? name pass pass1)
+    (try        
+      (db/create-wave {:name name :pass (crypt/encrypt pass)})      
+      (session/put! :wave name)
+      (create-waves-path)
+      (noir.response/json {:wave name})
+      (catch Exception ex
+        (noir.response/status 412
+         (noir.response/json (vali/rule false [:name (format-error name ex)])))))))
+
 
 (defn handle-login [name pass]
   (let [wave (db/get-wave name)] 
@@ -79,9 +92,13 @@
 (defroutes auth-routes 
   (GET "/register" [] 
        (registration-page))
-  
+
+  ;; toberemoved  
   (POST "/register" [name pass pass1] 
         (handle-registration name pass pass1))
+
+  (PUT "/register.json" [name pass pass1] 
+        (handle-registration-json name pass pass1))
   
   (POST "/login" [name pass] 
         (handle-login name pass))
