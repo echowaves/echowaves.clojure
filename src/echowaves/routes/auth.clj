@@ -1,5 +1,5 @@
 (ns echowaves.routes.auth
-  (:require [compojure.core :refer [defroutes GET POST PUT]]
+  (:require [compojure.core :refer [defroutes GET POST]]
             [echowaves.views.layout :as layout]            
             [noir.session :as session]
             [noir.response :as resp]
@@ -8,7 +8,10 @@
             [echowaves.models.db :as db]
             [echowaves.util :refer [session-wave-path]]
             [echowaves.routes.upload :refer [delete-image]]
-            [noir.util.route :refer [restricted]])
+            [noir.util.route :refer [restricted]]
+            [taoensso.timbre 
+             :refer [trace debug info warn error fatal]]
+            )
   (:import java.io.File))
 
 (defn create-waves-path []
@@ -56,6 +59,7 @@
     (registration-page name)))
 
 (defn handle-registration-json [name pass pass1]
+  (info "handle-registration-json" name pass pass1)
   (if (valid? name pass pass1)
     (try        
       (db/create-wave {:name name :pass (crypt/encrypt pass)})      
@@ -63,8 +67,15 @@
       (create-waves-path)
       (noir.response/json {:wave name})
       (catch Exception ex
-        (noir.response/status 412
-         (noir.response/json (vali/rule false [:name (format-error name ex)])))))))
+        (info "error" ex)
+        (noir.response/status 409 (noir.response/json {:error "Duplicate wave name."}))))
+    ;; validation errors here
+    (do
+      (info "error happened")
+      (noir.response/status 412 (noir.response/json {"error1" "error2"})) )
+    ))
+
+;;(vali/rule false [:name (format-error name ex)])
 
 
 (defn handle-login [name pass]
@@ -97,7 +108,7 @@
   (POST "/register" [name pass pass1] 
         (handle-registration name pass pass1))
 
-  (PUT "/register.json" [name pass pass1] 
+  (POST "/register.json" [name pass pass1] 
         (handle-registration-json name pass pass1))
   
   (POST "/login" [name pass] 
