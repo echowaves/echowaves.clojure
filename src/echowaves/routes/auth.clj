@@ -72,17 +72,24 @@
     ;; validation errors here
     (do
       (info "errors happened:" (vali/get-errors))
-      (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})) )
+      (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})))
     ))
 
-;;(vali/rule false [:name (format-error name ex)])
-
-
+;; toberemoved
 (defn handle-login [name pass]
   (let [wave (db/get-wave name)] 
     (if (and wave (crypt/compare pass (:pass wave)))
       (session/put! :wave name)))
   (resp/redirect "/"))
+
+(defn handle-login-json [name pass]
+  (let [wave (db/get-wave name)] 
+    (if (and wave (crypt/compare pass (:pass wave)))
+      (do
+        (session/put! :wave name)
+        (noir.response/json {:wave name}))
+      (noir.response/status 401 (noir.response/json {:error "Wrong wave or password, try again."})))))
+
 
 (defn handle-logout []
   (session/clear!)
@@ -110,15 +117,22 @@
 
   (POST "/register.json" [name pass pass1] 
         (handle-registration-json name pass pass1))
-  
+
+  ;; toberemoved    
   (POST "/login" [name pass] 
         (handle-login name pass))
 
+  (POST "/login.json" [name pass] 
+        (handle-login-json name pass))
+
+  ;; toberemoved  
   (GET "/logout" [] 
        (handle-logout))
   
+  ;; toberemoved
   (GET "/delete-wave" [] 
        (restricted (delete-wave-page)))
   
+  ;; toberemoved
   (POST "/confirm-delete" [] 
         (restricted (handle-confirm-delete))))

@@ -47,18 +47,19 @@
 
 (defn simple-logging-middleware [app]
   (fn [req]
-    (debug req)
+    ;; (debug req)
+    (info req)
     (app req)))
 
 
 (def app (noir-middleware/app-handler
-          [auth-routes
-           home-routes
-           upload-routes
-           wave-routes
-           blends-routes
-           app-routes]
-          :middleware [wrap-restful-format]
-          :access-rules [wave-page]))
+           [auth-routes
+            home-routes
+            upload-routes
+            wave-routes
+            blends-routes
+            app-routes]
+           :middleware [wrap-restful-format]
+           :access-rules [wave-page]))
 
 (def war-handler (noir-middleware/war-handler (simple-logging-middleware app)))
