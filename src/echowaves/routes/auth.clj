@@ -71,8 +71,8 @@
         (noir.response/status 409 (noir.response/json {:error "Duplicate wave name."}))))
     ;; validation errors here
     (do
-      (info "error happened")
-      (noir.response/status 412 (noir.response/json {"error1" "error2"})) )
+      (info "errors happened:" (vali/get-errors))
+      (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})) )
     ))
 
 ;;(vali/rule false [:name (format-error name ex)])
