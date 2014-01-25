@@ -86,14 +86,20 @@
   (let [wave (db/get-wave name)] 
     (if (and wave (crypt/compare pass (:pass wave)))
       (do
+        (info "tuninig in: " session/get)
         (session/put! :wave name)
         (noir.response/json {:wave name}))
       (noir.response/status 401 (noir.response/json {:error "Wrong wave or password, try again."})))))
 
-
+;; toberemoved
 (defn handle-logout []
   (session/clear!)
   (resp/redirect "/"))
+
+(defn handle-logout-json []
+  (info "tuninig out: " session/get)
+  (session/clear!)
+  (noir.response/json {:status "tunedOut"}))
 
 (defn delete-wave-page []  
   (layout/render "deleteWave.html"))
@@ -128,7 +134,10 @@
   ;; toberemoved  
   (GET "/logout" [] 
        (handle-logout))
-  
+
+  (POST "/logout.json" [] 
+       (handle-logout-json))
+
   ;; toberemoved
   (GET "/delete-wave" [] 
        (restricted (delete-wave-page)))

@@ -47,8 +47,8 @@
 
 (defn simple-logging-middleware [app]
   (fn [req]
-    ;; (debug req)
-    (info req)
+    (debug req)
+    ;; (info req)
     (app req)))
 
 
