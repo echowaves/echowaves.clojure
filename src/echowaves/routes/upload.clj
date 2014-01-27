@@ -18,7 +18,7 @@
            java.awt.image.AffineTransformOp
            javax.imageio.ImageIO))
 
-(def thumb-size 300)
+(def thumb-size 600)
 
 (defn scale [img ratio width height]  
   (let [scale        (AffineTransform/getScaleInstance 
@@ -31,7 +31,7 @@
   (let [img        (ImageIO/read file)
         img-width  (.getWidth img)
         img-height (.getHeight img)]
-    (let [ratio (/ thumb-size img-height)]        
+    (let [ratio (/ thumb-size img-width)]        
       (scale img ratio (int (* img-width ratio)) thumb-size))))
 
 (defn save-thumbnail [{:keys [filename]}]
