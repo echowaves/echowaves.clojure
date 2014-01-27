@@ -31,7 +31,7 @@
   (let [img        (ImageIO/read file)
         img-width  (.getWidth img)
         img-height (.getHeight img)]
-    (let [ratio (/ thumb-size img-width)]        
+    (let [ratio (/ thumb-size img-height)]        
       (scale img ratio (int (* img-width ratio)) thumb-size))))
 
 (defn save-thumbnail [{:keys [filename]}]
