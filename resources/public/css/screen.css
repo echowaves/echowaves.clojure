@@ -25,6 +25,40 @@ label {
 	color: red;
 }
 
+.step-container {
+    margin: 20px 20px 0 0;  
+    overflow: hidden;
+    width: 100%;
+}
+
+.step-image img {
+    padding: 2px;
+    margin: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
+    box-shadow: 4px 4px 6px -1px #222;
+    -moz-box-shadow: 4px 4px 6px -1px #222;
+    -webkit-box-shadow: 4px 4px 6px -1px #222;
+    background: #e0e0f0;
+    display: -moz-inline-stack;
+    display: inline-block;
+
+
+    float: left;
+    clear:left;
+}
+.step-text {    
+    width: 65%;
+    float:right;
+    font-weight: bold;
+    font-size: 25;
+    clear:right;
+    font-family: Comic Sans MS, cursive, sans-serif;
+}
+
+
+
 .thumbnail {
     float:left;
     padding: 2px;
@@ -63,7 +97,7 @@ label {
 .menuitem {    
     color: #D1F0DA;
     font-size: 15px;
-	font-weight:bold;
+    font-weight:bold;
 	
     float: left;
     list-style: none;        
