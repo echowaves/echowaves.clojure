@@ -44,14 +44,13 @@ label {
     display: -moz-inline-stack;
     display: inline-block;
 
-
     float: left;
     clear:left;
 }
 .step-text {    
     width: 65%;
     float:right;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 25;
     clear:right;
     font-family: Comic Sans MS, cursive, sans-serif;
