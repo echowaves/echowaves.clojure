@@ -59,7 +59,7 @@ label {
 
 
 .thumbnail {
-    float:left;
+    /* float:left; */
     padding: 2px;
     margin: 3px;
     border-style:solid;
