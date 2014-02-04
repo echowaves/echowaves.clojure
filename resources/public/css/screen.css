@@ -72,7 +72,7 @@ label {
     display: -moz-inline-stack;
     display: inline-block;
     vertical-align: top;
-    min-height: 170px;
+    /* min-height: 170px; */
 }
 
 /* .content { */
