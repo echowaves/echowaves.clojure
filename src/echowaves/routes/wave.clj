@@ -3,14 +3,26 @@
             [echowaves.views.layout :as layout]
             [echowaves.util :refer [thumb-prefix]]
             [echowaves.models.db :as db]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [noir.util.route :refer [restricted]]))
 
-(defn display-wave [wave_name]
-  (layout/render "wave.html"
+(defn display-wave []
+  (let [wave_name (session/get :wave)]
+    (layout/render "wave.html"
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
-                  :images       (db/images-by-wave-blended wave_name)}))
+                  :images       (db/images-by-wave-blended wave_name)})))
+
+
+(defn display-wave-json []
+  (let [wave_name (session/get :wave)] 
+    (noir.response/json (db/images-by-wave-blended wave_name))))
+
 
 (defroutes wave-routes
-  (GET "/wave/:wave_name" [wave_name]
-       (display-wave wave_name)))
+  (GET "/wave" []
+       (restricted(display-wave)))
+  (GET "/wave.json" []
+       (restricted(display-wave-json))))
+
+

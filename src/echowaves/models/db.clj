@@ -64,7 +64,8 @@
     (select images
             (where (or {:waves_id (:id wave)}
                        {:waves_id [in (map :id (blended-with (:id wave)))]}))
-            (with waves)
+            (with waves
+                  (fields :name :created_on))
             (order :name :DESC)
             (limit 100)
             )))
