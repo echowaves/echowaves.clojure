@@ -74,10 +74,9 @@
     (resp/edn
      (for [name names] {:name name :status (delete-image wave_name name)}))))
 
-;; (defn handle-delete-image [name]
-;;   (let [wave_name (session/get :wave)]
-;;     (resp/json
-;;       (for [name names] {:name name :status (delete-image wave_name name)}))))
+(defn handle-delete-image [name]
+  (let [wave_name (session/get :wave)]
+    (resp/json {:name name :status (delete-image wave_name name)})))
 
 (defroutes upload-routes
   (GET "/upload" [info] (upload-page {:info info}))
@@ -86,5 +85,4 @@
         (restricted (handle-upload file)))
   
   (POST "/delete" [names] (restricted (delete-images names)))
-  ;; (POST "/delete-image.json" [name] (restricted (handle-delete-image name)))
-  )
+  (POST "/delete-image.json" [name] (restricted (handle-delete-image name))))
