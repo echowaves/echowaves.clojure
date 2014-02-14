@@ -27,21 +27,18 @@
 (defn handle-request-blending [wave_name]
   (debug "requesting blending for: " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
-        wave2 (db/get-wave wave_name)]
-    (db/request-blending (:id wave1) (:id wave2))
-    (noir.response/json {:status "OK"})))
+        wave2 (db/get-wave wave_name)]    
+    (noir.response/json {:status (db/request-blending (:id wave1) (:id wave2))})))
 (defn handle-confirm-blending [wave_name]
   (debug "confirming blending " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
         wave2 (db/get-wave wave_name)]
-    (db/confirm-blending (:id wave1) (:id wave2))
-    (noir.response/json {:status "OK"})))
+    (noir.response/json {:status (db/confirm-blending (:id wave1) (:id wave2))})))
 (defn handle-unblend [wave_name]
   (debug "unblending: " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
         wave2 (db/get-wave wave_name)]
-    (db/unblend (:id wave1) (:id wave2))
-    (noir.response/json {:status "OK"})))
+    (noir.response/json {:status (db/unblend (:id wave1) (:id wave2))})))
 
 (defroutes blends-routes
   (GET "/blended-with.json" []
