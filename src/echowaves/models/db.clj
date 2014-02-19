@@ -36,34 +36,34 @@
   (first (select waves
                  (where {:name name})
                  (limit 1))))
-                 
+
+(defn get-wave-id [name]
+  (:id (first (select waves
+                 (:fields :id)
+                 (where {:name name})
+                 (limit 1)))))
+
 (defn delete-wave [name]
   (delete waves (where {:name name})))  
 
 (defn add-image [wave_name name]  
   (transaction
-   (let [wave (first(select waves
-                            (fields :id)
-                            (where {:name wave_name})
-                            (limit 1)))]
+   (let [wave-id (get-wave-id wave_name)]
      (if (empty? (select images 
-                         (where {:waves_id (:id wave)
+                         (where {:waves_id wave-id
                                  :name name})
                          (limit 1)))
-     (insert images (values {:waves_id (:id wave)
+     (insert images (values {:waves_id wave-id
                              :name name}))
      (throw 
       (Exception. "you have already uploaded an image with the same name"))))))
 
 (declare blended-with)
 (defn images-by-wave-blended [wave_name]
-  (let [wave (first(select waves
-                           (fields :id)
-                           (where {:name wave_name})
-                           (limit 1)))]
+  (let [wave-id (get-wave-id wave_name)]
     (select images
-            (where (or {:waves_id (:id wave)}
-                       {:waves_id [in (map :id (blended-with (:id wave)))]}))
+            (where (or {:waves_id wave-id}
+                       {:waves_id [in (map :id (blended-with wave-id))]}))
             (with waves
                   (fields :name :created_on))
             (order :name :DESC)
@@ -71,23 +71,17 @@
             )))
 
 (defn images-by-wave [wave_name]
-  (let [wave (first(select waves
-                           (fields :id)
-                           (where {:name wave_name})
-                           (limit 1)))]
+  (let [wave-id (get-wave-id wave_name)]
     (select images
-            (where {:waves_id (:id wave)})
+            (where {:waves_id wave-id})
             (with waves)
             (order :id :DESC))))
 
 
 (defn delete-image [wave_name name]
-  (let [wave (first(select waves
-                           (fields :id)
-                           (where {:name wave_name})
-                           (limit 1)))]
+  (let [wave-id (get-wave-id wave_name)]
     (delete images (where {:name name
-                           :waves_id (:id wave)})))) 
+                           :waves_id wave-id}))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
