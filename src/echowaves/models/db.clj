@@ -28,8 +28,7 @@
 
 (defentity blends)
 
-(defentity ios_tokens
-  (belongs-to waves))
+(defentity ios_tokens)
 
 (defn get-wave-id [name]
   (:id (first (select waves
