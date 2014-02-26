@@ -75,6 +75,11 @@
       (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})))
     ))
 
+(defn handle-registration-ios-token-json [name token]
+  (debug "handle-registration-ios-token-json" name token)
+  (db/create-ios-token name token)
+  (noir.response/json {:OK "Token created"}))
+
 ;; toberemoved
 (defn handle-login [name pass]
   (let [wave (db/get-wave name)] 
@@ -123,6 +128,8 @@
 
   (POST "/register.json" [name pass pass1] 
         (handle-registration-json name pass pass1))
+  (POST "/register-ios-token.json" [name token] 
+        (handle-registration-ios-token-json name token))
 
   ;; toberemoved    
   (POST "/login" [name pass] 
@@ -142,6 +149,8 @@
   (GET "/delete-wave" [] 
        (restricted (delete-wave-page)))
   
-  ;; toberemoved
+  ;; Toberemoved
   (POST "/confirm-delete" [] 
-        (restricted (handle-confirm-delete))))
+        (restricted (handle-confirm-delete)))
+
+  )

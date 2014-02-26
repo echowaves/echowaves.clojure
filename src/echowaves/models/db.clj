@@ -28,20 +28,32 @@
 
 (defentity blends)
 
+(defentity ios_tokens
+  (belongs-to waves))
+
+(defn get-wave-id [name]
+  (:id (first (select waves
+                 (fields :id)
+                 (where {:name name})
+                 (limit 1)))))
 
 (defn create-wave [wave]
   (insert waves (values wave)))
+
+(defn create-ios-token [name token]
+  (let [wave-id (get-wave-id name)]
+    (if (= (count (select ios_tokens (where {:waves_id wave-id
+                                             :token token}))
+                      ) 0)
+      (insert ios_tokens (values {:waves_id wave-id :token token})))
+    ))
 
 (defn get-wave [name]
   (first (select waves
                  (where {:name name})
                  (limit 1))))
 
-(defn get-wave-id [name]
-  (:id (first (select waves
-                 (:fields :id)
-                 (where {:name name})
-                 (limit 1)))))
+
 
 (defn delete-wave [name]
   (delete waves (where {:name name})))  
