@@ -6,6 +6,7 @@
             [noir.response :as resp]            
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
+            [echowaves.util :as util]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
             [noir.util.route :refer [restricted]]            )
@@ -27,7 +28,11 @@
 (defn handle-request-blending [wave_name]
   (debug "requesting blending for: " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
-        wave2 (db/get-wave wave_name)]    
+        wave2 (db/get-wave wave_name)]
+    (util/send-push-notification
+     (str (:name wave2) " wants to blend with " (:name wave1))
+     0
+     (db/get-blended-tokens (:name wave2)))
     (noir.response/json {:status (db/request-blending (:id wave1) (:id wave2))})))
 (defn handle-confirm-blending [wave_name]
   (debug "confirming blending " wave_name)
