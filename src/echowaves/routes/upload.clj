@@ -58,7 +58,7 @@
         {:image
          (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}
         
-        ;; (util/send-push-notification "New image posted"  (db/get-blended-tokens (session/get :wave)))
+        (util/send-push-notification "New image posted!"  (db/get-blended-tokens (session/get :wave)))
         
         
         (catch Exception ex 
