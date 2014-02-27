@@ -31,7 +31,7 @@
         wave2 (db/get-wave wave_name)]
     (util/send-push-notification
      (str (:name wave1) " wants to blend with " (:name wave2))
-     (str 0) 
+     (str 1) 
      (db/get-tokens-for-wave (:name wave2)))
     (noir.response/json {:status (db/request-blending (:id wave1) (:id wave2))})))
 (defn handle-confirm-blending [wave_name]
