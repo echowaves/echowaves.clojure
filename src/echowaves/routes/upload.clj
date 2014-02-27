@@ -56,11 +56,7 @@
         (save-thumbnail file)
         (db/add-image (session/get :wave) (:filename file))        
         {:image
-         (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}
-        
-        ;; (util/send-push-notification "New image posted!"  (db/get-blended-tokens (session/get :wave)))
-        
-        
+         (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}        
         (catch Exception ex 
           {:error (str "error uploading file: " (.getMessage ex))})))))
 

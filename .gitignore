@@ -13,7 +13,7 @@ pom.xml
 .settings/ccw.repl.cmdhistory.prefs
 .nrepl-port
 nohup.out
-error.log
-logger.log
+error.log*
+logger.log*
 .lein-repl-history
 \#*#

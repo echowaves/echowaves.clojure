@@ -1,6 +1,7 @@
 (ns echowaves.util
   (:require [noir.io :refer [resource-path]]
-            [noir.session :as session])
+            [noir.session :as session]
+            [environ.core :refer [env]])
   (:import java.io.File))
 
 (def thumb-prefix "thumb_")
@@ -16,8 +17,11 @@
 ;;   (random-string 255))
 
 
-(defn send-push-notification [message tokens]
-  (let [cert "/home/ec2-user/certificates/EWPush-dev.p12"
-        prod false]
-    (javapns.Push/sound "default" cert "EWPush" prod tokens)
-    (javapns.Push/alert message cert "EWPush" prod tokens)))
+(defn send-push-notification [message badge tokens]
+  (javapns.Push/combined message
+                         badge
+                         "default"
+                         (env :ew-push-cert)
+                         (env :ew-push-cert-pass)
+                         (boolean (Boolean/valueOf (env :ew-push-prod)))
+                         tokens))

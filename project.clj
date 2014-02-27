@@ -44,12 +44,18 @@
     {:open-browser? false, :stacktraces? false, :auto-reload? false}
     :env {:ew-db-url "//localhost:3306/echowaves"
           :ew-db-user "echowaves"
-          :ew-db-pass "secret"}}
+          :ew-db-pass "secret"
+          :ew-push-cert "EWPush-dev.p12"
+          :ew-push-cert-pass "password"
+          :ew-push-prod false}}
    :dev
    {:dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.0"]]
     :env {:ew-db-url "//localhost:3306/echowaves"
           :ew-db-user "echowaves"
-          :ew-db-pass "echowaves"}}}  
+          :ew-db-pass "echowaves"
+          :ew-push-cert "EWPush-dev.p12"
+          :ew-push-cert-pass "password"
+          :ew-push-prod false}}}  
   :cljsbuild
   {:builds
    {:dev {:source-paths ["src-cljs"]
