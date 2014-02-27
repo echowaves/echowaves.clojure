@@ -61,10 +61,11 @@
           {:error (str "error uploading file: " (.getMessage ex))})))))
 
 (defn handle-push-notify [wave_name badge]
-  (.start (Thread. (fn [] (util/send-push-notification
-                          (str badge " new images in " wave_name)
-                          badge
-                          (db/get-blended-tokens (session/get :wave))))))
+  (util/send-push-notification
+   (str badge " new images in " wave_name)
+   badge
+   (db/get-blended-tokens (session/get :wave)))
+  ;; (.start (Thread. (fn [] )))
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]
