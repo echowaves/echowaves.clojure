@@ -19,7 +19,7 @@
 
 (defn send-push-notification [message badge tokens]
   (javapns.Push/combined message
-                         badge
+                         (read-string badge)
                          "default"
                          (env :ew-push-cert)
                          (env :ew-push-cert-pass)
