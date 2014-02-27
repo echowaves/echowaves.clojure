@@ -184,3 +184,12 @@
           (where {:waves_id [in (get-blended-ids wave_name)]})
           ))
   )
+
+(defn get-tokens-for-wave [wave_name]
+  (mapv (fn [y] (:token y))
+        (select ios_tokens
+          (with waves)
+          (fields :token)
+          (where {:waves_id (get-wave-id wave_name)})
+          ))
+  )
