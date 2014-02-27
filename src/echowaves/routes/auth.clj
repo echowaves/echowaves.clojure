@@ -151,6 +151,4 @@
   
   ;; Toberemoved
   (POST "/confirm-delete" [] 
-        (restricted (handle-confirm-delete)))
-
-  )
+        (restricted (handle-confirm-delete))))

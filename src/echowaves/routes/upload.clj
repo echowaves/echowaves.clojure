@@ -60,6 +60,13 @@
         (catch Exception ex 
           {:error (str "error uploading file: " (.getMessage ex))})))))
 
+(defn handle-push-notify [badge]
+  (.start (Thread. (fn [] (util/send-push-notification
+                          (str badge " new images")
+                          badge
+                          (db/get-blended-tokens (session/get :wave))))))
+  (resp/json {:status "OK"}))
+
 (defn delete-image [wave_name name]
   (try
     (db/delete-image wave_name name)
@@ -84,6 +91,8 @@
   
   (POST "/upload" [file] 
         (restricted (handle-upload file)))
+  (POST "/send-push-notify.json" [badge] 
+        (restricted (handle-push-notify badge)))
   
   (POST "/delete" [names] (restricted (delete-images names)))
   (POST "/delete-image.json" [name] (restricted (handle-delete-image name))))
