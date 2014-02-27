@@ -9,6 +9,7 @@
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
             [echowaves.util :refer [session-wave-path thumb-prefix]]
+            [echowaves.util :as util]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]])
   (:import [java.io File FileInputStream FileOutputStream]
@@ -22,7 +23,7 @@
 
 (defn scale [img ratio width height]  
   (let [scale        (AffineTransform/getScaleInstance 
-                       (double ratio) (double ratio))
+                      (double ratio) (double ratio))
         transform-op (AffineTransformOp. 
                        scale AffineTransformOp/TYPE_BILINEAR)]    
     (.filter transform-op img (BufferedImage. width height (.getType img)))))
@@ -53,9 +54,13 @@
           (str File/separator "img" File/separator (session/get :wave) File/separator)
           file)
         (save-thumbnail file)
-        (db/add-image (session/get :wave) (:filename file))
+        (db/add-image (session/get :wave) (:filename file))        
         {:image
          (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}
+        
+        (util/send-push-notification "New image posted"  (db/get-blended-tokens (session/get :wave)))
+        
+        
         (catch Exception ex 
           {:error (str "error uploading file: " (.getMessage ex))})))))
 

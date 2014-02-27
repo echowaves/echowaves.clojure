@@ -19,7 +19,7 @@
   (javapns.Push/alert "New images posted!" "/Users/dmitry/certificates/EWPush-dev.p12" "EWPush" false ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
   )
 (defn pushbadge []
-  (javapns.Push/badge 101 "/Users/dmitry/certificates/EWPush-dev.p12" "EWPush" false ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
+  (javapns.Push/badge 0 "/Users/dmitry/certificates/EWPush-dev.p12" "EWPush" false ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
   )
 (defn pushsound []
   (javapns.Push/sound "default" "/Users/dmitry/certificates/EWPush-dev.p12" "EWPush" false ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])

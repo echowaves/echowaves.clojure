@@ -14,3 +14,10 @@
 
 ;; (defn generate-token []
 ;;   (random-string 255))
+
+
+(defn send-push-notification [message tokens]
+  (let [cert "/home/ec2-user/certificates/EWPush-dev.p12"
+        prod false]
+    (javapns.Push/sound "default" cert "EWPush" prod tokens)
+    (javapns.Push/alert message cert "EWPush" prod tokens)))

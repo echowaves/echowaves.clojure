@@ -28,7 +28,8 @@
 
 (defentity blends)
 
-(defentity ios_tokens)
+(defentity ios_tokens
+  (belongs-to waves))
 
 (defn get-wave-id [name]
   (:id (first (select waves
@@ -172,4 +173,14 @@
           (limit 10))
   )
 
-;; (defn get-blended-images [wave_id])
+(defn get-blended-ids [wave_name]
+   (mapv (fn [y] (:id y))  (blended-with (get-wave-id wave_name))))
+
+(defn get-blended-tokens [wave_name]
+  (mapv (fn [y] (:token y))
+        (select ios_tokens
+          (with waves)
+          (fields :token)
+          (where {:waves_id [in (get-blended-ids wave_name)]})
+          ))
+  )
