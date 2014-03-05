@@ -1,5 +1,6 @@
 (ns echowaves.models.db
   (:require [clojure.java.jdbc :as sql]
+            [clojure.string :as str]
             [korma.db :refer [defdb transaction]]
             [korma.core :refer :all]
             [environ.core :refer [env]]
@@ -168,7 +169,7 @@
   (select waves
           (fields  [:name :label])
           ;; must return :label :value pair for autocomplete to work
-          (where (like :name (str "%" wave_name "%")))
+          (where (like (raw "LOWER(name)")  (str "%" (str/lower-case wave_name) "%")))
           (order :name :ASC)
           (limit 10))
   )
