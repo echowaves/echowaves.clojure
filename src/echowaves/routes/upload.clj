@@ -62,7 +62,7 @@
 
 (defn handle-push-notify [wave_name badge]
   (util/send-push-notification
-   (str badge " new images in " wave_name)
+   (str "new images in wave: " wave_name)
    badge
    (db/get-blended-tokens (session/get :wave)))
   ;; (.start (Thread. (fn [] )))
