@@ -73,14 +73,16 @@
 
 (declare blended-with)
 (defn images-by-wave-blended [wave_name]
-  (let [wave-id (get-wave-id wave_name)]
+  (let [wave-id (get-wave-id wave_name)
+        blended-with-map (map :id (blended-with wave-id))]
+    
     (select images
             (where (or {:waves_id wave-id}
-                       {:waves_id [in (map :id (blended-with wave-id))]}))
+                       {:waves_id [in (map :id blended-with-map)]}))
             (with waves
                   (fields :name :created_on))
             (order :name :DESC)
-            (limit 100)
+            (limit (* 100 (count blended-with-map)))
             )))
 
 (defn images-by-wave [wave_name]
