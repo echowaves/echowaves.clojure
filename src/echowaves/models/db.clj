@@ -78,7 +78,7 @@
     
     (select images
             (where (or {:waves_id wave-id}
-                       {:waves_id [in (map :id blended-with-map)]}))
+                       {:waves_id [in blended-with-map]}))
             (with waves
                   (fields :name :created_on))
             (order :name :DESC)
