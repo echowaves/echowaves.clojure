@@ -22,7 +22,9 @@
 (declare waves images blends)
 
 (defentity waves
-  (has-many images))
+  (has-many images)
+  ;; (belongs-to wave {:fk :parent_wave_id})
+  )
 
 (defentity images
   (belongs-to waves))
