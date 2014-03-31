@@ -19,11 +19,13 @@
 
 ;; (defdb korma-db db)
 
-(declare waves child-waves images blends)
+
+
+(declare waves child_waves images blends)
 
 (defentity waves
   (has-many images)
-  (has-many child-waves))
+  (has-many child_waves))
 
 (defentity child_waves
   (table :waves)

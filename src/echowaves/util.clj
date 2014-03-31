@@ -1,7 +1,8 @@
 (ns echowaves.util
   (:require [noir.io :refer [resource-path]]
             [noir.session :as session]
-            [environ.core :refer [env]])
+            [environ.core :refer [env]]
+            [aws.sdk.s3 :as s3])
   (:import java.io.File))
 
 (def thumb-prefix "thumb_")
@@ -25,3 +26,8 @@
                          (env :ew-push-cert-pass)
                          (boolean (Boolean/valueOf (env :ew-push-prod)))
                          tokens))
+
+(def aws-cred {:access-key (env :ew-aws-access-key)
+               :secret-key (env :ew-aws-secret-key)})
+
+(def aws-bucket-name (env :ew-aws-bucket-name))

@@ -27,7 +27,7 @@
                  [ragtime "0.3.4"]
                  [org.clojars.gzeureka/javapns "2.2"]
                  [bouncycastle/bcprov-jdk16-nosign "140"]
-                 ]
+                 [clj-aws-s3 "0.3.8"]]
   :plugins [[lein-ring "0.8.8"]
             [lein-cljsbuild "1.0.1"]
             [lein-environ "0.4.0"]
@@ -48,7 +48,10 @@
           :ew-db-pass "secret"
           :ew-push-cert "EWPush-dev.p12"
           :ew-push-cert-pass "password"
-          :ew-push-prod false}}
+          :ew-push-prod false
+          :ew-aws-access-key "..."
+          :ew-aws-secret-key "..."
+          :ew-aws-bucket-name "..."}}
    :dev
    {:dependencies [[ring-mock "0.1.5"] [ring/ring-devel "1.2.0"]]
     :env {:ew-db-url "//localhost:3306/echowaves"
@@ -56,7 +59,10 @@
           :ew-db-pass "echowaves"
           :ew-push-cert "EWPush-dev.p12"
           :ew-push-cert-pass "password"
-          :ew-push-prod false}}}  
+          :ew-push-prod false
+          :ew-aws-access-key "..."
+          :ew-aws-secret-key "..."
+          :ew-aws-bucket-name "..."}}}  
   :cljsbuild
   {:builds
    {:dev {:source-paths ["src-cljs"]
