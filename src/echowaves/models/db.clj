@@ -64,7 +64,10 @@
 
 
 (defn delete-wave [name]
-  (delete waves (where {:name name})))  
+  (let [wave-id (get-wave-id name)]
+    (delete waves (where {:id wave-id}))
+    (delete blends (where {:wave_id1 wave-id}))
+    (delete blends (where {:wave_id2 wave-id}))))  
 
 (defn add-image [wave_name name]  
   (transaction
