@@ -48,6 +48,9 @@
 (defn create-wave [wave]
   (insert waves (values wave)))
 
+(defn create-child-wave [wave]
+  (insert waves (values wave)))
+
 (defn create-ios-token [name token]
   (let [wave-id (get-wave-id name)]
     (if (= (count (select ios_tokens (where {:waves_id wave-id

@@ -19,7 +19,7 @@
     (if-not (.exists wave-path) (.mkdir wave-path))
     (str (.getAbsolutePath wave-path) File/separator)))
 
-(defn valid? [name pass pass1]
+(defn valid_wave_name? [name]
   (vali/rule (vali/has-value? name)
              [:name "Wave name is required."])
   (vali/rule (re-matches #"^[a-zA-Z0-9-_]+$" name)
@@ -27,7 +27,10 @@
   (vali/rule (vali/min-length? name 3)
              [:name "Wave name must be at least 3 characters."])
   (vali/rule (vali/max-length? name 50)
-             [:name "Wave name must not be more then 50 characters."])
+             [:name "Wave name must not be more then 50 characters."]))
+
+(defn valid? [name pass pass1]
+  (valid_wave_name? name)
   (vali/rule (vali/min-length? pass 5)
              [:pass "Password must be at least 5 characters."])
   (vali/rule (vali/max-length? pass 50)
