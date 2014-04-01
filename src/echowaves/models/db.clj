@@ -29,7 +29,7 @@
 
 (defentity child_waves
   (table :waves)
-  (has-many images)
+  ;; (has-many images)
   (belongs-to waves {:fk :parent_wave_id}))
 
 
@@ -87,6 +87,7 @@
       (Exception. "you have already uploaded an image with the same name"))))))
 
 (declare blended-with)
+
 (defn images-by-wave-blended [wave_name]
   (let [wave-id (get-wave-id wave_name)
         blended-with-map (map :id (blended-with wave-id))]

@@ -8,6 +8,7 @@
             [noir.util.route :refer [restricted]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
+            [environ.core :refer [env]]
             [echowaves.routes.auth :as auth]))
 
 (defn display-wave []
@@ -15,6 +16,7 @@
     (layout/render "wave.html"
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
+                  :aws-bucket   (env :ew-aws-bucket-name)
                   :images       (db/images-by-wave-blended wave_name)})))
 
 
