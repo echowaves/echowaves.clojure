@@ -48,6 +48,14 @@
   (.delete (File. (str path thumb-prefix filename)))
   )
 
+
+(defn aws-delete-image [file wave]
+  (info "................deleting " "img/" wave "/" file)
+  (s3/delete-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" file))  
+  (s3/delete-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)))
+  )
+
+
 (defn aws-upload [path file wave]
   (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" file) (File. (str path file)) )
   (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)) (File. (str path thumb-prefix file) ) )
@@ -93,14 +101,15 @@
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]
-  ;; (try
-  ;;   (db/delete-image wave_name name)
-  ;;   (io/delete-file (str (session-wave-path) name))
-  ;;   (io/delete-file (str (session-wave-path) thumb-prefix name))
-  ;;   "ok"
-  ;;   (catch Exception ex
-  ;;     (error ex "an error has occured while deleting" name)
-  ;;     (.getMessage ex)))
+  (try
+    (future (do
+              (aws-delete-image name wave_name)
+              ))
+    (db/delete-image wave_name name)
+    "ok"
+    (catch Exception ex
+      (error ex "an error has occured while deleting" name)
+      (.getMessage ex)))
   )
 
 (defn delete-images [names]
@@ -109,7 +118,7 @@
      (for [name names] {:name name :status (delete-image wave_name name)}))))
 
 (defn handle-delete-image [name]
-  (let [wave_name (session/get :wave)]
+  (let [wave_name (session/get :wave)]    
     (resp/json {:name name :status (delete-image wave_name name)})))
 
 (defroutes upload-routes
