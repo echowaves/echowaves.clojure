@@ -66,12 +66,12 @@
              rand-path (str (resource-path) File/separator "img" File/separator rnd-str File/separator)]
          (.mkdir (File. rand-path))
          (noir.io/upload-file (str File/separator "img" File/separator rnd-str File/separator) file)
-         (save-thumbnail rand-path (:filename file))
-         (db/add-image (session/get :wave) (:filename file))
          (future (do
+                   (save-thumbnail rand-path (:filename file))
                    (aws-upload rand-path (:filename file) (session/get :wave))
                    (cleanup-files rand-path (:filename file))
                    (.delete (File. rand-path))
+                   (db/add-image (session/get :wave) (:filename file))
                    ))
          ;; (shutdown-agents)
          
