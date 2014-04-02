@@ -6,18 +6,21 @@
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [session-wave-path]]
+            ;; [echowaves.util :refer [session-wave-path]]
             [echowaves.routes.upload :refer [delete-image]]
             [noir.util.route :refer [restricted]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
+            [aws.sdk.s3 :as s3]
+            [echowaves.util :as u]
             )
-  (:import java.io.File))
+  ;; (:import java.io.File)
+  )
 
-(defn create-waves-path []
-  (let [wave-path (File. (session-wave-path))]
-    (if-not (.exists wave-path) (.mkdir wave-path))
-    (str (.getAbsolutePath wave-path) File/separator)))
+;; (defn create-waves-path []
+;;   (let [wave-path (File. (session-wave-path))]
+;;     (if-not (.exists wave-path) (.mkdir wave-path))
+;;     (str (.getAbsolutePath wave-path) File/separator)))
 
 (defn valid_wave_name? [name]
   (vali/rule (vali/has-value? name)
@@ -54,7 +57,7 @@
     (try        
       (db/create-wave {:name name :pass (crypt/encrypt pass)})      
       (session/put! :wave name)
-      (create-waves-path)
+      ;; (create-waves-path)
       (resp/redirect "/")
       (catch Exception ex
         (vali/rule false [:name (format-error name ex)])
@@ -67,7 +70,7 @@
     (try        
       (db/create-wave {:name name :pass (crypt/encrypt pass)})      
       (session/put! :wave name)
-      (create-waves-path)
+      ;; (create-waves-path)
       (noir.response/json {:wave name})
       (catch Exception ex
         (info "error" ex)
@@ -114,10 +117,8 @@
 
 (defn handle-confirm-delete []
   (let [wave_name (session/get :wave)] 
-    (doseq [{:keys [name]} (db/images-by-wave wave_name)]      
-      (delete-image wave_name name))    
-    (clojure.java.io/delete-file (session-wave-path))
-    (db/delete-wave wave_name))
+    (db/delete-wave wave_name)
+    (s3/delete-object u/aws-cred u/aws-bucket-name (str "/img/" wave_name)))
   (session/clear!)
   (resp/redirect "/"))
 

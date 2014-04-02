@@ -8,10 +8,11 @@
             [noir.util.route :refer [restricted]]            
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
-            [echowaves.util :refer [session-wave-path thumb-prefix]]
+            [echowaves.util :refer [thumb-prefix random-string]]
             [echowaves.util :as util]
             [taoensso.timbre 
-             :refer [trace debug info warn error fatal]])
+             :refer [trace debug info warn error fatal]]
+            [aws.sdk.s3 :as s3])
   (:import [java.io File FileInputStream FileOutputStream]
            java.awt.image.BufferedImage
            java.awt.RenderingHints
@@ -35,30 +36,53 @@
     (let [ratio (/ thumb-size img-height)]        
       (scale img ratio (int (* img-width ratio)) thumb-size))))
 
-(defn save-thumbnail [{:keys [filename]}]
+(defn save-thumbnail [path filename]
   (ImageIO/write 
-    (scale-image (io/input-stream (str (session-wave-path) filename))) 
+    (scale-image (io/input-stream (str path filename))) 
     "jpeg" 
-    (File. (str (session-wave-path) thumb-prefix filename))))
+    (File. (str path thumb-prefix filename)))
+  )
+
+(defn cleanup-files [path filename]
+  (.delete (File. (str path filename)))
+  (.delete (File. (str path thumb-prefix filename)))
+  )
+
+(defn aws-upload [path file wave]
+  (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" file) (File. (str path file)) )
+  (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)) (File. (str path thumb-prefix file) ) )
+  )
 
 (defn upload-page [params]
   (layout/render "upload.html" params))
 
 (defn handle-upload [file]
   (info "uploading file:" file)
-  (upload-page 
-    (if (empty? (:filename file))
-      {:error "please select a file to upload"}      
-      (try 
-        (noir.io/upload-file          
-          (str File/separator "img" File/separator (session/get :wave) File/separator)
-          file)
-        (save-thumbnail file)
-        (db/add-image (session/get :wave) (:filename file))        
-        {:image
-         (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}        
-        (catch Exception ex 
-          {:error (str "error uploading file: " (.getMessage ex))})))))
+  (upload-page
+   (if (empty? (:filename file))
+     {:error "please select a file to upload"}      
+     (try
+       (let [rnd-str (random-string 10)
+             rand-path (str (resource-path) File/separator "img" File/separator rnd-str File/separator)]
+         (.mkdir (File. rand-path))
+         (noir.io/upload-file (str File/separator "img" File/separator rnd-str File/separator) file)
+         (save-thumbnail rand-path (:filename file))
+         (db/add-image (session/get :wave) (:filename file))
+         (future (do
+                   (aws-upload rand-path (:filename file) (session/get :wave))
+                   (cleanup-files rand-path (:filename file))
+                   (.delete (File. rand-path))
+                   ))
+         ;; (shutdown-agents)
+         
+         )
+       {:image
+        (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}        
+       (catch Exception ex
+         (error ex)
+         {:error (str "error uploading file: " (.getMessage ex))})))
+   )
+  )
 
 (defn handle-push-notify [wave_name badge]
   (util/send-push-notification
@@ -69,14 +93,15 @@
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]
-  (try
-    (db/delete-image wave_name name)
-    (io/delete-file (str (session-wave-path) name))
-    (io/delete-file (str (session-wave-path) thumb-prefix name))
-    "ok"
-    (catch Exception ex
-      (error ex "an error has occured while deleting" name)
-      (.getMessage ex))))
+  ;; (try
+  ;;   (db/delete-image wave_name name)
+  ;;   (io/delete-file (str (session-wave-path) name))
+  ;;   (io/delete-file (str (session-wave-path) thumb-prefix name))
+  ;;   "ok"
+  ;;   (catch Exception ex
+  ;;     (error ex "an error has occured while deleting" name)
+  ;;     (.getMessage ex)))
+  )
 
 (defn delete-images [names]
   (let [wave_name (session/get :wave)]
@@ -92,6 +117,7 @@
   
   (POST "/upload" [file] 
         (restricted (handle-upload file)))
+  
   (POST "/send-push-notify.json" [wave_name badge] 
         (restricted (handle-push-notify wave_name badge)))
   
