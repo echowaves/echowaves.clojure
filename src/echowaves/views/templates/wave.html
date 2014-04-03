@@ -9,7 +9,7 @@
     <div class="thumbnail">
       <a class={{image.name}} href="http://{{aws-bucket}}/img/{{image.name_2}}/{{image.name}}">
         <img src="http://{{aws-bucket}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"
-        onload="this.width/=3;"/>
+        onload="this.width > 800 ? this.width = 700 : this.height = 200;"/>
       </a>
       <br/>
       <span>{{image.name_2}}</span>
