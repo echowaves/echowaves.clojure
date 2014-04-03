@@ -24,6 +24,10 @@
   (let [wave_name (session/get :wave)] 
     (noir.response/json (db/images-by-wave-blended wave_name))))
 
+(defn display-child-waves-json []
+  (let [wave_name (session/get :wave)] 
+    (noir.response/json (db/child-waves wave_name))))
+
 (defn valid? [name]
   (auth/valid_wave_name? name)
   (not (vali/errors? :name)))
@@ -31,14 +35,14 @@
 (defn handle-create-child-wave-json [name]
   (info "handle-create-child-wave-json" name)
   (if (valid? name)
-    (try        
-      (db/create-child-wave {:name name})      
-      (session/put! :wave name)
-      ;; (create-waves-path)
-      (noir.response/json {:wave name})
-      (catch Exception ex
-        (info "error" ex)
-        (noir.response/status 409 (noir.response/json {:error "Duplicate wave name."}))))
+    
+    (let [parent_wave_name (session/get :wave)]
+      (try        
+        (db/create-child-wave parent_wave_name name)      
+        (noir.response/json {:wave name})
+        (catch Exception ex
+          (info "error" ex)
+          (noir.response/status 409 (noir.response/json {:error "Duplicate wave name."})))))
     ;; validation errors here
     (do
       (info "errors happened:" (vali/get-errors))
@@ -51,6 +55,8 @@
   (GET "/wave.json" []
        (restricted(display-wave-json)))
   (POST "/create-child-wave.json" [name] 
-        (handle-create-child-wave-json name)))
+        (restricted(handle-create-child-wave-json name)))
+  (GET "/child-waves.json" []
+       (restricted(display-child-waves-json))))
 
 

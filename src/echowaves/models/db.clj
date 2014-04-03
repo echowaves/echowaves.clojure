@@ -50,8 +50,11 @@
 (defn create-wave [wave]
   (insert waves (values wave)))
 
-(defn create-child-wave [wave]
-  (insert waves (values wave)))
+(defn create-child-wave [parent_wave_name child_wave_name]
+  (let [parent_wave_id (get-wave-id parent_wave_name)]
+    (insert waves (values {:parent_wave_id parent_wave_id
+                           :name child_wave_name
+                           :pass ""}))))
 
 (defn create-ios-token [name token]
   (let [wave-id (get-wave-id name)]
@@ -111,6 +114,15 @@
             (where {:waves_id wave-id})
             (with waves)
             (order :id :DESC))))
+
+(defn child-waves [wave_name]
+  (let [wave-id (get-wave-id wave_name)]
+    (select waves
+            (fields :id :name :active)
+            (where (or
+                    {:id wave-id}
+                    {:parent_wave_id wave-id}))
+            (order :id :ASC))))
 
 
 (defn delete-image [wave_name name]
