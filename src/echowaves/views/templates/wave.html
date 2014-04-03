@@ -12,21 +12,9 @@
         onload="this.width/=3;"/>
       </a>
       <br/>
-      {% ifequal image.name_2 page-owner %}
-      <input id="{{image.name}}" 
-             name="{{image.name}}"
-             type="checkbox" 
-             value="true" />
-      {% endifequal %}
       <span>{{image.name_2}}</span>
     </div>
     {% endfor %}
-    <br style="clear:both"/>
-    {% ifequal wave page-owner %}
-    <div>
-      <input id="delete" type="submit" value="delete selected images" />
-    </div>
-    {% endifequal %}
     <br style="clear:both"/>
   </div>
 </div>
