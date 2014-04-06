@@ -24,7 +24,7 @@
   (let [wave_name (session/get :wave)] 
     (noir.response/json (db/images-by-wave-blended wave_name))))
 
-(defn display-child-waves-json []
+(defn display-all-my-waves-json []
   (let [wave_name (session/get :wave)] 
     (noir.response/json (db/child-waves wave_name))))
 
@@ -49,6 +49,15 @@
       (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})))
     ))
 
+(defn handle-delete-child-wave-json [name]
+  (let [parent_wave_name (session/get :wave)
+        parent_wave (db/get-wave parent_wave_name)]
+    ;; check here if the wave belonds to the parent
+    ;; 123123123
+    ;; (db/delete-wave name)
+    ;; (s3/delete-object u/aws-cred u/aws-bucket-name (str "/img/" name)))
+    (noir.response/json {:status "deleted"})))
+
 (defroutes wave-routes
   (GET "/wave" []
        (restricted(display-wave)))
@@ -56,7 +65,9 @@
        (restricted(display-wave-json)))
   (POST "/create-child-wave.json" [name] 
         (restricted(handle-create-child-wave-json name)))
-  (GET "/child-waves.json" []
-       (restricted(display-child-waves-json))))
+  (GET "/all-my-waves.json" []
+       (restricted(display-all-my-waves-json)))
+  (POST "/delete-child-wave.json" [name] 
+        (restricted(handle-delete-child-wave-json name))))
 
 

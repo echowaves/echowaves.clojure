@@ -25,7 +25,7 @@
 (defn valid_wave_name? [name]
   (vali/rule (vali/has-value? name)
              [:name "Wave name is required."])
-  (vali/rule (re-matches #"^[a-zA-Z0-9-_]+$" name)
+  (vali/rule (re-matches #"^[a-zA-Z0-9-_.]+$" name)
              [:name "Wave name can not contain spaces or special characters."])
   (vali/rule (vali/min-length? name 3)
              [:name "Wave name must be at least 3 characters."])
