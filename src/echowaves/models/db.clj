@@ -77,6 +77,14 @@
   {:status  (str "wave made active " status) }
   )
 
+(defn get-wave-details [wave_name]
+  (first (select waves
+                 (fields :id :name :active :parent_wave_id)
+                 (where (or
+                         {:name wave_name}
+                         )))))
+
+
 (defn create-ios-token [name token]
   (let [wave-id (get-wave-id name)]
     (if (= (count (select ios_tokens (where {:waves_id wave-id

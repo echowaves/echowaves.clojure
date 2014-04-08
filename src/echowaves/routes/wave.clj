@@ -24,6 +24,14 @@
   (let [wave_name (session/get :wave)] 
     (noir.response/json (db/images-by-wave-blended wave_name))))
 
+(defn display-wave-details-json [wave_name]
+  (let [parent_wave_name (session/get :wave)
+        parent_wave (db/get-wave parent_wave_name)]
+    (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+      (noir.response/json (db/get-wave-details wave_name))
+      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
+    ))
+
 (defn display-all-my-waves-json []
   (let [wave_name (session/get :wave)] 
     (noir.response/json (db/child-waves wave_name))))
@@ -33,9 +41,7 @@
   (not (vali/errors? :name)))
 
 (defn handle-create-child-wave-json [name]
-  (info "handle-create-child-wave-json" name)
   (if (valid? name)
-    
     (let [parent_wave_name (session/get :wave)]
       (try        
         (db/create-child-wave parent_wave_name name)      
@@ -64,6 +70,7 @@
 (defn handle-make-wave-active-json [wave_name active]
   (let [parent_wave_name (session/get :wave)
         parent_wave (db/get-wave parent_wave_name)]
+    (info "parent_wave_name " parent_wave_name " wave_name " wave_name)
     (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
       (noir.response/json (db/make-wave-active wave_name active))
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))
@@ -74,13 +81,15 @@
        (restricted(display-wave)))
   (GET "/wave.json" []
        (restricted(display-wave-json)))
+  (GET "/wave-details.json" [wave_name]
+       (restricted(display-wave-details-json wave_name)))
   (POST "/create-child-wave.json" [name] 
         (restricted(handle-create-child-wave-json name)))
   (GET "/all-my-waves.json" []
        (restricted(display-all-my-waves-json)))
   (POST "/delete-child-wave.json" [name] 
         (restricted(handle-delete-child-wave-json name)))
-  (POST "/make-wave-active.json" [name active] 
-        (restricted(handle-make-wave-active-json name active))))
+  (POST "/make-wave-active.json" [wave_name active]
+        (restricted(handle-make-wave-active-json wave_name active))))
 
 
