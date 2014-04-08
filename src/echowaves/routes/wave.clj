@@ -20,9 +20,13 @@
                   :images       (db/images-by-wave-blended wave_name)})))
 
 
-(defn display-wave-json []
-  (let [wave_name (session/get :wave)] 
-    (noir.response/json (db/images-by-wave-blended wave_name))))
+(defn display-wave-json [wave_name]
+  (let [parent_wave_name (session/get :wave)
+        parent_wave (db/get-wave parent_wave_name)]
+   (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+      (noir.response/json (db/images-by-wave-blended wave_name))
+      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
+    ))
 
 (defn display-wave-details-json [wave_name]
   (let [parent_wave_name (session/get :wave)
@@ -79,8 +83,8 @@
 (defroutes wave-routes
   (GET "/wave" []
        (restricted(display-wave)))
-  (GET "/wave.json" []
-       (restricted(display-wave-json)))
+  (GET "/wave.json" [wave_name]
+       (restricted(display-wave-json wave_name)))
   (GET "/wave-details.json" [wave_name]
        (restricted(display-wave-details-json wave_name)))
   (POST "/create-child-wave.json" [name] 
