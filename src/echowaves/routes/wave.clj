@@ -52,11 +52,22 @@
 (defn handle-delete-child-wave-json [name]
   (let [parent_wave_name (session/get :wave)
         parent_wave (db/get-wave parent_wave_name)]
+
+    ;; if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+    
     ;; check here if the wave belonds to the parent
     ;; 123123123
     ;; (db/delete-wave name)
     ;; (s3/delete-object u/aws-cred u/aws-bucket-name (str "/img/" name)))
     (noir.response/json {:status "deleted"})))
+
+(defn handle-make-wave-active-json [wave_name active]
+  (let [parent_wave_name (session/get :wave)
+        parent_wave (db/get-wave parent_wave_name)]
+    (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+      (noir.response/json (db/make-wave-active wave_name active))
+      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
+    ))
 
 (defroutes wave-routes
   (GET "/wave" []
@@ -68,6 +79,8 @@
   (GET "/all-my-waves.json" []
        (restricted(display-all-my-waves-json)))
   (POST "/delete-child-wave.json" [name] 
-        (restricted(handle-delete-child-wave-json name))))
+        (restricted(handle-delete-child-wave-json name)))
+  (POST "/make-wave-active.json" [name active] 
+        (restricted(handle-make-wave-active-json name active))))
 
 

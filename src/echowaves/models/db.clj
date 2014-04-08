@@ -56,6 +56,27 @@
                            :name child_wave_name
                            :pass ""}))))
 
+(defn check-wave-belongs-to-parent [parent_wave_name wave_name]
+  (let [parent_wave_id (get-wave-id parent_wave_name)]
+    (let [wave (first (select waves
+                               (where {:name wave_name})
+                               (limit 1)))]
+      (if (or
+           (and
+            (not= nil (:parent_wave_id wave)) (== parent_wave_id (:parent_wave_id wave)))
+           (and
+            (not= nil (:id wave)) (== parent_wave_id (:id wave))))
+        true
+        false)
+      )))
+
+(defn make-wave-active [wave_name status]
+  (update waves
+          (set-fields {:active status})
+          (where {:name wave_name}))
+  {:status  (str "wave made active " status) }
+  )
+
 (defn create-ios-token [name token]
   (let [wave-id (get-wave-id name)]
     (if (= (count (select ios_tokens (where {:waves_id wave-id
