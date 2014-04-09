@@ -10,7 +10,8 @@
              :refer [trace debug info warn error fatal]]
             [environ.core :refer [env]]
             [echowaves.util :as u]
-            [echowaves.routes.auth :as auth]))
+            [echowaves.routes.auth :as auth]
+            [aws.sdk.s3 :as s3]))
 
 (defn display-wave []
   (let [wave_name (session/get :wave)]
@@ -54,17 +55,15 @@
       (noir.response/status 412 (noir.response/json {:error (vali/get-errors)})))
     ))
 
-(defn handle-delete-child-wave-json [name]
-  (let [parent_wave_name (session/get :wave)
-        parent_wave (db/get-wave parent_wave_name)]
+(defn handle-delete-child-wave-json [wave_name]
+  (let [parent_wave_name (session/get :wave)]
 
-    ;; if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
-    
-    ;; check here if the wave belonds to the parent
-    ;; 123123123
-    ;; (db/delete-wave name)
-    ;; (s3/delete-object u/aws-cred u/aws-bucket-name (str "/img/" name)))
-    (noir.response/json {:status "deleted"})))
+    (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+      (do
+        (db/delete-wave wave_name)
+        (s3/delete-object u/aws-cred u/aws-bucket-name (str "img/" wave_name))
+        (noir.response/json {:status "deleted"}))
+      (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 
 (defn handle-make-wave-active-json [wave_name active]
   (if (u/check-child-wave wave_name)
@@ -82,8 +81,8 @@
         (restricted(handle-create-child-wave-json name)))
   (GET "/all-my-waves.json" []
        (restricted(display-all-my-waves-json)))
-  (POST "/delete-child-wave.json" [name] 
-        (restricted(handle-delete-child-wave-json name)))
+  (POST "/delete-child-wave.json" [wave_name] 
+        (restricted(handle-delete-child-wave-json wave_name)))
   (POST "/make-wave-active.json" [wave_name active]
         (restricted(handle-make-wave-active-json wave_name active))))
 
