@@ -9,6 +9,7 @@
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
             [environ.core :refer [env]]
+            [echowaves.util :as u]
             [echowaves.routes.auth :as auth]))
 
 (defn display-wave []
@@ -21,20 +22,14 @@
 
 
 (defn display-wave-json [wave_name]
-  (let [parent_wave_name (session/get :wave)
-        parent_wave (db/get-wave parent_wave_name)]
-   (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
-      (noir.response/json (db/images-by-wave-blended wave_name))
-      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
-    ))
+  (if (u/check-child-wave wave_name)
+    (noir.response/json (db/images-by-wave-blended wave_name))
+    (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defn display-wave-details-json [wave_name]
-  (let [parent_wave_name (session/get :wave)
-        parent_wave (db/get-wave parent_wave_name)]
-    (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
-      (noir.response/json (db/get-wave-details wave_name))
-      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
-    ))
+  (if (u/check-child-wave wave_name)
+    (noir.response/json (db/get-wave-details wave_name))
+    (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defn display-all-my-waves-json []
   (let [wave_name (session/get :wave)] 
@@ -72,13 +67,10 @@
     (noir.response/json {:status "deleted"})))
 
 (defn handle-make-wave-active-json [wave_name active]
-  (let [parent_wave_name (session/get :wave)
-        parent_wave (db/get-wave parent_wave_name)]
-    (info "parent_wave_name " parent_wave_name " wave_name " wave_name)
-    (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+  (if (u/check-child-wave wave_name)
       (noir.response/json (db/make-wave-active wave_name active))
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))
-    ))
+  )
 
 (defroutes wave-routes
   (GET "/wave" []

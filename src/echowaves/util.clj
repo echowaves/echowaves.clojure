@@ -2,6 +2,7 @@
   (:require [noir.io :refer [resource-path]]
             [noir.session :as session]
             [environ.core :refer [env]]
+            [echowaves.models.db :as db]
             [aws.sdk.s3 :as s3])
   (:import java.io.File))
 
@@ -23,6 +24,13 @@
                          (env :ew-push-cert-pass)
                          (boolean (Boolean/valueOf (env :ew-push-prod)))
                          tokens))
+
+(defn check-child-wave [wave_name]
+  (let [parent_wave_name (session/get :wave)
+        parent_wave (db/get-wave parent_wave_name)]
+   (if (db/check-wave-belongs-to-parent parent_wave_name wave_name)
+      true
+      false)))
 
 (def aws-cred {:access-key (env :ew-aws-access-key)
                :secret-key (env :ew-aws-secret-key)})
