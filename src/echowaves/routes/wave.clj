@@ -69,8 +69,7 @@
 (defn handle-make-wave-active-json [wave_name active]
   (if (u/check-child-wave wave_name)
       (noir.response/json (db/make-wave-active wave_name active))
-      (noir.response/status 401 (noir.response/json {:status "unathorized"})))
-  )
+      (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defroutes wave-routes
   (GET "/wave" []

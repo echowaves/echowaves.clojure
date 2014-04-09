@@ -6,15 +6,18 @@
             [noir.response :as resp]            
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
-            [echowaves.util :as util]
+            [echowaves.util :as u]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
             [noir.util.route :refer [restricted]]            )
   )
 
 (defn handle-blended-with [wave_name]
-  (let [wave (db/get-wave (session/get :wave))]
-    (noir.response/json (db/blended-with (:id wave)))))
+  (let [wave (db/get-wave wave_name)]
+    (if (u/check-child-wave wave_name)
+      (noir.response/json (db/blended-with (:id wave)))
+      (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
+
 (defn handle-requiested-blends []
   (let [wave (db/get-wave (session/get :wave))]
     (noir.response/json (db/requested-blends (:id wave)))))
@@ -29,7 +32,7 @@
   (debug "requesting blending for: " wave_name)
   (let [wave1 (db/get-wave (session/get :wave))
         wave2 (db/get-wave wave_name)]
-    (util/send-push-notification
+    (u/send-push-notification
      (str (:name wave1) " wants to blend with " (:name wave2))
      (str 1) 
      (db/get-tokens-for-wave (:name wave2)))
