@@ -71,18 +71,27 @@
      {:error "please select a file to upload"}      
      (try
        (let [rnd-str (random-string 10)
-             rand-path (str (resource-path) File/separator "img" File/separator rnd-str File/separator)]
+             rand-path (str (resource-path) "img" File/separator rnd-str File/separator)]
          (.mkdir (File. rand-path))
          (noir.io/upload-file (str File/separator "img" File/separator rnd-str File/separator) file)
-         (future (do
-                   (save-thumbnail rand-path (:filename file))
-                   (aws-upload rand-path (:filename file) (session/get :wave))
-                   (cleanup-files rand-path (:filename file))
-                   (.delete (File. rand-path))
-                   (db/add-image (session/get :wave) (:filename file))
-                   ))
+         (save-thumbnail rand-path (:filename file))
+         ;; (info "random path: " rand-path)
+         (future
+           (doseq [wave (db/get-active-child-waves (session/get :wave))]
+             (do
+               ;; (info (str "uploading photo: " (:name wave) "/" (:filename file)))
+               (aws-upload rand-path (:filename file) (:name wave))
+               ;; (info "step 2 finished")
+               (db/add-image (:name wave) (:filename file))
+               ;; (info "step 3 finished")
+               )
+             )
+           (cleanup-files rand-path (:filename file))
+           (.delete (File. rand-path))           
+           )
+
+
          ;; (shutdown-agents)
-         
          )
        {:image
         (str "/img/" (session/get :wave) "/" thumb-prefix (url-encode (:filename file)))}        

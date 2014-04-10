@@ -153,6 +153,17 @@
                     {:parent_wave_id wave-id}))
             (order :id :ASC))))
 
+(defn get-active-child-waves [wave_name]
+  (let [wave-id (get-wave-id wave_name)]
+    (select waves
+            (fields :id :name)
+            (where (and
+                    {:active true}
+                    (or
+                     {:id wave-id}
+                     {:parent_wave_id wave-id})) )
+            (order :id :ASC))))
+
 
 (defn delete-image [wave_name name]
   (let [wave-id (get-wave-id wave_name)]
