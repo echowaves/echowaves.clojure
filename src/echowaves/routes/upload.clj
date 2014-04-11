@@ -77,15 +77,15 @@
          (save-thumbnail rand-path (:filename file))
          ;; (info "random path: " rand-path)
          (future
+           ;; have to iterate over the same collection twice, firts
+           ;; time insert db records because it's fast and will allow
+           ;; the users to have a percetion that there are new images
            (doseq [wave (db/get-active-child-waves (session/get :wave))]
-             (do
-               ;; (info (str "uploading photo: " (:name wave) "/" (:filename file)))
-               (aws-upload rand-path (:filename file) (:name wave))
-               ;; (info "step 2 finished")
-               (db/add-image (:name wave) (:filename file))
-               ;; (info "step 3 finished")
-               )
-             )
+             (db/add-image (:name wave) (:filename file)))
+           ;; in the second iteration do actual image upload which may
+           ;; take a while
+           (doseq [wave (db/get-active-child-waves (session/get :wave))]
+             (aws-upload rand-path (:filename file) (:name wave)))
            (cleanup-files rand-path (:filename file))
            (.delete (File. rand-path))           
            )
