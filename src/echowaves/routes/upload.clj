@@ -9,7 +9,7 @@
             [clojure.java.io :as io]
             [echowaves.models.db :as db]
             [echowaves.util :refer [thumb-prefix random-string]]
-            [echowaves.util :as util]
+            [echowaves.util :as u]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]
             [aws.sdk.s3 :as s3])
@@ -51,14 +51,14 @@
 
 (defn aws-delete-image [file wave]
   (info "................deleting " "img/" wave "/" file)
-  (s3/delete-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" file))  
-  (s3/delete-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)))
+  (s3/delete-object u/aws-cred u/aws-bucket-name (str "img/" wave "/" file))  
+  (s3/delete-object u/aws-cred u/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)))
   )
 
 
 (defn aws-upload [path file wave]
-  (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" file) (File. (str path file)) )
-  (s3/put-object util/aws-cred util/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)) (File. (str path thumb-prefix file) ) )
+  (s3/put-object u/aws-cred u/aws-bucket-name (str "img/" wave "/" file) (File. (str path file)) )
+  (s3/put-object u/aws-cred u/aws-bucket-name (str "img/" wave "/" (str thumb-prefix file)) (File. (str path thumb-prefix file) ) )
   )
 
 (defn upload-page [params]
@@ -102,7 +102,7 @@
   )
 
 (defn handle-push-notify [wave_name badge]
-  (util/send-push-notification
+  (u/send-push-notification
    (str "new images in wave: " wave_name)
    badge
    (db/get-blended-tokens (session/get :wave)))
@@ -126,9 +126,10 @@
     (resp/edn
      (for [name names] {:name name :status (delete-image wave_name name)}))))
 
-(defn handle-delete-image [name]
-  (let [wave_name (session/get :wave)]    
-    (resp/json {:name name :status (delete-image wave_name name)})))
+(defn handle-delete-image [image_name wave_name]
+  (if (u/check-child-wave wave_name)
+    (resp/json {:name image_name :status (delete-image wave_name image_name)})
+    (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defroutes upload-routes
   (GET "/upload" [info] (upload-page {:info info}))
@@ -140,4 +141,4 @@
         (restricted (handle-push-notify wave_name badge)))
   
   (POST "/delete" [names] (restricted (delete-images names)))
-  (POST "/delete-image.json" [name] (restricted (handle-delete-image name))))
+  (POST "/delete-image.json" [image_name wave_name] (restricted (handle-delete-image image_name wave_name))))
