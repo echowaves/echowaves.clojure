@@ -105,7 +105,7 @@ label {
 }
 
 #wavemenu {
-	background-color: #878C87;	
+	background-color: #FF6600;	
 	width: 100%;
 	border-bottom-color: #dedede;
 	line-height: 30px;
@@ -188,8 +188,8 @@ input[type=submit] {
 
 body {
     line-height: 1;
-    background: #C8D9C9;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: #FFBB66;
+    Font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 13px;
     color:#333
 }
@@ -247,7 +247,7 @@ body {
 
 #footer {
     height: 15px;
-    background: #c9c9c9;
+    background: #FF6600;
     border-radius: 5px;
     border: 1px solid #b5b5b5;
     margin: 5px;
