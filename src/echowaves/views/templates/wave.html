@@ -5,8 +5,10 @@
 <div id="contentwrap">
 
 <div>
-  <select id="waves-picker">
-  </select>
+  <form action="/select-wave" method="POST">
+    <select id="waves-picker" name="waves-picker" onchange="this.form.submit()">
+    </select>
+  </form>
 </div>
 
 
@@ -37,5 +39,7 @@
 {% block scripts %}
 <script>
   echowaves.init();
+  update_waves_picker("{{page-owner}}");
+
 </script>
 {% endblock %}

@@ -13,13 +13,21 @@
             [echowaves.routes.auth :as auth]
             [aws.sdk.s3 :as s3]))
 
-(defn display-wave []
-  (let [wave_name (session/get :wave)]
+(defn display-wave [selected_wave_name]
+  (if selected_wave_name
+    (let [wave_name selected_wave_name]
     (layout/render "wave.html"
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
                   :aws-bucket   (env :ew-aws-bucket-name)
-                  :images       (db/images-by-wave-blended wave_name)})))
+                  :images       (db/images-by-wave-blended wave_name)}))
+    (let [wave_name (session/get :wave)]
+    (layout/render "wave.html"
+                 {:thumb-prefix thumb-prefix
+                  :page-owner   wave_name
+                  :aws-bucket   (env :ew-aws-bucket-name)
+                  :images       (db/images-by-wave-blended wave_name)}))
+    ) )
 
 
 (defn display-wave-json [wave_name]
@@ -72,7 +80,9 @@
 
 (defroutes wave-routes
   (GET "/wave" []
-       (restricted(display-wave)))
+       (restricted(display-wave nil)))
+  (POST "/select-wave" [waves-picker]
+        (restricted(display-wave waves-picker)))
   (GET "/wave.json" [wave_name]
        (restricted(display-wave-json wave_name)))
   (GET "/wave-details.json" [wave_name]
