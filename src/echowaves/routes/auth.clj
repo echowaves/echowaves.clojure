@@ -7,7 +7,6 @@
             [noir.util.crypt :as crypt]
             [echowaves.models.db :as db]
             ;; [echowaves.util :refer [session-wave-path]]
-            [echowaves.routes.upload :refer [delete-image]]
             [noir.util.route :refer [restricted]]
             [taoensso.timbre 
              :refer [trace debug info warn error fatal]]

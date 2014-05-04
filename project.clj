@@ -27,7 +27,7 @@
                  [ragtime "0.3.4"]
                  [org.clojars.gzeureka/javapns "2.2"]
                  [bouncycastle/bcprov-jdk16-nosign "140"]
-                 [clj-aws-s3 "0.3.8"]]
+                 [clj-aws-s3 "0.3.9"]]
   :plugins [[lein-ring "0.8.8"]
             [lein-cljsbuild "1.0.1"]
             [lein-environ "0.4.0"]
