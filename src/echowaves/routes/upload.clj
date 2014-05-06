@@ -105,7 +105,7 @@
   (u/send-push-notification
    (str "new images in wave: " wave_name)
    badge
-   (db/get-blended-tokens (session/get :wave)))
+   (db/get-blended-tokens wave_name))
   ;; (.start (Thread. (fn [] )))
   (resp/json {:status "OK"}))
 

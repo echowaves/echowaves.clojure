@@ -47,6 +47,16 @@
                  (where {:name name})
                  (limit 1)))))
 
+;; (defn get-wave-or-parent-id [name]
+;;   (let [wave (first (select waves
+;;                  (fields :id :parent_wave_id)
+;;                  (where {:name name})
+;;                  (limit 1)))]
+;;     (if (:parent_wave_id wave)
+;;       (:parent_wave_id wave)
+;;       (:id wave)
+;;       )))
+
 (defn create-wave [wave]
   (insert waves (values wave)))
 
@@ -205,7 +215,7 @@
 
 (defn blended-with [wave_id]
   (select waves
-          (fields :id :name)
+          (fields :id :parent_wave_id :name)
           (where (or
                   ;; select from blends
                   {:id [in (subselect blends
@@ -249,7 +259,10 @@
   )
 
 (defn get-blended-ids [wave_name]
-   (mapv (fn [y] (:id y))  (blended-with (get-wave-id wave_name))))
+  (mapv (fn [y] (if (:parent_wave_id y)
+                  (:parent_wave_id y)
+                  (:id y)))
+        (blended-with (get-wave-id wave_name))))
 
 (defn get-blended-tokens [wave_name]
   (mapv (fn [y] (:token y))
