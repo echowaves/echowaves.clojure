@@ -127,8 +127,13 @@
      (for [name names] {:name name :status (delete-image wave_name name)}))))
 
 (defn handle-delete-image [image_name wave_name]
-  (if (u/check-child-wave wave_name)
+  (if (db/is-child-wave (session/get :wave) wave_name)
     (resp/json {:name image_name :status (delete-image wave_name image_name)})
+    (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
+
+(defn handle-share-image [image_name wave_name]
+  (if (db/is-child-wave (session/get :wave) wave_name)
+    (resp/json {:token (db/share-image wave_name image_name)})
     (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defroutes images-routes
@@ -141,4 +146,5 @@
         (restricted (handle-push-notify wave_name badge)))
   
   (POST "/delete" [names] (restricted (delete-images names)))
-  (POST "/delete-image.json" [image_name wave_name] (restricted (handle-delete-image image_name wave_name))))
+  (POST "/delete-image.json" [image_name wave_name] (restricted (handle-delete-image image_name wave_name)))
+  (POST "/share-image.json" [image_name wave_name] (restricted (handle-share-image image_name wave_name))))

@@ -14,20 +14,20 @@
 
 (defn handle-blended-with [wave_name]
   (let [wave (db/get-wave wave_name)]
-    (if (u/check-child-wave wave_name)
+    (if (db/is-child-wave (session/get :wave) wave_name)
       (noir.response/json (db/blended-with (:id wave)))
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 
 (defn handle-requested-blends [wave_name]
   (let [wave (db/get-wave wave_name)]
-    (if (u/check-child-wave wave_name)
+    (if (db/is-child-wave (session/get :wave) wave_name)
       (noir.response/json (db/requested-blends (:id wave)))
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))
     ))
 
 (defn handle-unconfirmed-blends [wave_name]
   (let [wave (db/get-wave wave_name)]
-    (if (u/check-child-wave wave_name)
+    (if (db/is-child-wave (session/get :wave)  wave_name)
       (noir.response/json (db/unconfirmed-blends (:id wave)))
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 
@@ -38,7 +38,7 @@
 (defn handle-request-blending [wave_name from_wave]
   (let [wave1 (db/get-wave from_wave)
         wave2 (db/get-wave wave_name)]
-    (if (u/check-child-wave from_wave)
+    (if (db/is-child-wave (session/get :wave) from_wave)
       (do
         (u/send-push-notification
          (str (:name wave1) " wants to blend with " (:name wave2))
@@ -50,14 +50,14 @@
 (defn handle-confirm-blending [wave_name from_wave]
   (let [wave1 (db/get-wave from_wave)
         wave2 (db/get-wave wave_name)]
-    (if (u/check-child-wave from_wave)
+    (if (db/is-child-wave (session/get :wave) from_wave)
       (noir.response/json {:status (db/confirm-blending (:id wave1) (:id wave2))})
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 
 (defn handle-unblend [wave_name from_wave]
   (let [wave1 (db/get-wave from_wave)
         wave2 (db/get-wave wave_name)]
-    (if (u/check-child-wave from_wave)
+    (if (db/is-child-wave (session/get :wave) from_wave)
       (noir.response/json {:status (db/unblend (:id wave1) (:id wave2))})
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 

@@ -1,5 +1,7 @@
 (ns echowaves.models.db
-  (:require [clojure.java.jdbc :as sql]
+  (:require [echowaves.util :as u]
+            [noir.session :as session]
+            [clojure.java.jdbc :as sql]
             [clojure.string :as str]
             [korma.db :refer [defdb transaction]]
             [korma.core :refer :all]
@@ -41,10 +43,21 @@
 (defentity ios_tokens
   (belongs-to waves))
 
+(defentity share_actions
+  (belongs-to waves))
+
+
 (defn get-wave-id [name]
   (:id (first (select waves
                  (fields :id)
                  (where {:name name})
+                 (limit 1)))))
+
+(defn get-image-id [waves_id image_name]
+  (:id (first (select images
+                 (fields :id)
+                 (where {:name image_name
+                         :waves_id waves_id})
                  (limit 1)))))
 
 ;; (defn get-wave-or-parent-id [name]
@@ -181,6 +194,13 @@
                            :waves_id wave-id}))))
 
 
+(defn share-image [wave_name image_name]
+  (let [wave-id (get-wave-id wave_name)
+        token u/generate-token]
+    (insert share_actions (values {:waves_id wave-id
+                                   :images_id (get-image-id wave-id image_name)
+                                   :token token}))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
@@ -281,3 +301,10 @@
           (where {:waves_id (get-wave-id wave_name)})
           ))
   )
+
+
+(defn is-child-wave [wave_in_session wave_name]
+  (if (check-wave-belongs-to-parent wave_in_session wave_name)
+      true
+      false))
+
