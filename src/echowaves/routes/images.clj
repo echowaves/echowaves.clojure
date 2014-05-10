@@ -1,4 +1,4 @@
-(ns echowaves.routes.upload  
+(ns echowaves.routes.images  
   (:require [compojure.core :refer [defroutes GET POST]]
             [echowaves.views.layout :as layout]
             [hiccup.util :refer [url-encode]]
@@ -131,7 +131,7 @@
     (resp/json {:name image_name :status (delete-image wave_name image_name)})
     (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
-(defroutes upload-routes
+(defroutes images-routes
   (GET "/upload" [info] (upload-page {:info info}))
   
   (POST "/upload" [file] 

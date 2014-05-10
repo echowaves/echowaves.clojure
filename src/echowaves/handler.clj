@@ -4,7 +4,7 @@
             [noir.util.middleware :as noir-middleware]
             [echowaves.routes.auth :refer [auth-routes]]
             [echowaves.routes.home :refer [home-routes]]
-            [echowaves.routes.upload :refer [upload-routes]]
+            [echowaves.routes.images :refer [images-routes]]
             [echowaves.routes.wave :refer [wave-routes]]
             [echowaves.routes.blends :refer [blends-routes]]
             [noir.session :as session]
@@ -55,7 +55,7 @@
 (def app (noir-middleware/app-handler
            [auth-routes
             home-routes
-            upload-routes
+            images-routes
             wave-routes
             blends-routes
             app-routes]
