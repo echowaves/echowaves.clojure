@@ -196,10 +196,11 @@
 
 (defn share-image [wave_name image_name]
   (let [wave-id (get-wave-id wave_name)
-        token u/generate-token]
+        token (u/generate-token) ]
     (insert share_actions (values {:waves_id wave-id
                                    :images_id (get-image-id wave-id image_name)
-                                   :token token}))))
+                                   :token token}))
+    token))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
