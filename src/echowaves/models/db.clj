@@ -197,11 +197,16 @@
 (defn share-image [wave_name image_name]
   (let [wave-id (get-wave-id wave_name)
         token (u/generate-token) ]
-    (insert share_actions (values {:waves_id wave-id
+    (insert share_actions (values {
                                    :images_id (get-image-id wave-id image_name)
                                    :token token}))
     token))
 
+(defn image-by-token [token]
+  (let [share_action ((select share_actions (where {:token token}) (limit 1)) 0) ]
+    (transaction
+     (delete share_actions (where {:token token}))
+     ((select images (where {:id (:images_id share_action)}) (limit 1)) 0))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
@@ -308,4 +313,6 @@
   (if (check-wave-belongs-to-parent wave_in_session wave_name)
       true
       false))
+
+
 

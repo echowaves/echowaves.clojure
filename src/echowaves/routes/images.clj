@@ -136,6 +136,9 @@
     (resp/json {:token (db/share-image wave_name image_name)})
     (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
+(defn handle-image-by-token [token]
+  (db/image-by-token token))
+
 (defroutes images-routes
   (GET "/upload" [info] (upload-page {:info info}))
   
@@ -147,4 +150,5 @@
   
   (POST "/delete" [names] (restricted (delete-images names)))
   (POST "/delete-image.json" [image_name wave_name] (restricted (handle-delete-image image_name wave_name)))
-  (POST "/share-image.json" [image_name wave_name] (restricted (handle-share-image image_name wave_name))))
+  (POST "/share-image.json" [image_name wave_name] (restricted (handle-share-image image_name wave_name)))
+  (POST "/image-by-token.json" [token] (restricted (handle-image-by-token token))))
