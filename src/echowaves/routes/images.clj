@@ -137,7 +137,7 @@
     (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defn handle-image-by-token [token]
-  (db/image-by-token token))
+  (resp/json (db/image-by-token token)))
 
 (defroutes images-routes
   (GET "/upload" [info] (upload-page {:info info}))

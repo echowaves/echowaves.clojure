@@ -206,7 +206,11 @@
   (let [share_action ((select share_actions (where {:token token}) (limit 1)) 0) ]
     (transaction
      (delete share_actions (where {:token token}))
-     ((select images (where {:id (:images_id share_action)}) (limit 1)) 0))))
+     ((select images
+              (with waves
+                    (fields :name :created_on))
+              (where {:id (:images_id share_action)})
+              (limit 1)) 0))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
