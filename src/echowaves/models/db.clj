@@ -194,23 +194,8 @@
                            :waves_id wave-id}))))
 
 
-(defn share-image [wave_name image_name]
-  (let [wave-id (get-wave-id wave_name)
-        token (u/generate-token) ]
-    (insert share_actions (values {
-                                   :images_id (get-image-id wave-id image_name)
-                                   :token token}))
-    token))
 
-(defn image-by-token [token]
-  (let [share_action ((select share_actions (where {:token token}) (limit 1)) 0) ]
-    (transaction
-     (delete share_actions (where {:token token}))
-     ((select images
-              (with waves
-                    (fields :name :created_on))
-              (where {:id (:images_id share_action)})
-              (limit 1)) 0))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
@@ -226,7 +211,7 @@
                   :wave_id2 wave_id1})))
 
 (defn request-blending  [wave_id1 wave_id2]
-  (debug "confirming blending" wave_id1 wave_id2)
+  (debug "requesting blending" wave_id1 wave_id2)
   (if-not (= wave_id1 wave_id2) 
     (do
       (if (> (count (select blends (where {:wave_id1 wave_id2
@@ -319,4 +304,34 @@
       false))
 
 
+(defn share-image [wave_name image_name]
+  (let [wave-id (get-wave-id wave_name)
+        token (u/generate-token) ]
+    (insert share_actions (values {
+                                   :images_id (get-image-id wave-id image_name)
+                                   :token token}))
+    token))
 
+;; (defn image-by-token [token session_wave]
+;;   (let [share_action ((select share_actions (where {:token token}) (limit 1)) 0) ]
+;;     (transaction
+;; ;;     (delete share_actions (where {:token token}))
+;;      (let [image ((select images
+;;               (with waves
+;;                     (fields :name :created_on))
+;;               (where {:id (:images_id share_action)})
+;;               (limit 1)) 0)
+;;            wave_id_to   (get-wave-id session_wave)
+;;            wave_id_from (:waves_id image)]
+;;        (request-blending wave_id_from wave_id_to)
+;;        image))))
+
+(defn image-by-token [token]
+  (let [share_action ((select share_actions (where {:token token}) (limit 1)) 0) ]
+    (transaction
+     (delete share_actions (where {:token token}))
+     ((select images
+              (with waves
+                    (fields :name :created_on))
+              (where {:id (:images_id share_action)})
+              (limit 1)) 0))))
