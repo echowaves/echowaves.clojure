@@ -154,11 +154,12 @@
             (with waves
                   (fields :name :created_on))
             (order :name :DESC)
-            (limit (* 100 (if-not (empty? blended-with-map)
-                            (count blended-with-map)
-                            1
-                            )
-                      )))))
+            ;; (limit (* 100 (if-not (empty? blended-with-map)
+            ;;                 (count blended-with-map)
+            ;;                 1
+            ;;                 )
+            ;;           ))
+            )))
 
 (defn images-by-wave [wave_name]
   (let [wave-id (get-wave-id wave_name)]

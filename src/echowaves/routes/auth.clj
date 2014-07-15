@@ -138,7 +138,8 @@
   (POST "/login" [name pass] 
         (handle-login name pass))
 
-  (POST "/login.json" [name pass] 
+  (POST "/login.json" [name pass]
+        ;; (info "name:" name " pass:" pass)
         (handle-login-json name pass))
 
   ;; toberemoved  
