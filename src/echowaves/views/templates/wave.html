@@ -14,18 +14,10 @@
 
   <div id="content">
     <div id="error"></div>     
-    {% for image in images %}
-    <div class="thumbnail">
-      <a class={{image.name}} href="http://{{aws-bucket}}/img/{{image.name_2}}/{{image.name}}">
-        <img src="http://{{aws-bucket}}/img/{{image.name_2}}/{{thumb-prefix}}{{image.name}}"
-        onload="this.width > 800 ? this.width = 700 : this.height = 200;"/>
-      </a>
-      <br/>
-      <span>{{image.name_2}}</span>
-    </div>
-    {% endfor %}
     <br style="clear:both"/>
   </div>
+  <div id="bottomDIV"></div>
+  
 </div>
 
 <!--div id="rightcolumnwrap">
@@ -40,6 +32,55 @@
 <script>
   echowaves.init();
   update_waves_picker("{{page-owner}}");
+
+var page_number = 0;
+var stop_here = false;
+
+function pullData() {
+      $.getJSON( "/wave.json", { wave_name: "{{page-owner}}",
+                                 page_number: page_number++
+                               }, 
+        function( data ) {
+           var items = [];
+           $.each($.parseJSON(JSON.stringify(data)), function(idx,obj) {
+
+           items.push( 
+    "<div class='thumbnail'>" +
+      "<a class='" + obj.name + "' href='http://{{aws-bucket}}/img/" +
+    obj.name_2 + "/" + obj.name + "'>" +
+        "<img src='http://{{aws-bucket}}/img/" + obj.name_2 +
+    "/{{thumb-prefix}}" + obj.name +
+        "' onload='this.width>800?this.width=700:this.height=200;'/>" +
+      "</a>" + 
+      "<br/>" +
+      "<span>" + obj.name_2 + "</span>" +
+    "</div>"
+           );
+           });
+  if(items.length == 0) {
+    stop_here = true;
+  } else {
+           $("#content").append(items.join( "" ));
+  }
+        });
+
+//       alert("bottom!" + page_number);
+}
+
+if((page_number == 0) && (stop_here == false)) {
+  pullData();
+}
+
+$(window).scroll(function() {
+   if($(window).scrollTop() + window.innerHeight ==
+  $(document).height() 
+) {
+  if(stop_here == false) {
+    pullData();
+  }
+   }
+});
+
 
 </script>
 {% endblock %}

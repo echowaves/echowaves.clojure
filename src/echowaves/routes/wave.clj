@@ -13,6 +13,7 @@
             [echowaves.routes.auth :as auth]
             [aws.sdk.s3 :as s3]))
 
+;; this method does not really display the wave, but prepares the html page  
 (defn display-wave [selected_wave_name]
   (if selected_wave_name
     (let [wave_name selected_wave_name]
@@ -20,19 +21,19 @@
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
                   :aws-bucket   (env :ew-aws-bucket-name)
-                  :images       (db/images-by-wave-blended wave_name)}))
+                  }))
     (let [wave_name (session/get :wave)]
     (layout/render "wave.html"
                  {:thumb-prefix thumb-prefix
                   :page-owner   wave_name
                   :aws-bucket   (env :ew-aws-bucket-name)
-                  :images       (db/images-by-wave-blended wave_name)}))
+                  }))
     ) )
 
 
-(defn display-wave-json [wave_name]
+(defn display-wave-json [wave_name page_number]
   (if (db/is-child-wave (session/get :wave) wave_name)
-    (noir.response/json (db/images-by-wave-blended wave_name))
+    (noir.response/json (db/images-by-wave-blended wave_name page_number))
     (noir.response/status 401 (noir.response/json {:status "unathorized"}))))
 
 (defn display-wave-details-json [wave_name]
@@ -83,8 +84,8 @@
        (restricted(display-wave nil)))
   (POST "/select-wave" [waves-picker]
         (restricted(display-wave waves-picker)))
-  (GET "/wave.json" [wave_name]
-       (restricted(display-wave-json wave_name)))
+  (GET "/wave.json" [wave_name page_number]
+       (restricted(display-wave-json wave_name page_number)))
   (GET "/wave-details.json" [wave_name]
        (restricted(display-wave-details-json wave_name)))
   (POST "/create-child-wave.json" [name] 
@@ -95,5 +96,3 @@
         (restricted(handle-delete-child-wave-json wave_name)))
   (POST "/make-wave-active.json" [wave_name active]
         (restricted(handle-make-wave-active-json wave_name active))))
-
-

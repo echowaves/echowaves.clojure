@@ -144,15 +144,23 @@
 
 (declare blended-with)
 
-(defn images-by-wave-blended [wave_name]
+(defn images-by-wave-blended [wave_name page_number]
   (let [wave-id (get-wave-id wave_name)
         blended-with-map (map :id (blended-with wave-id))]
-    
+    ;; (info "**************************** " wave_name ":" page_number)
     (select images
             (where (or {:waves_id wave-id}
                        {:waves_id [in blended-with-map]}))
             (with waves
                   (fields :name :created_on))
+            (offset (if page_number
+                      (* (read-string page_number) 20)
+                      0
+                      ))
+            (limit  (if page_number
+                      20
+                      3000
+                      ))
             (order :name :DESC)
             ;; (limit (* 100 (if-not (empty? blended-with-map)
             ;;                 (count blended-with-map)
