@@ -72,8 +72,8 @@ if((page_number == 0) && (stop_here == false)) {
 }
 
 $(window).scroll(setTimeout(function() {
-   if($(window).scrollTop() + window.innerHeight >=
-  $(document).height() / 2
+   if($(window).scrollTop() + window.innerHeight + 150 >=
+  $(document).height() 
 ) {
   if(stop_here == false) {
    pullData();
