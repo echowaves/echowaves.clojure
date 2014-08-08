@@ -71,15 +71,15 @@ if((page_number == 0) && (stop_here == false)) {
   pullData();
 }
 
-$(window).scroll(setTimeout(function() {
+$(window).scroll(function() {
    if($(window).scrollTop() + window.innerHeight >=
-  $(document).height() - 150
+  $(document).height() - 300
 ) {
   if(stop_here == false) {
    pullData();
   }
    }
-}, 1000));
+});
 
 
 </script>
