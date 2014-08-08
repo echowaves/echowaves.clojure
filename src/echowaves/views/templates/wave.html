@@ -73,7 +73,7 @@ if((page_number == 0) && (stop_here == false)) {
 
 $(window).scroll(function() {
    if($(window).scrollTop() + window.innerHeight ==
-  $(document).height() 
+  $(document).height() - 100 
 ) {
   if(stop_here == false) {
     pullData();
