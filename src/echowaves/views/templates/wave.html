@@ -71,17 +71,15 @@ if((page_number == 0) && (stop_here == false)) {
   pullData();
 }
 
-$(window).scroll(function() {
+$(window).scroll(setTimeout(function() {
    if($(window).scrollTop() + window.innerHeight >=
-  $(document).height() - 100
+  $(document).height() / 2
 ) {
   if(stop_here == false) {
-    
-   setTimeout(pullData(), 1000);
-    
+   pullData();
   }
    }
-});
+}, 1000));
 
 
 </script>
