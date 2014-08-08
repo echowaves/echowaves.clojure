@@ -76,7 +76,9 @@ $(window).scroll(function() {
   $(document).height() - 100
 ) {
   if(stop_here == false) {
-    pullData();
+    
+   setTimeout(pullData(), 1000);
+    
   }
    }
 });
