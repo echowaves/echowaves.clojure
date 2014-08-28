@@ -161,7 +161,7 @@
                       20
                       3000
                       ))
-            (order :name :DESC)
+            (order :id :DESC)
             ;; (limit (* 100 (if-not (empty? blended-with-map)
             ;;                 (count blended-with-map)
             ;;                 1
