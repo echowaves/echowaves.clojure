@@ -51,12 +51,20 @@ return { 'isSmartphoneOrTablet': isSmartphoneOrTablet,
         }; 
 }();
 
-function detect_mobile() {
-alert("detecting");
-}
 
 window.onload = function(){
-    alert(deviceDetection.device);
+  var response;
+  if(deviceDetection.device == 'Android') {
+    response = "Support for Android is coming soon. Stay tuned...";
+  } else if (deviceDetection.device == 'iPhone' ||
+  deviceDetection.device == 'iPad') {
+    response = "You are waving on iPhone or iPad";
+  } else {
+    response = "Oops, your mobile phone is not supported, or you are not waving on mobile. Echowaves can only wave on Android or IOS at this time";
+  }
+  alert(response);
+  $('#content').html(response);
+
 }
 
 </script>
