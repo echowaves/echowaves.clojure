@@ -14,4 +14,6 @@
   (GET "/" []
        (if (session/get :wave)
          (wave/display-wave (session/get :wave))
-         (home))))
+         (home)))
+  (GET "/mobile" []
+       (layout/render "mobile.html")))
