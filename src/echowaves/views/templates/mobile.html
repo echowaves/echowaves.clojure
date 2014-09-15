@@ -1,10 +1,14 @@
-{% extends "echowaves/views/templates/base.html" %}
+{% extends "echowaves/views/templates/base_mobile.html" %}
+
 {% block content %}
 <div id="contentwrap">
   <div id="content">
     testing mobile...
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
 <script type="text/javascript">
 var deviceDetection = function () { 
 var osVersion, 
@@ -72,15 +76,26 @@ window.onload = function(){
   } else if (deviceDetection.device == 'iPhone' ||
   deviceDetection.device == 'iPad') {
     response = "You are waving on iPhone or iPad";
+
+    var clickedAt = +new Date;
+
+    setTimeout(function() {
+      if (+new Date - clickedAt < 2000) {                        
+        window.location = "itms-apps://itunes.apple.com/us/app/echowaves/id782010386?token=" + getQueryVariable('token');
+      }
+    }, 500);
+    window.location = "echowaves://share?token=" + getQueryVariable('token');
+
+
   } else {
     response = "Oops, your mobile phone is not supported, or you are not waving on mobile. Echowaves can only wave on Android or IOS at this time";
   }
-  alert(getQueryVariable('token'));
+  //alert(getQueryVariable('token'));
   $('#content').html(response);
 
 }
 
 </script>
-
 {% endblock %}
+
 
