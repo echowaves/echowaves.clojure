@@ -208,6 +208,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; blending waves
 
+
+(defn accept-blend [orig_my_wave_id my_wave_id friend_wave_id]
+  (debug "accept-blend " orig_my_wave_id my_wave_id friend_wave_id)
+  (transaction
+   ;;   unblend from orig_wave
+   (delete blends
+          (where ( or
+                   (and {:wave_id1 orig_my_wave_id
+                         :wave_id2 friend_wave_id})
+                   (and {:wave_id1 friend_wave_id
+                         :wave_id2 orig_my_wave_id}))))
+   ;; then blend with new my_wave
+   (insert blends (values {:wave_id1 my_wave_id :wave_id2 friend_wave_id :confirmed_on (sqlfn now)}))
+   )
+  )
+
+
 (defn confirm-blending [wave_id1 wave_id2]
   (debug "confirm-blending " wave_id1 wave_id2)
   (update blends

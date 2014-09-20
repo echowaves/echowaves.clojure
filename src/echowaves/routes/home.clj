@@ -16,4 +16,6 @@
          (wave/display-wave (session/get :wave))
          (home)))
   (GET "/mobile" []
-       (layout/render "mobile.html")))
+       (layout/render "mobile.html"))
+  (GET "/privacy" []
+       (layout/render "privacy.html")))

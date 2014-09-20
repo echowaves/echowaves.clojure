@@ -7,7 +7,7 @@
                  [compojure "1.1.6"]
                  [ring-server "0.3.1"]
                  [mysql/mysql-connector-java "5.1.6"]
-                 [korma "0.3.0-RC6"]
+                 [korma "0.3.0"]
                  [log4j "1.2.15" 
                   :exclusions [javax.mail/mail
                                javax.jms/jms
