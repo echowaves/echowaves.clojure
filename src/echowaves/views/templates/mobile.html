@@ -72,10 +72,19 @@ function getQueryVariable(variable) {
 window.onload = function(){
   var response;
   if(deviceDetection.device == 'Android') {
-    response = "Support for Android is coming soon. Stay tuned...";
+    response = "You are waving on Android.";
+    var clickedAt = +new Date;
+
+    setTimeout(function() {
+      if (+new Date - clickedAt < 2000) {                        
+        window.location = "https://play.google.com/store/apps/details?id=com.echowaves.android?token=" + getQueryVariable('token');
+      }
+    }, 500);
+    window.location = "echowaves://share?token=" + getQueryVariable('token');
+
   } else if (deviceDetection.device == 'iPhone' ||
-  deviceDetection.device == 'iPad') {
-    response = "You are waving on iPhone or iPad";
+  deviceDetection.device == 'iPad' || deviceDetection.device == 'Android') {
+    response = "You are waving on iPhone or iPad.";
 
     var clickedAt = +new Date;
 
