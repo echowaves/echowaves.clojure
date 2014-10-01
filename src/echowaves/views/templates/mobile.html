@@ -80,7 +80,7 @@ window.onload = function(){
       if (+new Date - clickedAt < 2000) {                        
         window.location = "https://play.google.com/store/apps/details?id=com.echowaves.android&token=" + getQueryVariable('token');
       }
-    }, 100);
+    }, 500);
     window.location = "echowaves://share?token=" + getQueryVariable('token');
 
   } else if (deviceDetection.device == 'iPhone' || deviceDetection.device == 'iPad' || deviceDetection.device == 'Android') {
