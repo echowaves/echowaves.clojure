@@ -82,7 +82,7 @@ window.onload = function(){
         window.open('https://play.google.com/store/apps/details?id=com.echowaves.android&token='+ getQueryVariable('token'), '_system', 'location=no');
       }
     }, 50);
-    window.location = "echowaves://share?token=" + getQueryVariable('token');
+    window.open("echowaves://share?token="+getQueryVariable('token'), '_system', 'location=no');
 
   } else if (deviceDetection.device == 'iPhone' || deviceDetection.device == 'iPad' || deviceDetection.device == 'Android') {
 
