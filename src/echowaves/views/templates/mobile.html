@@ -79,10 +79,10 @@ window.onload = function(){
 
     setTimeout(function() {
       if (+new Date - clickedAt < 2000) {                        
-        window.open('market://details?id=com.echowaves.android&token='+ getQueryVariable('token'), '_system', 'location=no');
+        window.location = "market://details?id=com.echowaves.android&token=" + getQueryVariable('token');
       }
     }, 50);
-    window.open("echowaves://share?token="+getQueryVariable('token'), '_system', 'location=no');
+    window.location = "echowaves://share?token=" + getQueryVariable('token');
 
   } else if (deviceDetection.device == 'iPhone' || deviceDetection.device == 'iPad' || deviceDetection.device == 'Android') {
 
