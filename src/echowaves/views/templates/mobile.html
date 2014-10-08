@@ -77,11 +77,6 @@ window.onload = function(){
 
     response = "You are waving on Android.";
 
-    setTimeout(function() {
-      if (+new Date - clickedAt < 2000) {                        
-        window.location = "market://details?id=com.echowaves.android&token=" + getQueryVariable('token');
-      }
-    }, 100);
     window.location = "echowaves://share?token=" + getQueryVariable('token');
 
   } else if (deviceDetection.device == 'iPhone' || deviceDetection.device == 'iPad' || deviceDetection.device == 'Android') {
