@@ -2,10 +2,17 @@
   <head>
     <title>Welcome to echowaves</title>
     <script type="text/javascript">
-      window.onload = function(){
-        window.location = "market://details?id=com.echowaves.android&token=" + getQueryVariable('token');
-      }
+    window.onload = function(){
+        setTimeout(function() {
+            alert("redirecting");
+            window.location = "market://details?id=com.echowaves.android&token=" + getQueryVariable('token');
+        }, 2000);
+    }
     </script>
   </head>
 <body>
+<h1>Install Echowaves application from google play store. After you
+  install, click on the SMS link again to see the photo shared with
+  you and to establish blending.</h1>
+
 </body>
