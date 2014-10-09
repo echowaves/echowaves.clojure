@@ -33,9 +33,7 @@
 
 (defn valid? [name pass pass1]
   (valid_wave_name? name)
-  (vali/rule (vali/min-length? name 5)
-             [:pass "Name must be at least 4 characters."])
-  (vali/rule (vali/max-length? name 100)
+  (vali/rule (vali/max-length? pass 100)
              [:pass "Name must not be more then 100 characters."])
   (vali/rule (vali/min-length? pass 5)
              [:pass "Password must be at least 5 characters."])
