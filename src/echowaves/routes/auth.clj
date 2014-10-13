@@ -87,6 +87,11 @@
   (db/create-ios-token name token)
   (noir.response/json {:OK "Token created"}))
 
+(defn handle-registration-android-token-json [name token]
+  (debug "handle-registration-android-token-json" name token)
+  (db/create-android-token name token)
+  (noir.response/json {:OK "Token created"}))
+
 ;; toberemoved
 (defn handle-login [name pass]
   (let [wave (db/get-wave name)] 
@@ -135,6 +140,8 @@
         (handle-registration-json name pass pass1))
   (POST "/register-ios-token.json" [name token] 
         (handle-registration-ios-token-json name token))
+  (POST "/register-android-token.json" [name token] 
+        (handle-registration-android-token-json name token))
 
   ;; toberemoved    
   (POST "/login" [name pass] 

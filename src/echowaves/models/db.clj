@@ -116,6 +116,15 @@
       (insert ios_tokens (values {:waves_id wave-id :token token})))
     ))
 
+
+(defn create-android-token [name token]
+  (let [wave-id (get-wave-id name)]
+    (if (= (count (select android_tokens (where {:waves_id wave-id
+                                             :token token}))
+                      ) 0)
+      (insert android_tokens (values {:waves_id wave-id :token token})))
+    ))
+
 (defn get-wave [name]
   (first (select waves
                  (where {:name name})
