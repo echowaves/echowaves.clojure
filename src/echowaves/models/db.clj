@@ -43,6 +43,9 @@
 (defentity ios_tokens
   (belongs-to waves))
 
+(defentity android_tokens
+  (belongs-to waves))
+
 (defentity share_actions
   (belongs-to waves))
 
@@ -110,19 +113,17 @@
 
 (defn create-ios-token [name token]
   (let [wave-id (get-wave-id name)]
-    (if (= (count (select ios_tokens (where {:waves_id wave-id
-                                             :token token}))
-                      ) 0)
-      (insert ios_tokens (values {:waves_id wave-id :token token})))
+    (delete ios_tokens (where {:waves_id wave-id
+                               :token token}))
+    (insert ios_tokens (values {:waves_id wave-id :token token}))
     ))
 
 
 (defn create-android-token [name token]
   (let [wave-id (get-wave-id name)]
-    (if (= (count (select android_tokens (where {:waves_id wave-id
-                                             :token token}))
-                      ) 0)
-      (insert android_tokens (values {:waves_id wave-id :token token})))
+    (delete android_tokens (where {:waves_id wave-id
+                               :token token}))
+    (insert android_tokens (values {:waves_id wave-id :token token}))
     ))
 
 (defn get-wave [name]
