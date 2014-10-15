@@ -28,7 +28,7 @@
                  [org.clojars.gzeureka/javapns "2.2"]
                  [bouncycastle/bcprov-jdk16-nosign "140"]
                  [clj-aws-s3 "0.3.10" :exclusions [joda-time]]
-                 [gcm-project/lein-template "0.1.2"]]
+                 [com.ganyo/gcm-server "1.0.2"]]
   :plugins [[lein-ring "0.8.8"]
             [lein-cljsbuild "1.0.1"]
             [lein-environ "0.4.0"]
@@ -50,6 +50,7 @@
           :ew-push-cert "EWPush-dev.p12"
           :ew-push-cert-pass "password"
           :ew-push-prod false
+          :ew-android-api-key "..."
           :ew-aws-access-key "..."
           :ew-aws-secret-key "..."
           :ew-aws-bucket-name "..."}}
@@ -61,6 +62,7 @@
           :ew-push-cert "EWPush-dev.p12"
           :ew-push-cert-pass "password"
           :ew-push-prod false
+          :ew-android-api-key "..."
           :ew-aws-access-key "..."
           :ew-aws-secret-key "..."
           :ew-aws-bucket-name "..."}}}  

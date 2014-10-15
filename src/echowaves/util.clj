@@ -2,7 +2,11 @@
   (:require [noir.io :refer [resource-path]]
             [environ.core :refer [env]]
             [aws.sdk.s3 :as s3])
-  (:import java.io.File))
+  (:import java.io.File)
+  (:import com.google.android.gcm.server.Sender)
+  (:import com.google.android.gcm.server.Message)
+  (:import com.google.android.gcm.server.Message$Builder)
+  (:import com.google.android.gcm.server.Result))
 
 (def thumb-prefix "thumb_")
 
@@ -21,6 +25,13 @@
                          (env :ew-push-cert-pass)
                          (boolean (Boolean/valueOf (env :ew-push-prod)))
                          tokens))
+
+(defn send-android-push-notification [message badge tokens]
+  (let [sender (Sender. (env :ew-android-api-key))]
+
+    (let [message (.. (Message$Builder.) (addData "message" message) build) ]
+      (doseq [token tokens]
+        (let [result (. sender send message token 3)])))))
 
 (def aws-cred {:access-key (env :ew-aws-access-key)
                :secret-key (env :ew-aws-secret-key)})
