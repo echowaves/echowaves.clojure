@@ -13,7 +13,7 @@
 (defn generate-token []
   (random-string 7))
 
-(defn send-push-notification [message badge tokens]
+(defn send-ios-push-notification [message badge tokens]
   (javapns.Push/combined message
                          (read-string badge)
                          "default"

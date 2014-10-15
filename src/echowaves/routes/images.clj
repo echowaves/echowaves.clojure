@@ -89,8 +89,6 @@
            (cleanup-files rand-path (:filename file))
            (.delete (File. rand-path))           
            )
-
-
          ;; (shutdown-agents)
          )
        {:image
@@ -101,12 +99,20 @@
    )
   )
 
+;; this method is to be removed
 (defn handle-push-notify [wave_name badge]
-  (u/send-push-notification
+  (u/send-ios-push-notification
    (str "new images in wave: " wave_name)
    badge
-   (db/get-blended-tokens wave_name))
-  ;; (.start (Thread. (fn [] )))
+   (db/get-blended-ios-tokens wave_name))
+  (resp/json {:status "OK"}))
+
+(defn handle-push-notify-message [badge]
+  (doseq [wave (db/get-active-child-waves (session/get :wave))]
+    (u/send-ios-push-notification
+     (str "new images in wave: " wave)
+     badge
+     (db/get-blended-ios-tokens wave)))
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]
@@ -144,9 +150,13 @@
   
   (POST "/upload" [file] 
         (restricted (handle-upload file)))
-  
+
+  ;; this method is to be removed
   (POST "/send-push-notify.json" [wave_name badge] 
         (restricted (handle-push-notify wave_name badge)))
+  ;; this method will replace a previous method
+  (POST "/push-notify.json" [badge] 
+        (restricted (handle-push-notify-message badge)))
   
   (POST "/delete" [names] (restricted (delete-images names)))
   (POST "/delete-image.json" [image_name wave_name] (restricted (handle-delete-image image_name wave_name)))

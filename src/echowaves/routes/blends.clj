@@ -40,7 +40,7 @@
         wave2 (db/get-wave wave_name)]
     (if (db/is-child-wave (session/get :wave) from_wave)
       (do
-        (u/send-push-notification
+        (u/send-ios-push-notification
          (str (:name wave1) " wants to blend with " (:name wave2))
          (str 1) 
          (db/get-tokens-for-wave (:name wave2)))

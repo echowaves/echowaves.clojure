@@ -315,9 +315,18 @@
                   (:id y)))
         (blended-with (get-wave-id wave_name))))
 
-(defn get-blended-tokens [wave_name]
+(defn get-blended-ios-tokens [wave_name]
   (mapv (fn [y] (:token y))
         (select ios_tokens
+          (with waves)
+          (fields :token)
+          (where {:waves_id [in (get-blended-ids wave_name)]})
+          ))
+  )
+
+(defn get-blended-android-tokens [wave_name]
+  (mapv (fn [y] (:token y))
+        (select android_tokens
           (with waves)
           (fields :token)
           (where {:waves_id [in (get-blended-ids wave_name)]})

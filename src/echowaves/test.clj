@@ -31,7 +31,7 @@
 ;;   )
 
 (defn push []
-  (util/send-push-notification
+  (util/send-ios-push-notification
    "this is a test message"
    42
    ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
