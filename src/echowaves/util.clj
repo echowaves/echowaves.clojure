@@ -28,7 +28,6 @@
 
 (defn send-android-push-notification [message badge tokens]
   (let [sender (Sender. (env :ew-android-api-key))]
-
     (let [message (.. (Message$Builder.) (addData "message" message) build) ]
       (doseq [token tokens]
         (let [result (. sender send message token 3)])))))
