@@ -112,7 +112,10 @@
     (u/send-ios-push-notification
      (str "new images in wave: " wave)
      badge
-     (db/get-blended-ios-tokens wave)))
+     (db/get-blended-ios-tokens wave))
+    (u/send-android-push-notification
+     (str "new images in wave: " wave)
+     (db/get-blended-android-tokens wave)))
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]
