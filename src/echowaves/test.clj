@@ -30,10 +30,16 @@
 ;;   (javapns.Push/combined "New Images Posted" 1 "default" "/Users/dmitry/certificates/EWPush-dev.p12" "EWPush" false ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
 ;;   )
 
-(defn push []
+(defn push-ios []
   (util/send-ios-push-notification
    "this is a test message"
    42
    ["2281798df40beafd136e680fe2e35d392e43d814425e9efa538ea20e494e4f0a"])
+  )
+
+(defn push-android []
+  (util/send-android-push-notification
+   "this is a test message"
+   ["APA91bEU1gGPuoGxsOdLriAdgPY1nLp_NZUDJ7VgmlnlZLORQ-_6VGIC71O-K4-UXnSvjlewNaehQyIwBSSFw4XyKcc08FUpzzkpytqHWqPV3q8PVHnf4hUkQcF99DNBFD2da2A5K_CG6Q7NXf0iUFfu1KSkkds0Hg"])
   )
 

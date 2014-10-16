@@ -1,7 +1,9 @@
 (ns echowaves.util
   (:require [noir.io :refer [resource-path]]
             [environ.core :refer [env]]
-            [aws.sdk.s3 :as s3])
+            [aws.sdk.s3 :as s3]
+            [taoensso.timbre 
+             :refer [trace debug info warn error fatal]])
   (:import java.io.File)
   (:import com.google.android.gcm.server.Sender)
   (:import com.google.android.gcm.server.Message)
@@ -26,11 +28,15 @@
                          (boolean (Boolean/valueOf (env :ew-push-prod)))
                          tokens))
 
-(defn send-android-push-notification [message badge tokens]
+(defn send-android-push-notification [inmessage tokens]
+  (debug message (env :ew-android-api-key))
   (let [sender (Sender. (env :ew-android-api-key))]
-    (let [message (.. (Message$Builder.) (addData "message" message) build) ]
+    (let [message (.. (Message$Builder.) (addData "message" inmessage) build) ]
       (doseq [token tokens]
-        (let [result (. sender send message token 3)])))))
+        (debug "token:" token)
+        (let [result (. sender send message token 3)]
+          (debug result)
+          )))))
 
 (def aws-cred {:access-key (env :ew-aws-access-key)
                :secret-key (env :ew-aws-secret-key)})
