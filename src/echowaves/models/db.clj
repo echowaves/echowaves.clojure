@@ -328,7 +328,7 @@
 
 (defn get-blended-android-tokens [wave]
   (info "get-blended-android-tokens:" wave)
-  (mapv (fn [y] (apply str(:token y)) )
+  (mapv (fn [y] (:token y))
         (select android_tokens
           (with waves)
           (fields :token)
