@@ -67,14 +67,15 @@
         wave3 (db/get-wave friend_wave_name)]
     (if (and (db/is-child-wave (session/get :wave) orig_my_wave_name) (db/is-child-wave (session/get :wave) my_wave_name)) 
       (do
-        (noir.response/json {:status (db/accept-blend (:id wave1) (:id wave2) (:id wave3))})
+        (info "establishing blend " (:name wave1) (:name wave2) (:name wave3))
         (u/send-ios-push-notification
          (str "blend established between " (:name wave2) " and " (:name wave3))
          "1"
          (db/get-blended-ios-tokens wave3))
         (u/send-android-push-notification
          (str "blend established between " (:name wave2) " and " (:name wave3))
-         (db/get-blended-android-tokens wave3)))
+         (db/get-blended-android-tokens wave3))
+        (noir.response/json {:status (db/accept-blend (:id wave1) (:id wave2) (:id wave3))}))
       ;; else
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))
 
