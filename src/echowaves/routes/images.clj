@@ -108,14 +108,15 @@
   (resp/json {:status "OK"}))
 
 (defn handle-push-notify-message [badge]
-  (doseq [wave (db/get-active-child-waves (session/get :wave))]
+  (doseq [wave1 (db/get-active-child-waves (session/get :wave))]
     (u/send-ios-push-notification
-     (str "new images in wave: " wave)
+     (str "new photos posted by " wave1)
      badge
-     (db/get-blended-ios-tokens wave))
+     (db/get-blended-ios-tokens wave1))
     (u/send-android-push-notification
-     (str "new images in wave: " wave)
-     (db/get-blended-android-tokens wave)))
+     (str "new photos posted by " wave1)
+     (db/get-blended-android-tokens wave1))
+    )
   (resp/json {:status "OK"}))
 
 (defn delete-image [wave_name name]

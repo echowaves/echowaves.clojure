@@ -310,10 +310,10 @@
   )
 
 (defn get-blended-ids [wave_name]
-  (mapv (fn [y] (if (:parent_wave_id y)
+  (distinct (mapv (fn [y] (if (:parent_wave_id y)
                   (:parent_wave_id y)
                   (:id y)))
-        (blended-with (get-wave-id wave_name))))
+        (blended-with (get-wave-id wave_name)))))
 
 (defn get-blended-ios-tokens [wave_name]
   (mapv (fn [y] (:token y))
@@ -325,7 +325,7 @@
   )
 
 (defn get-blended-android-tokens [wave_name]
-  (mapv (fn [y] (:token y))
+  (mapv (fn [y] (apply str(:token y)) )
         (select android_tokens
           (with waves)
           (fields :token)
