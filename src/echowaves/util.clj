@@ -29,11 +29,11 @@
                          tokens))
 
 (defn send-android-push-notification [inmessage tokens]
-  (debug inmessage (env :ew-android-api-key))
+  (info inmessage (env :ew-android-api-key))
   (let [sender (Sender. (env :ew-android-api-key))]
     (let [message (.. (Message$Builder.) (addData "message" inmessage) build) ]
       (doseq [token tokens]
-        (debug "token:" token)
+        (info "token:" token)
         (let [result (. sender send message token 3)]
           (debug result)
           )))))
