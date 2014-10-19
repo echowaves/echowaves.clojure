@@ -309,27 +309,30 @@
           (limit 10))
   )
 
-(defn get-blended-ids [wave_name]
+(defn get-blended-ids [wave]
+  (info "get-blended-ids:" wave)
   (distinct (mapv (fn [y] (if (:parent_wave_id y)
                   (:parent_wave_id y)
                   (:id y)))
-        (blended-with (get-wave-id wave_name)))))
+        (blended-with (:id wave)))))
 
-(defn get-blended-ios-tokens [wave_name]
+(defn get-blended-ios-tokens [wave]
+  (info "get-blended-ios-tokens:" wave)
   (mapv (fn [y] (:token y))
         (select ios_tokens
           (with waves)
           (fields :token)
-          (where {:waves_id [in (get-blended-ids wave_name)]})
+          (where {:waves_id [in (get-blended-ids wave)]})
           ))
   )
 
-(defn get-blended-android-tokens [wave_name]
+(defn get-blended-android-tokens [wave]
+  (info "get-blended-android-tokens:" wave)
   (mapv (fn [y] (apply str(:token y)) )
         (select android_tokens
           (with waves)
           (fields :token)
-          (where {:waves_id [in (get-blended-ids wave_name)]})
+          (where {:waves_id [in (get-blended-ids wave)]})
           ))
   )
 
