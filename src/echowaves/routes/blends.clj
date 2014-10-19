@@ -71,10 +71,10 @@
         (u/send-ios-push-notification
          (str "blend established between " (:name wave2) " and " (:name wave3))
          "1"
-         (db/get-blended-ios-tokens wave3))
+         (db/get-ios-tokens wave3))
         (u/send-android-push-notification
          (str "blend established between " (:name wave2) " and " (:name wave3))
-         (db/get-blended-android-tokens wave3))
+         (db/get-android-tokens wave3))
         (noir.response/json {:status (db/accept-blend (:id wave1) (:id wave2) (:id wave3))}))
       ;; else
       (noir.response/status 401 (noir.response/json {:status "unathorized"})))))

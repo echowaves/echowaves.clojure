@@ -322,9 +322,7 @@
         (select ios_tokens
           (with waves)
           (fields :token)
-          (where {:waves_id [in (get-blended-ids wave)]})
-          ))
-  )
+          (where {:waves_id [in (get-blended-ids wave)]}))))
 
 (defn get-blended-android-tokens [wave]
   (info "get-blended-android-tokens:" wave)
@@ -332,9 +330,31 @@
         (select android_tokens
           (with waves)
           (fields :token)
-          (where {:waves_id [in (get-blended-ids wave)]})
-          ))
-  )
+          (where {:waves_id [in (get-blended-ids wave)]}))))
+
+
+
+
+
+(defn get-ios-tokens [wave]
+  (info "get-ios-tokens:" wave)
+  (mapv (fn [y] (:token y))
+        (select ios_tokens
+          (with waves)
+          (fields :token)
+          (where {:waves_id (if (not= nil (:parent_wave_id wave)) (:parent_wave_id wave) (:id wave))}))))
+
+(defn get-android-tokens [wave]
+  (info "get-android-tokens:" wave)
+  (mapv (fn [y] (:token y))
+        (select android_tokens
+          (with waves)
+          (fields :token)
+          (where {:waves_id (if (not= nil (:parent_wave_id wave)) (:parent_wave_id wave) (:id wave))}))))
+
+
+
+
 
 (defn get-tokens-for-wave [wave_name]
   (mapv (fn [y] (:token y))
