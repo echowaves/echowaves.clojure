@@ -110,11 +110,11 @@
 (defn handle-push-notify-message [badge]
   (doseq [wave1 (db/get-active-child-waves (session/get :wave))]
     (u/send-ios-push-notification
-     (str "new photos posted by " wave1)
+     (str "new photos posted by " (:name wave1))
      badge
      (db/get-blended-ios-tokens wave1))
     (u/send-android-push-notification
-     (str "new photos posted by " wave1)
+     (str "new photos posted by " (:name wave1))
      (db/get-blended-android-tokens wave1))
     )
   (resp/json {:status "OK"}))
