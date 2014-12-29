@@ -15,6 +15,11 @@ h3 {
 p {
     padding: 5px;
     margin: 8px;
+    font-size: 20px;
+}
+p b {
+    font-size: 22px;
+    font-weight: bold; 
 }
 
 label {
@@ -147,7 +152,7 @@ input[type=submit] {
 /* improved layout                                            */
 /*------------------------------------------------------------*/
     html, body, span, applet, object, iframe,
-    h3, h4, h5, h6, p, blockquote, pre,
+    h3, h4, h5, h6, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
     del, dfn, em, img, ins, kbd, q, s, samp,
     small, strike, strong, sub, sup, tt, var,
@@ -156,7 +161,7 @@ input[type=submit] {
     fieldset, form, label, legend,
     table, caption, tbody, tfoot, thead, tr, th, td,
     article, aside, canvas, details, embed,
-    figure, figcaption, footer, header, hgroup,
+    figure, figcaption, header, hgroup,
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
     margin: 0;
@@ -248,6 +253,7 @@ body {
 
 #footer {
     height: 15px;
+    font-size:10px;
     background: #FF6600;
     border-radius: 5px;
     border: 1px solid #b5b5b5;
@@ -263,7 +269,7 @@ body {
     background: #c9c9c9;
 }
 .my-blends {
-    font-size:15;
+    font-size:15px;
     margin: 5px;
     padding: 5px;
     border-radius: 5px;
