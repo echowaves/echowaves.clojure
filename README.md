@@ -1,18 +1,10 @@
 echowaves
 =========
 
-Register your wave for free on iPhone
-Use your iPhone to take pictures, Manage your wave on iPhone or on the echowaves.com web site.
-Pictures you take compose a wave. You can mix your wave with other waves, which will create a continuous stream.
-Echowaves is not your typical social network. Things that take it apart from the others:
+Echowaves allows you to take photos from your mobile device and push them quickly to a micro-photo-blog created within the app. Combining the photo-taking utilities of an iPhone or iPad or Android with the accessibility of a Web-based micro-photo-blog, you can quickly create an online album for future access.
 
-Primary focus of echowaves is mobile
-While there is echowaves.com web site, you really want to use iPhone to get the most out of echowaves.
-Echowaves is simple
-Simplicity is the goal, EW offers minimalistic user interface, EW offers limited set of features, but these features are perfected to an extreme.
-Echowaves is all about pictures
-There are no text comments or messages, use your iPhone camera to express yourself or to update your friends on what you are currently up to.
-Echowaves is seriously anti spam
-EW will never send you any emails, EW never asks you about your email.
-Echowaves is taking privacy concerns to an extreme
-EW does not know who you are and never stores any tracking data.
+Why not Facebook? Because Facebook is all about public sharing. Echowaves is only private.
+
+Why not Twitter? Twitter is trying to be everything for everyone. Echowaves is only photos and Echowaves is only mobile.
+
+Why not Instagram? My phone camera has a better photo editing features than Instagram. Echowaves is only sharing.
